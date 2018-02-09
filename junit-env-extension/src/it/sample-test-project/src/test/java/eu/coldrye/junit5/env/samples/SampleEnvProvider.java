@@ -1,7 +1,8 @@
 package eu.coldrye.junit5.env.samples;
 
-import eu.coldrye.junit5.env.AbstractEnvProvider;
-import eu.coldrye.junit5.env.EnvPhase;
+import eu.coldrye.junit.env.AbstractEnvProvider;
+import eu.coldrye.junit.env.EnvPhase;
+import eu.coldrye.junit.env.EnvProvided;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.logging.Logger;
@@ -13,7 +14,7 @@ public class SampleEnvProvider extends AbstractEnvProvider {
     @Override
     public boolean canProvideInstance(AnnotatedElement annotated) {
         System.out.println("canProvideInstance: " + annotated);
-        return true;
+        return annotated.isAnnotationPresent(EnvProvided.class);
     }
 
     @Override
