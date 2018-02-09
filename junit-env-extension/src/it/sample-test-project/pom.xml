@@ -22,7 +22,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>eu.coldrye.junit5</groupId>
+      <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-env-extension</artifactId>
       <version>${junit-env-extension.version}</version>
     </dependency>
