@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/junit-env-extension/junit-env-extension.iml" filepath="$PROJECT_DIR$/junit-env-extension/junit-env-extension.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junit-testing.iml" filepath="$PROJECT_DIR$/junit-testing.iml" />
+    </modules>
+  </component>
+</project>
