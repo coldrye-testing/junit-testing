@@ -1,7 +1,7 @@
 package eu.coldrye.junit5.env.samples;
 
-import eu.coldrye.junit5.env.AbstractEnvProvider;
-import eu.coldrye.junit5.env.EnvPhase;
+import eu.coldrye.junit.env.AbstractEnvProvider;
+import eu.coldrye.junit.env.EnvPhase;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import java.lang.reflect.AnnotatedElement;
