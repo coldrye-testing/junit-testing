@@ -23,12 +23,25 @@ import java.util.List;
 
 /**
  * TODO document
+ *
+ * @since 1.0.0
  */
 final class AnnotationsHelper {
 
+    /**
+     * Must not be instantiated.
+     */
     private AnnotationsHelper() {
     }
 
+    /**
+     * Gets the specified annotation from all interfaces implemented by and super classes of the specified class klass.
+     *
+     * @param klass
+     * @param annotation
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
     static <T extends Annotation> List<T> getAllAnnotations(Class<?> klass,
                                                             Class<? extends Annotation> annotation) {

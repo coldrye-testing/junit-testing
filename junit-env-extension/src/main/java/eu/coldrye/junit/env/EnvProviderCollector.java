@@ -17,15 +17,22 @@
 package eu.coldrye.junit.env;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * TODO document
+ *
+ * @since 1.0.0
  */
 final class EnvProviderCollector {
 
+    /**
+     *
+     * @param testClass
+     * @return
+     * @throws Exception
+     */
     List<Class<? extends EnvProvider>> collect(Class<?> testClass) throws Exception {
 
         List<Class<? extends EnvProvider>> result = new ArrayList<>();
@@ -36,14 +43,16 @@ final class EnvProviderCollector {
          * the user must make sure that the provided EnvProviders on the interface
          * level are side effect free.
          */
-        List<Class<? extends EnvProvider>> collectedEnvProviders = new ArrayList<>();
-        List<Environment> environments = AnnotationsHelper.getAllAnnotations(testClass, Environment.class);
-        for (Environment environment : environments) {
-            collectedEnvProviders.addAll(Arrays.asList(environment.value()));
+        List<Class<? extends EnvProvider>> collectedEnvProviderClasses = new ArrayList<>();
+        List<Environments> environmentsContainers = AnnotationsHelper.getAllAnnotations(testClass, Environments.class);
+        for (Environments environmentsContainer : environmentsContainers) {
+            for (Environment environment : environmentsContainer.value()) {
+                collectedEnvProviderClasses.add(environment.value());
+            }
         }
-        Collections.reverse(collectedEnvProviders);
+        Collections.reverse(collectedEnvProviderClasses);
 
-        for (Class<? extends EnvProvider> envProviderClass : collectedEnvProviders) {
+        for (Class<? extends EnvProvider> envProviderClass : collectedEnvProviderClasses) {
             if (!result.contains(envProviderClass)) {
                 result.add(envProviderClass);
             }

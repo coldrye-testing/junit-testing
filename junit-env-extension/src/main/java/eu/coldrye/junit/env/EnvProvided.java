@@ -21,9 +21,18 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 
 /**
- * TODO document
+ * The annotation EnvProvided is used to demarcate both fields and method parameters
+ * so that {@link EnvProvider}S can determine whether they are able to provide
+ * instances for both fields and methods whenever {@link EnvProvider#canProvideInstance(AnnotatedElement, Class)}
+ * is called.
+ *
+ * The annotation can also be used for annotating customized annotations that are
+ * specific to a given {@code EnvProvider}.
+ *
+ * @since 1.0.0
  */
 @Target({ElementType.ANNOTATION_TYPE, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

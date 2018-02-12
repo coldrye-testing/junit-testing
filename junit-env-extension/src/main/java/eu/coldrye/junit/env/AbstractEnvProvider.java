@@ -19,19 +19,30 @@ package eu.coldrye.junit.env;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 /**
- * TODO document
+ * The abstract class AbstractEnvProvider models the root of a hierarchy of
+ * derived classes that realize the {@link EnvProvider} interface.
+ *
+ * The class is provided for convenience only and you are free to derive
+ * from it in order to save you some time implementing the {@link EnvProvider#getStore()}
+ * and {@link EnvProvider#setStore(Store)} methods.
+ *
+ * @since 1.0.0
+ * @see EnvProvider
  */
 public abstract class AbstractEnvProvider implements EnvProvider {
 
+    /**
+     * The {@link Store} where environment specific data is to be stored.
+     */
     private Store store;
-
-    @Override
-    public final void setStore(Store store) {
-        this.store = store;
-    }
 
     @Override
     public final Store getStore() {
         return this.store;
+    }
+
+    @Override
+    public final void setStore(Store store) {
+        this.store = store;
     }
 }

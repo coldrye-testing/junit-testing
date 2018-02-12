@@ -9,7 +9,7 @@ import java.lang.reflect.AnnotatedElement;
 public final class EmbeddedHadoopEnvProvider extends AbstractEnvProvider {
 
     @Override
-    public boolean canProvideInstance(AnnotatedElement annotated) {
+    public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
         return annotated.isAnnotationPresent(HadoopEnvProvided.class);
     }
 

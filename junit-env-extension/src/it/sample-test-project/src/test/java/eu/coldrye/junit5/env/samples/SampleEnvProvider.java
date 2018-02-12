@@ -12,7 +12,7 @@ public class SampleEnvProvider extends AbstractEnvProvider {
     Logger log = Logger.getLogger(SampleEnvProvider.class.getName());
 
     @Override
-    public boolean canProvideInstance(AnnotatedElement annotated) {
+    public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
         System.out.println("canProvideInstance: " + annotated);
         return annotated.isAnnotationPresent(EnvProvided.class);
     }

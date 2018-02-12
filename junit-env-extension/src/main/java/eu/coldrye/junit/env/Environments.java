@@ -16,21 +16,24 @@
 
 package eu.coldrye.junit.env;
 
-import org.junit.platform.launcher.TestExecutionListener;
-import org.junit.platform.launcher.TestPlan;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * TODO document
  *
  * @since 1.0.0
  */
-public final class TestExecutionListenerImpl implements TestExecutionListener {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Environments {
 
-    @Override
-    public void testPlanExecutionFinished(TestPlan testPlan) {
-        EnvProviderManager instance = EnvProviderManager.INSTANCE.get();
-        if (instance != null) {
-            instance.shutdown();
-        }
-    }
+    /**
+     *
+     */
+    Environment[] value();
 }

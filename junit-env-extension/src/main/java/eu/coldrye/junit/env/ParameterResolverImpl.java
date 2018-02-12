@@ -25,34 +25,60 @@ import java.util.List;
 
 /**
  * TODO document
+ *
+ * @since 1.0.0
  */
 final class ParameterResolverImpl {
+
+    /**
+     *
+     * @param parameterContext
+     * @param extensionContext
+     * @param providers
+     * @return
+     * @throws ParameterResolutionException
+     */
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
                                      List<EnvProvider> providers) throws ParameterResolutionException {
         boolean result = false;
+
         Parameter parameter = parameterContext.getParameter();
-        for (EnvProvider provider : providers) {
-            if (provider.canProvideInstance(parameter)) {
-                result = true;
-                break;
+        if (parameter.isAnnotationPresent(EnvProvided.class)) {
+            for (EnvProvider provider : providers) {
+                if (provider.canProvideInstance(parameter, parameter.getType())) {
+                    result = true;
+                    break;
+                }
             }
         }
+
         return result;
     }
 
+    /**
+     *
+     * @param parameterContext
+     * @param extensionContext
+     * @param providers
+     * @return
+     * @throws ParameterResolutionException
+     */
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
                                    List<EnvProvider> providers) throws ParameterResolutionException {
         Object result = null;
+
         Parameter parameter = parameterContext.getParameter();
         for (EnvProvider provider : providers) {
-            if (provider.canProvideInstance(parameter)) {
+            if (provider.canProvideInstance(parameter, parameter.getType())) {
                 result = provider.getOrCreateInstance(parameter, parameter.getType());
                 break;
             }
         }
+        // TODO null might be a valid value for the resolved parameter...
         if (result == null) {
             throw new ParameterResolutionException("unable to resolve parameter " + parameter.toString());
         }
+
         return result;
     }
 }

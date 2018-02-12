@@ -24,11 +24,24 @@ import java.util.List;
 
 /**
  * TODO document
+ *
+ * @since 1.0.0
  */
 final class EnvProviderManager {
 
+    /**
+     *
+     */
     private final EnvProviderCollector collector;
+
+    /**
+     *
+     */
     private boolean providersPrepared = false;
+
+    /**
+     *
+     */
     private List<EnvProvider> providers = new ArrayList<>();
 
     /*
@@ -36,16 +49,27 @@ final class EnvProviderManager {
      */
     static ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
 
+    /**
+     *
+     */
     EnvProviderManager() {
         this(new EnvProviderCollector());
     }
 
+    /**
+     *
+     * @param collector
+     */
     // For testing only
     EnvProviderManager(EnvProviderCollector collector) {
         this.collector = collector;
         INSTANCE.set(this);
     }
 
+    /**
+     *
+     * @return
+     */
     List<EnvProvider> getProviders() {
         return Collections.unmodifiableList(this.providers);
     }
@@ -57,12 +81,11 @@ final class EnvProviderManager {
      */
     void prepareEnvironmentProviders(Object testInstance, ExtensionContext context) throws Exception {
 
-        if (!testInstance.getClass().isAnnotationPresent(Environment.class)) {
-            throw new IllegalStateException("the required @Environment have not been declared");
+        if (providersPrepared) {
+            throw new IllegalStateException("providers have already been prepared");
         }
 
         List<Class<? extends EnvProvider>> providerClasses = collector.collect(testInstance.getClass());
-
         for (Class<? extends EnvProvider> providerClass : providerClasses) {
             EnvProvider provider = providerClass.getConstructor().newInstance();
             ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create(providerClass.getName(),
@@ -70,30 +93,57 @@ final class EnvProviderManager {
             provider.setStore(store);
             providers.add(provider);
         }
+        providersPrepared = true;
     }
 
+    /**
+     *
+     */
     void shutdown() {
-        for (EnvProvider provider : providers) {
-            try {
-                provider.tearDownEnvironment(EnvPhase.DEINIT);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        if (providersPrepared) {
+            providersPrepared = false;
+            for (EnvProvider provider : providers) {
+                try {
+                    provider.tearDownEnvironment(EnvPhase.DEINIT);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
 
+    /**
+     *
+     * @param phase
+     * @throws Exception
+     */
     void setUpEnvironments(EnvPhase phase) throws Exception {
+        if (!providersPrepared) {
+            throw new IllegalStateException("providers have not yet been prepared");
+        }
         for (EnvProvider provider : providers) {
             provider.setUpEnvironment(phase);
         }
     }
 
+    /**
+     *
+     * @param phase
+     * @throws Exception
+     */
     void tearDownEnvironments(EnvPhase phase) throws Exception {
+        if (!providersPrepared) {
+            throw new IllegalStateException("providers have not yet been prepared");
+        }
         for (EnvProvider provider : providers) {
             provider.tearDownEnvironment(phase);
         }
     }
 
+    /**
+     *
+     * @return
+     */
     boolean isPrepared() {
         return providersPrepared;
     }

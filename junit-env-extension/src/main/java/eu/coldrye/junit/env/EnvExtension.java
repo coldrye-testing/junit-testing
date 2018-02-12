@@ -26,22 +26,43 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 
-
 /**
  * TODO document
+ *
+ * @since 1.0.0
  */
 public class EnvExtension implements TestInstancePostProcessor, ParameterResolver, BeforeAllCallback,
         AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
+    /**
+     *
+     */
     private EnvProviderManager envProviderManager;
+
+    /**
+     *
+     */
     private FieldInjector fieldInjector;
+
+    /**
+     *
+     */
     private ParameterResolverImpl parameterResolver;
 
+    /**
+     *
+     */
     @SuppressWarnings("unused")
     public EnvExtension() {
         this(new EnvProviderManager(), new FieldInjector(), new ParameterResolverImpl());
     }
 
+    /**
+     *
+     * @param envProviderManager
+     * @param fieldInjector
+     * @param parameterResolver
+     */
     // For testing only
     EnvExtension(EnvProviderManager envProviderManager, FieldInjector fieldInjector,
                  ParameterResolverImpl parameterResolver) {

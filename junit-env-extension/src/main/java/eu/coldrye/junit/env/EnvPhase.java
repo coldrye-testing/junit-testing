@@ -18,12 +18,38 @@ package eu.coldrye.junit.env;
 
 /**
  * TODO document
+ *
+ * @since 1.0.0
  */
 public enum EnvPhase {
+
+    /**
+     *
+     */
     INIT,
+
+    /**
+     *
+     */
     DEINIT,
+
+    /**
+     *
+     */
     BEFORE_ALL,
+
+    /**
+     *
+     */
     AFTER_ALL,
+
+    /**
+     *
+     */
     BEFORE_EACH,
+
+    /**
+     *
+     */
     AFTER_EACH;
 }
