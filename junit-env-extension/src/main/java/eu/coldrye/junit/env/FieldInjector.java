@@ -23,7 +23,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * TODO document
+ * The final class FieldInjector models an injector for fields for which it resolves
+ * the instances for by querying the available {@link EnvProvider}S.
  *
  * @since 1.0.0
  */

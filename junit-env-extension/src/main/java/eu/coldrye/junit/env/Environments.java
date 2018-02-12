@@ -23,7 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TODO document
+ * The annotation Environments models a container for {@link java.lang.annotation.Repeatable} {@link Environment}
+ * annotations.
  *
  * @since 1.0.0
  */
@@ -32,8 +33,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Environments {
 
-    /**
-     *
-     */
     Environment[] value();
 }

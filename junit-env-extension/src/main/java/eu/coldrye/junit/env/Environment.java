@@ -24,7 +24,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TODO document
+ * The annotation Environment models an annotation by which users can declare the
+ * {@link EnvProvider}S that they need to be available for a specific test class or
+ * hierarchy thereof.
  *
  * @since 1.0.0
  */
@@ -34,9 +36,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Environment {
 
-    /**
-     *
-     * @return
-     */
     Class<? extends EnvProvider> value();
 }

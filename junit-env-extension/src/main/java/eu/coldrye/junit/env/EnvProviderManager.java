@@ -23,25 +23,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO document
+ * The final class EnvProviderManager models a manager for instances of the available {@link EnvProvider}S.
  *
  * @since 1.0.0
  */
 final class EnvProviderManager {
 
-    /**
-     *
-     */
     private final EnvProviderCollector collector;
-
-    /**
-     *
-     */
     private boolean providersPrepared = false;
-
-    /**
-     *
-     */
     private List<EnvProvider> providers = new ArrayList<>();
 
     /*
@@ -49,17 +38,10 @@ final class EnvProviderManager {
      */
     static ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
 
-    /**
-     *
-     */
     EnvProviderManager() {
         this(new EnvProviderCollector());
     }
 
-    /**
-     *
-     * @param collector
-     */
     // For testing only
     EnvProviderManager(EnvProviderCollector collector) {
         this.collector = collector;
@@ -97,7 +79,7 @@ final class EnvProviderManager {
     }
 
     /**
-     *
+     * Shuts down all environments.
      */
     void shutdown() {
         if (providersPrepared) {
@@ -109,6 +91,7 @@ final class EnvProviderManager {
                     ex.printStackTrace();
                 }
             }
+            this.providers.clear();
         }
     }
 

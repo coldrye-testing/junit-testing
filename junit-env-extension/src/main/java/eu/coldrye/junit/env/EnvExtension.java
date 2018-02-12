@@ -27,31 +27,19 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 
 /**
- * TODO document
+ * The final class EnvExtension models a Junit extension for both management and provisioning
+ * of environments that have to be set up or torn down before, in between or after that individual
+ * tests or all tests have been run.
  *
  * @since 1.0.0
  */
-public class EnvExtension implements TestInstancePostProcessor, ParameterResolver, BeforeAllCallback,
+public final class EnvExtension implements TestInstancePostProcessor, ParameterResolver, BeforeAllCallback,
         AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
-    /**
-     *
-     */
     private EnvProviderManager envProviderManager;
-
-    /**
-     *
-     */
     private FieldInjector fieldInjector;
-
-    /**
-     *
-     */
     private ParameterResolverImpl parameterResolver;
 
-    /**
-     *
-     */
     @SuppressWarnings("unused")
     public EnvExtension() {
         this(new EnvProviderManager(), new FieldInjector(), new ParameterResolverImpl());

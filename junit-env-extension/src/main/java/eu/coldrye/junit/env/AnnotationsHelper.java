@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO document
+ * The final class AnnotationsHelper provides static helpers to deal with annotations.
  *
  * @since 1.0.0
  */

@@ -21,7 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO document
+ * The final class EnvProviderCollector models a means to collect all {@link EnvProvider}S from the inheritance
+ * hierarchy of a given test class.
  *
  * @since 1.0.0
  */

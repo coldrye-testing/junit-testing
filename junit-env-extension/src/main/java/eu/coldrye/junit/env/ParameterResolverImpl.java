@@ -24,7 +24,9 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 
 /**
- * TODO document
+ * The final class ParameterResolverImpl models a resolver for parameters.
+ *
+ * It does so by querying available {@link EnvProvider}S.
  *
  * @since 1.0.0
  */
