@@ -35,24 +35,24 @@ final class AnnotationsHelper {
     }
 
     /**
-     * Gets the specified annotation from all interfaces implemented by and super classes of the specified class klass.
+     * Gets the specified annotations from all interfaces implemented by and super classes of the specified class klass.
      *
      * @param klass
-     * @param annotation
-     * @param <T>
+     * @param annotationClasses
      * @return
      */
     @SuppressWarnings("unchecked")
-    static <T extends Annotation> List<T> getAllAnnotations(Class<?> klass,
-                                                            Class<? extends Annotation> annotation) {
-        List<T> result = new ArrayList<>();
+    static List<Annotation> getAllAnnotations(Class<?> klass, Class<? extends Annotation>... annotationClasses) {
+        List<Annotation> result = new ArrayList<>();
 
         List<Class<?>> todo = new ArrayList<>();
         todo.add(klass);
         while (!todo.isEmpty()) {
             Class<?> annotated = todo.remove(0);
-            if (annotated.isAnnotationPresent(annotation)) {
-                result.add((T) annotated.getAnnotation(annotation));
+            for (Class<? extends Annotation> annotationClass : annotationClasses) {
+                if (annotated.isAnnotationPresent(annotationClass)) {
+                    result.add(annotated.getAnnotation(annotationClass));
+                }
             }
             Class<?>[] ifaces = annotated.getInterfaces();
             if (ifaces != null) {

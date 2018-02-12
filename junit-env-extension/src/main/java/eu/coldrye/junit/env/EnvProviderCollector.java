@@ -16,6 +16,7 @@
 
 package eu.coldrye.junit.env;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,10 +46,20 @@ final class EnvProviderCollector {
          * level are side effect free.
          */
         List<Class<? extends EnvProvider>> collectedEnvProviderClasses = new ArrayList<>();
-        List<Environments> environmentsContainers = AnnotationsHelper.getAllAnnotations(testClass, Environments.class);
-        for (Environments environmentsContainer : environmentsContainers) {
-            for (Environment environment : environmentsContainer.value()) {
+        List<Annotation> annotations = AnnotationsHelper.getAllAnnotations(testClass, Environments.class,
+                Environment.class);
+
+        System.out.println(annotations);
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof Environment) {
+                Environment environment = (Environment) annotation;
                 collectedEnvProviderClasses.add(environment.value());
+            }
+            else if (annotation instanceof Environments) {
+                Environments environments = (Environments) annotation;
+                for (Environment environment : environments.value()) {
+                    collectedEnvProviderClasses.add(environment.value());
+                }
             }
         }
         Collections.reverse(collectedEnvProviderClasses);

@@ -46,7 +46,6 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
     }
 
     /**
-     *
      * @param envProviderManager
      * @param fieldInjector
      * @param parameterResolver
@@ -61,10 +60,6 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
-        if (!envProviderManager.isPrepared()) {
-            envProviderManager.prepareEnvironmentProviders(testInstance, context);
-        }
-        envProviderManager.setUpEnvironments(EnvPhase.INIT);
         fieldInjector.inject(testInstance, context, envProviderManager.getProviders());
     }
 
@@ -94,6 +89,10 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
+        if (!envProviderManager.isPrepared()) {
+            envProviderManager.prepareEnvironmentProviders(context);
+            envProviderManager.setUpEnvironments(EnvPhase.INIT);
+        }
         envProviderManager.setUpEnvironments(EnvPhase.BEFORE_ALL);
     }
 

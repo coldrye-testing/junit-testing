@@ -61,13 +61,13 @@ final class EnvProviderManager {
      * The order of these environments should never matters, but for fail safe reasons,
      * the order will be from top to bottom.
      */
-    void prepareEnvironmentProviders(Object testInstance, ExtensionContext context) throws Exception {
+    void prepareEnvironmentProviders(ExtensionContext context) throws Exception {
 
         if (providersPrepared) {
             throw new IllegalStateException("providers have already been prepared");
         }
 
-        List<Class<? extends EnvProvider>> providerClasses = collector.collect(testInstance.getClass());
+        List<Class<? extends EnvProvider>> providerClasses = collector.collect(context.getRequiredTestClass());
         for (Class<? extends EnvProvider> providerClass : providerClasses) {
             EnvProvider provider = providerClass.getConstructor().newInstance();
             ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create(providerClass.getName(),
@@ -102,7 +102,7 @@ final class EnvProviderManager {
      */
     void setUpEnvironments(EnvPhase phase) throws Exception {
         if (!providersPrepared) {
-            throw new IllegalStateException("providers have not yet been prepared");
+            throw new IllegalStateException("environment providers have not yet been prepared during phase " + phase);
         }
         for (EnvProvider provider : providers) {
             provider.setUpEnvironment(phase);
