@@ -25,15 +25,14 @@ import java.util.List;
 
 /**
  * The final class ParameterResolverImpl models a resolver for parameters.
- *
+ * <p>
  * It does so by querying available {@link EnvProvider}S.
  *
  * @since 1.0.0
  */
-final class ParameterResolverImpl {
+class ParameterResolverImpl {
 
     /**
-     *
      * @param parameterContext
      * @param extensionContext
      * @param providers
@@ -58,7 +57,6 @@ final class ParameterResolverImpl {
     }
 
     /**
-     *
      * @param parameterContext
      * @param extensionContext
      * @param providers
@@ -69,15 +67,16 @@ final class ParameterResolverImpl {
                                    List<EnvProvider> providers) throws ParameterResolutionException {
         Object result = null;
 
+        boolean found = false;
         Parameter parameter = parameterContext.getParameter();
         for (EnvProvider provider : providers) {
             if (provider.canProvideInstance(parameter, parameter.getType())) {
                 result = provider.getOrCreateInstance(parameter, parameter.getType());
+                found = true;
                 break;
             }
         }
-        // TODO null might be a valid value for the resolved parameter...
-        if (result == null) {
+        if (!found) {
             throw new ParameterResolutionException("unable to resolve parameter " + parameter.toString());
         }
 

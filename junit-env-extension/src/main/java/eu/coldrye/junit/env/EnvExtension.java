@@ -34,13 +34,12 @@ import org.junit.jupiter.api.extension.TestInstancePostProcessor;
  * @since 1.0.0
  */
 public final class EnvExtension implements TestInstancePostProcessor, ParameterResolver, BeforeAllCallback,
-        AfterAllCallback, BeforeEachCallback, AfterEachCallback {
+                                               AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
-    private EnvProviderManager envProviderManager;
-    private FieldInjector fieldInjector;
-    private ParameterResolverImpl parameterResolver;
+    private final EnvProviderManager envProviderManager;
+    private final FieldInjector fieldInjector;
+    private final ParameterResolverImpl parameterResolver;
 
-    @SuppressWarnings("unused")
     public EnvExtension() {
         this(new EnvProviderManager(), new FieldInjector(), new ParameterResolverImpl());
     }
@@ -65,16 +64,16 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-            throws ParameterResolutionException {
+        throws ParameterResolutionException {
         return parameterResolver.supportsParameter(parameterContext, extensionContext,
-                envProviderManager.getProviders());
+            envProviderManager.getProviders());
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-            throws ParameterResolutionException {
+        throws ParameterResolutionException {
         return parameterResolver.resolveParameter(parameterContext, extensionContext,
-                envProviderManager.getProviders());
+            envProviderManager.getProviders());
     }
 
     @Override

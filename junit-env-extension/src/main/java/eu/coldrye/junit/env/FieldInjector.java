@@ -28,34 +28,31 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-final class FieldInjector {
+class FieldInjector {
 
     /**
-     *
      * @param testInstance
      * @param context
      * @param providers
      * @throws Exception
      */
     public void inject(Object testInstance, ExtensionContext context, List<EnvProvider> providers)
-            throws Exception {
+        throws Exception {
 
-        Field[] declaredFields = testInstance.getClass().getDeclaredFields();
-        for (Field field : declaredFields) {
-            if (field.isAnnotationPresent(EnvProvided.class)) {
-                for (EnvProvider provider : providers) {
-                    if (provider.canProvideInstance(field, field.getType())) {
-                        Object instance = provider.getOrCreateInstance(field, field.getType());
-                        try {
-                            Method setter = testInstance.getClass().getDeclaredMethod(
-                                    "set"
-                                            + field.getName().substring(0, 1).toUpperCase()
-                                            + field.getName().substring(1));
-                            setter.invoke(testInstance, instance);
-                        } catch (NoSuchMethodException ex) {
-                            field.setAccessible(true);
-                            field.set(testInstance, instance);
-                        }
+        List<Field> fields = ReflectionHelper.getDeclaredFields(testInstance.getClass(), EnvProvided.class);
+        for (Field field : fields) {
+            for (EnvProvider provider : providers) {
+                if (provider.canProvideInstance(field, field.getType())) {
+                    Object instance = provider.getOrCreateInstance(field, field.getType());
+                    try {
+                        Method setter = testInstance.getClass().getMethod(
+                            "set"
+                                + field.getName().substring(0, 1).toUpperCase()
+                                + field.getName().substring(1));
+                        setter.invoke(testInstance, instance);
+                    } catch (NoSuchMethodException ex) {
+                        field.setAccessible(true);
+                        field.set(testInstance, instance);
                     }
                 }
             }

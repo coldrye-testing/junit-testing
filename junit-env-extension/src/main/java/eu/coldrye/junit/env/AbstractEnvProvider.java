@@ -21,13 +21,13 @@ import org.junit.jupiter.api.extension.ExtensionContext.Store;
 /**
  * The abstract class AbstractEnvProvider models the root of a hierarchy of
  * derived classes that realize the {@link EnvProvider} interface.
- *
+ * <p>
  * The class is provided for convenience only and you are free to derive
  * from it in order to save you some time implementing the {@link EnvProvider#getStore()}
  * and {@link EnvProvider#setStore(Store)} methods.
  *
- * @since 1.0.0
  * @see EnvProvider
+ * @since 1.0.0
  */
 public abstract class AbstractEnvProvider implements EnvProvider {
 
@@ -38,7 +38,7 @@ public abstract class AbstractEnvProvider implements EnvProvider {
 
     @Override
     public final Store getStore() {
-        return this.store;
+        return store;
     }
 
     @Override

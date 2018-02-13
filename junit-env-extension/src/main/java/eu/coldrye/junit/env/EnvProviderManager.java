@@ -27,16 +27,15 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-final class EnvProviderManager {
-
-    private final EnvProviderCollector collector;
-    private boolean providersPrepared = false;
-    private List<EnvProvider> providers = new ArrayList<>();
+class EnvProviderManager {
 
     /*
      * For use with TestExecutionListenerImpl.
      */
     static ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
+    private final EnvProviderCollector collector;
+    private final List<EnvProvider> providers = new ArrayList<>();
+    private boolean providersPrepared = false;
 
     EnvProviderManager() {
         this(new EnvProviderCollector());
@@ -45,15 +44,14 @@ final class EnvProviderManager {
     // For testing only
     EnvProviderManager(EnvProviderCollector collector) {
         this.collector = collector;
-        INSTANCE.set(this);
+        EnvProviderManager.INSTANCE.set(this);
     }
 
     /**
-     *
      * @return
      */
     List<EnvProvider> getProviders() {
-        return Collections.unmodifiableList(this.providers);
+        return Collections.unmodifiableList(providers);
     }
 
     /**
@@ -71,7 +69,7 @@ final class EnvProviderManager {
         for (Class<? extends EnvProvider> providerClass : providerClasses) {
             EnvProvider provider = providerClass.getConstructor().newInstance();
             ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create(providerClass.getName(),
-                    Thread.currentThread().getId()));
+                Thread.currentThread().getId()));
             provider.setStore(store);
             providers.add(provider);
         }
@@ -91,12 +89,11 @@ final class EnvProviderManager {
                     ex.printStackTrace();
                 }
             }
-            this.providers.clear();
+            providers.clear();
         }
     }
 
     /**
-     *
      * @param phase
      * @throws Exception
      */
@@ -110,7 +107,6 @@ final class EnvProviderManager {
     }
 
     /**
-     *
      * @param phase
      * @throws Exception
      */
@@ -124,7 +120,6 @@ final class EnvProviderManager {
     }
 
     /**
-     *
      * @return
      */
     boolean isPrepared() {

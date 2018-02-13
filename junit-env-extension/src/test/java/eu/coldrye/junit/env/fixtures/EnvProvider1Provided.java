@@ -14,30 +14,20 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit.env;
+package eu.coldrye.junit.env.fixtures;
+
+import eu.coldrye.junit.env.EnvProvided;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
 
-/**
- * The annotation EnvProvided is used to demarcate both fields and method parameters
- * so that {@link EnvProvider}S can determine whether they are able to provide
- * instances for both fields and methods whenever {@link EnvProvider#canProvideInstance(AnnotatedElement, Class)}
- * is called.
- * <p>
- * The annotation can also be used for annotating customized annotations that are
- * specific to a given {@code EnvProvider}.
- *
- * @since 1.0.0
- */
-@Target({ElementType.ANNOTATION_TYPE, ElementType.FIELD, ElementType.PARAMETER})
+@EnvProvided
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Inherited
 @Documented
-public @interface EnvProvided {
+public @interface EnvProvider1Provided {
 }
+

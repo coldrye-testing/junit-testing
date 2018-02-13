@@ -17,8 +17,8 @@
 package eu.coldrye.junit.env;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,10 +27,9 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-final class EnvProviderCollector {
+class EnvProviderCollector {
 
     /**
-     *
      * @param testClass
      * @return
      * @throws Exception
@@ -39,37 +38,29 @@ final class EnvProviderCollector {
 
         List<Class<? extends EnvProvider>> result = new ArrayList<>();
 
-        /*
-         * Make sure that inherited env providers come first, from top to bottom
-         * the very least we can do here is to provide for a hierarchical ordering
-         * the user must make sure that the provided EnvProviders on the interface
-         * level are side effect free.
-         */
-        List<Class<? extends EnvProvider>> collectedEnvProviderClasses = new ArrayList<>();
-        List<Annotation> annotations = AnnotationsHelper.getAllAnnotations(testClass, Environments.class,
-                Environment.class);
-
-        System.out.println(annotations);
+        List<Annotation> annotations = ReflectionHelper.getAllAnnotations(testClass, Environments.class,
+            Environment.class);
         for (Annotation annotation : annotations) {
             if (annotation instanceof Environment) {
                 Environment environment = (Environment) annotation;
-                collectedEnvProviderClasses.add(environment.value());
-            }
-            else if (annotation instanceof Environments) {
+                collect0(environment.value(), result);
+            } else if (annotation instanceof Environments) {
                 Environments environments = (Environments) annotation;
                 for (Environment environment : environments.value()) {
-                    collectedEnvProviderClasses.add(environment.value());
+                    collect0(environment.value(), result);
                 }
-            }
-        }
-        Collections.reverse(collectedEnvProviderClasses);
-
-        for (Class<? extends EnvProvider> envProviderClass : collectedEnvProviderClasses) {
-            if (!result.contains(envProviderClass)) {
-                result.add(envProviderClass);
             }
         }
 
         return result;
+    }
+
+    private void collect0(Class<? extends EnvProvider> providerClass,
+                          List<Class<? extends EnvProvider>> collectedProviderClasses) {
+
+        if (!collectedProviderClasses.contains(providerClass) && !providerClass.isInterface()
+                && !Modifier.isAbstract(providerClass.getModifiers())) {
+            collectedProviderClasses.add(providerClass);
+        }
     }
 }

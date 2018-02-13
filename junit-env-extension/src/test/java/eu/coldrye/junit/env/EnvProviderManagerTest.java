@@ -22,27 +22,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class EnvExtensionTest {
+public class EnvProviderManagerTest {
 
-    private EnvExtension sut;
-    private EnvProviderManager mockManager;
-    private FieldInjector mockInjector;
-    private ParameterResolverImpl mockResolver;
+    private EnvProviderManager sut;
+    private EnvProviderCollector mockCollector;
 
     @BeforeEach
     public void setUp() {
-        mockResolver = Mockito.mock(ParameterResolverImpl.class);
-        mockInjector = Mockito.mock(FieldInjector.class);
-        mockManager = Mockito.mock(EnvProviderManager.class);
-        sut = new EnvExtension(mockManager, mockInjector, mockResolver);
+        mockCollector = Mockito.mock(EnvProviderCollector.class);
+        sut = new EnvProviderManager(mockCollector);
     }
 
     @AfterEach
     public void tearDown() {
         sut = null;
-        mockManager = null;
-        mockResolver = null;
-        mockInjector = null;
+        mockCollector = null;
     }
 
     @Test

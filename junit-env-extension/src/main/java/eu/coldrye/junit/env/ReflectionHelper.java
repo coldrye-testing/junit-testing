@@ -17,21 +17,24 @@
 package eu.coldrye.junit.env;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * The final class AnnotationsHelper provides static helpers to deal with annotations.
+ * The final class ReflectionHelper provides static helpers to deal with annotations.
  *
  * @since 1.0.0
  */
-final class AnnotationsHelper {
+final class ReflectionHelper {
 
     /**
      * Must not be instantiated.
      */
-    private AnnotationsHelper() {
+    private ReflectionHelper() {
     }
 
     /**
@@ -55,14 +58,57 @@ final class AnnotationsHelper {
                 }
             }
             Class<?>[] ifaces = annotated.getInterfaces();
-            if (ifaces != null) {
+            if (!Objects.isNull(ifaces)) {
                 todo.addAll(Arrays.asList(ifaces));
             }
             if (!annotated.isInterface()) {
                 Class<?> superClass = annotated.getSuperclass();
-                if (superClass != null) {
+                if (!Objects.isNull(superClass)) {
                     todo.add(superClass);
                 }
+            }
+        }
+
+        return result;
+    }
+
+    static boolean isAnnotatedBy(AnnotatedElement annotated, Class<? extends Annotation>... annotationClasses) {
+        boolean result = false;
+
+        Annotation[] annotations = annotated.getAnnotations();
+        for (Annotation annotation : annotations) {
+            for (Class<? extends Annotation> requested : annotationClasses) {
+                if (annotation.annotationType().isAnnotationPresent(requested)
+                        || annotation.getClass().equals(requested)) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * @param klass
+     * @return
+     */
+    static List<Field> getDeclaredFields(Class<?> klass, Class<? extends Annotation>... annotationClasses) {
+        List<Field> result = new ArrayList<>();
+
+        Class<?> current = klass;
+        while (true) {
+            Field[] declaredFields = current.getDeclaredFields();
+            if (declaredFields.length > 0) {
+                for (Field field : declaredFields) {
+                    if (ReflectionHelper.isAnnotatedBy(field, annotationClasses)) {
+                        result.add(field);
+                    }
+                }
+            }
+            current = current.getSuperclass();
+            if ((Object.class.equals(current))) {
+                break;
             }
         }
 
