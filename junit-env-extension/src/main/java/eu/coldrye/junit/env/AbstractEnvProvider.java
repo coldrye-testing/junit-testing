@@ -31,18 +31,20 @@ import org.junit.jupiter.api.extension.ExtensionContext.Store;
  */
 public abstract class AbstractEnvProvider implements EnvProvider {
 
-    /**
-     * The {@link Store} where environment specific data is to be stored.
-     */
-    private Store store;
+  /**
+   * The {@link Store} where environment specific data is to be stored.
+   */
+  private Store store;
 
-    @Override
-    public final Store getStore() {
-        return store;
-    }
+  @Override
+  public final Store getStore() {
 
-    @Override
-    public final void setStore(Store store) {
-        this.store = store;
-    }
+    return store;
+  }
+
+  @Override
+  public final void setStore(Store store) {
+
+    this.store = store;
+  }
 }

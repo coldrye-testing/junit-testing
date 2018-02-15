@@ -29,100 +29,110 @@ import java.util.List;
  */
 class EnvProviderManager {
 
-    /*
-     * For use with TestExecutionListenerImpl.
-     */
-    static ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
-    private final EnvProviderCollector collector;
-    private final List<EnvProvider> providers = new ArrayList<>();
-    private boolean providersPrepared = false;
+  /*
+   * For use with TestExecutionListenerImpl.
+   */
+  static ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
 
-    EnvProviderManager() {
-        this(new EnvProviderCollector());
+  private final EnvProviderCollector collector;
+
+  private final List<EnvProvider> providers = new ArrayList<>();
+
+  private boolean providersPrepared = false;
+
+  EnvProviderManager() {
+
+    this(new EnvProviderCollector());
+  }
+
+  // For testing only
+  EnvProviderManager(EnvProviderCollector collector) {
+
+    this.collector = collector;
+    EnvProviderManager.INSTANCE.set(this);
+  }
+
+  /**
+   * @return
+   */
+  List<EnvProvider> getProviders() {
+
+    return Collections.unmodifiableList(providers);
+  }
+
+  /**
+   * Prepare the environment providers inherited from both super classes and implemented interfaces.
+   * The order of these environments should never matters, but for fail safe reasons,
+   * the order will be from top to bottom.
+   */
+  void prepareEnvironmentProviders(ExtensionContext context) throws Exception {
+
+    if (providersPrepared) {
+      throw new IllegalStateException("providers have already been prepared");
     }
 
-    // For testing only
-    EnvProviderManager(EnvProviderCollector collector) {
-        this.collector = collector;
-        EnvProviderManager.INSTANCE.set(this);
+    List<Class<? extends EnvProvider>> providerClasses = collector.collect(context.getRequiredTestClass());
+    for (Class<? extends EnvProvider> providerClass : providerClasses) {
+      EnvProvider provider = providerClass.getConstructor().newInstance();
+      ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create(providerClass.getName(),
+        Thread.currentThread().getId()));
+      provider.setStore(store);
+      providers.add(provider);
     }
+    providersPrepared = true;
+  }
 
-    /**
-     * @return
-     */
-    List<EnvProvider> getProviders() {
-        return Collections.unmodifiableList(providers);
-    }
+  /**
+   * Shuts down all environments.
+   */
+  void shutdown() {
 
-    /**
-     * Prepare the environment providers inherited from both super classes and implemented interfaces.
-     * The order of these environments should never matters, but for fail safe reasons,
-     * the order will be from top to bottom.
-     */
-    void prepareEnvironmentProviders(ExtensionContext context) throws Exception {
-
-        if (providersPrepared) {
-            throw new IllegalStateException("providers have already been prepared");
+    if (providersPrepared) {
+      providersPrepared = false;
+      for (EnvProvider provider : providers) {
+        try {
+          provider.tearDownEnvironment(EnvPhase.DEINIT);
+        } catch (Exception ex) {
+          ex.printStackTrace();
         }
-
-        List<Class<? extends EnvProvider>> providerClasses = collector.collect(context.getRequiredTestClass());
-        for (Class<? extends EnvProvider> providerClass : providerClasses) {
-            EnvProvider provider = providerClass.getConstructor().newInstance();
-            ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create(providerClass.getName(),
-                Thread.currentThread().getId()));
-            provider.setStore(store);
-            providers.add(provider);
-        }
-        providersPrepared = true;
+      }
+      providers.clear();
     }
+  }
 
-    /**
-     * Shuts down all environments.
-     */
-    void shutdown() {
-        if (providersPrepared) {
-            providersPrepared = false;
-            for (EnvProvider provider : providers) {
-                try {
-                    provider.tearDownEnvironment(EnvPhase.DEINIT);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            providers.clear();
-        }
-    }
+  /**
+   * @param phase
+   * @throws Exception
+   */
+  void setUpEnvironments(EnvPhase phase) throws Exception {
 
-    /**
-     * @param phase
-     * @throws Exception
-     */
-    void setUpEnvironments(EnvPhase phase) throws Exception {
-        if (!providersPrepared) {
-            throw new IllegalStateException("environment providers have not yet been prepared during phase " + phase);
-        }
-        for (EnvProvider provider : providers) {
-            provider.setUpEnvironment(phase);
-        }
+    if (!providersPrepared) {
+      throw new IllegalStateException("environment providers have not yet been prepared during phase " + phase);
     }
+    for (EnvProvider provider : providers) {
+      provider.setUpEnvironment(phase);
+    }
+  }
 
-    /**
-     * @param phase
-     * @throws Exception
-     */
-    void tearDownEnvironments(EnvPhase phase) throws Exception {
-        if (!providersPrepared) {
-            throw new IllegalStateException("providers have not yet been prepared");
-        }
-        for (EnvProvider provider : providers) {
-            provider.tearDownEnvironment(phase);
-        }
-    }
+  /**
+   * @param phase
+   * @throws Exception
+   */
+  void tearDownEnvironments(EnvPhase phase) throws Exception {
 
-    /**
-     * @return
-     */
-    boolean isPrepared() {
-        return providersPrepared;
+    if (!providersPrepared) {
+      throw new IllegalStateException("providers have not yet been prepared");
     }
+    for (EnvProvider provider : providers) {
+      provider.tearDownEnvironment(phase);
+    }
+  }
+
+  /**
+   * @return
+   */
+  boolean isPrepared() {
+
+    return providersPrepared;
+  }
 }

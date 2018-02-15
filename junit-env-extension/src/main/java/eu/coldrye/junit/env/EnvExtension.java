@@ -34,69 +34,83 @@ import org.junit.jupiter.api.extension.TestInstancePostProcessor;
  * @since 1.0.0
  */
 public final class EnvExtension implements TestInstancePostProcessor, ParameterResolver, BeforeAllCallback,
-                                               AfterAllCallback, BeforeEachCallback, AfterEachCallback {
+  AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
-    private final EnvProviderManager envProviderManager;
-    private final FieldInjector fieldInjector;
-    private final ParameterResolverImpl parameterResolver;
+  private final EnvProviderManager providerManager;
 
-    public EnvExtension() {
-        this(new EnvProviderManager(), new FieldInjector(), new ParameterResolverImpl());
+  private final FieldInjector fieldInjector;
+
+  private final ParameterResolverImpl parameterResolver;
+
+  /**
+   * Default constructor
+   */
+  //NOSONAR
+  public EnvExtension() {
+
+    this(new EnvProviderManager(), new FieldInjector(), new ParameterResolverImpl());
+  }
+
+  /**
+   * @param providerManager
+   * @param fieldInjector
+   * @param parameterResolver
+   */
+  // For testing only
+  EnvExtension(EnvProviderManager providerManager, FieldInjector fieldInjector,
+               ParameterResolverImpl parameterResolver) {
+
+    this.providerManager = providerManager;
+    this.fieldInjector = fieldInjector;
+    this.parameterResolver = parameterResolver;
+  }
+
+  @Override
+  public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+
+    fieldInjector.inject(testInstance, context, providerManager.getProviders());
+  }
+
+  @Override
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+    throws ParameterResolutionException {
+
+    return parameterResolver.supportsParameter(parameterContext, extensionContext,
+      providerManager.getProviders());
+  }
+
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+    throws ParameterResolutionException {
+
+    return parameterResolver.resolveParameter(parameterContext, extensionContext, providerManager.getProviders());
+  }
+
+  @Override
+  public void beforeEach(ExtensionContext extensionContext) throws Exception {
+
+    providerManager.setUpEnvironments(EnvPhase.BEFORE_EACH);
+  }
+
+  @Override
+  public void afterEach(ExtensionContext extensionContext) throws Exception {
+
+    providerManager.tearDownEnvironments(EnvPhase.AFTER_EACH);
+  }
+
+  @Override
+  public void beforeAll(ExtensionContext context) throws Exception {
+
+    if (!providerManager.isPrepared()) {
+      providerManager.prepareEnvironmentProviders(context);
+      providerManager.setUpEnvironments(EnvPhase.INIT);
     }
+    providerManager.setUpEnvironments(EnvPhase.BEFORE_ALL);
+  }
 
-    /**
-     * @param envProviderManager
-     * @param fieldInjector
-     * @param parameterResolver
-     */
-    // For testing only
-    EnvExtension(EnvProviderManager envProviderManager, FieldInjector fieldInjector,
-                 ParameterResolverImpl parameterResolver) {
-        this.envProviderManager = envProviderManager;
-        this.fieldInjector = fieldInjector;
-        this.parameterResolver = parameterResolver;
-    }
+  @Override
+  public void afterAll(ExtensionContext context) throws Exception {
 
-    @Override
-    public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
-        fieldInjector.inject(testInstance, context, envProviderManager.getProviders());
-    }
-
-    @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-        throws ParameterResolutionException {
-        return parameterResolver.supportsParameter(parameterContext, extensionContext,
-            envProviderManager.getProviders());
-    }
-
-    @Override
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-        throws ParameterResolutionException {
-        return parameterResolver.resolveParameter(parameterContext, extensionContext,
-            envProviderManager.getProviders());
-    }
-
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) throws Exception {
-        envProviderManager.setUpEnvironments(EnvPhase.BEFORE_EACH);
-    }
-
-    @Override
-    public void afterEach(ExtensionContext extensionContext) throws Exception {
-        envProviderManager.tearDownEnvironments(EnvPhase.AFTER_EACH);
-    }
-
-    @Override
-    public void beforeAll(ExtensionContext context) throws Exception {
-        if (!envProviderManager.isPrepared()) {
-            envProviderManager.prepareEnvironmentProviders(context);
-            envProviderManager.setUpEnvironments(EnvPhase.INIT);
-        }
-        envProviderManager.setUpEnvironments(EnvPhase.BEFORE_ALL);
-    }
-
-    @Override
-    public void afterAll(ExtensionContext context) throws Exception {
-        envProviderManager.tearDownEnvironments(EnvPhase.AFTER_ALL);
-    }
+    providerManager.tearDownEnvironments(EnvPhase.AFTER_ALL);
+  }
 }

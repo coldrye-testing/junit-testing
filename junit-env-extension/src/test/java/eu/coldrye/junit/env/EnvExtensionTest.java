@@ -24,29 +24,35 @@ import org.mockito.Mockito;
 
 public class EnvExtensionTest {
 
-    private EnvExtension sut;
-    private EnvProviderManager mockManager;
-    private FieldInjector mockInjector;
-    private ParameterResolverImpl mockResolver;
+  private EnvExtension sut;
 
-    @BeforeEach
-    public void setUp() {
-        mockResolver = Mockito.mock(ParameterResolverImpl.class);
-        mockInjector = Mockito.mock(FieldInjector.class);
-        mockManager = Mockito.mock(EnvProviderManager.class);
-        sut = new EnvExtension(mockManager, mockInjector, mockResolver);
-    }
+  private EnvProviderManager mockManager;
 
-    @AfterEach
-    public void tearDown() {
-        sut = null;
-        mockManager = null;
-        mockResolver = null;
-        mockInjector = null;
-    }
+  private FieldInjector mockInjector;
 
-    @Test
-    public void toDO() {
-        Assertions.fail("no tests have been implemented yet");
-    }
+  private ParameterResolverImpl mockResolver;
+
+  @BeforeEach
+  public void setUp() {
+
+    mockResolver = Mockito.mock(ParameterResolverImpl.class);
+    mockInjector = Mockito.mock(FieldInjector.class);
+    mockManager = Mockito.mock(EnvProviderManager.class);
+    sut = new EnvExtension(mockManager, mockInjector, mockResolver);
+  }
+
+  @AfterEach
+  public void tearDown() {
+
+    sut = null;
+    mockManager = null;
+    mockResolver = null;
+    mockInjector = null;
+  }
+
+  @Test
+  public void toDO() {
+
+    Assertions.fail("no tests have been implemented yet");
+  }
 }

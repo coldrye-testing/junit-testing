@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The final class FieldInjector models an injector for fields for which it resolves
@@ -30,32 +31,30 @@ import java.util.List;
  */
 class FieldInjector {
 
-    /**
-     * @param testInstance
-     * @param context
-     * @param providers
-     * @throws Exception
-     */
-    public void inject(Object testInstance, ExtensionContext context, List<EnvProvider> providers)
-        throws Exception {
+  /**
+   * @param testInstance
+   * @param context
+   * @param providers
+   * @throws Exception
+   */
+  public void inject(Object testInstance, ExtensionContext context, List<EnvProvider> providers) throws Exception {
 
-        List<Field> fields = ReflectionHelper.getDeclaredFields(testInstance.getClass(), EnvProvided.class);
-        for (Field field : fields) {
-            for (EnvProvider provider : providers) {
-                if (provider.canProvideInstance(field, field.getType())) {
-                    Object instance = provider.getOrCreateInstance(field, field.getType());
-                    try {
-                        Method setter = testInstance.getClass().getMethod(
-                            "set"
-                                + field.getName().substring(0, 1).toUpperCase()
-                                + field.getName().substring(1));
-                        setter.invoke(testInstance, instance);
-                    } catch (NoSuchMethodException ex) {
-                        field.setAccessible(true);
-                        field.set(testInstance, instance);
-                    }
-                }
-            }
+    List<Field> fields = ReflectionHelper.getDeclaredFields(testInstance.getClass(), EnvProvided.class);
+    for (Field field : fields) {
+      for (EnvProvider provider : providers) {
+        if (provider.canProvideInstance(field, field.getType())) {
+          Object instance = provider.getOrCreateInstance(field, field.getType());
+          Method setter = ReflectionHelper.findMethod(testInstance.getClass(), ReflectionHelper.setterName(field),
+            field.getType());
+          if (Objects.isNull(setter)) {
+            field.setAccessible(true);
+            field.set(testInstance, instance);
+          } else {
+            setter.setAccessible(true);
+            setter.invoke(testInstance, instance);
+          }
         }
+      }
     }
+  }
 }

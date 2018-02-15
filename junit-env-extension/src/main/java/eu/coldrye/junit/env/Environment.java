@@ -36,5 +36,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Environment {
 
-    Class<? extends EnvProvider> value();
+  Class<? extends EnvProvider> value();
 }

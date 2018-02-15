@@ -16,12 +16,12 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.env.fixtures.EnvProvider1;
-import eu.coldrye.junit.env.fixtures.EnvProvider1ProvidedBoundaryInterface;
-import eu.coldrye.junit.env.fixtures.EnvProvider2;
-import eu.coldrye.junit.env.fixtures.EnvProvider2ProvidedBoundaryInterface;
-import eu.coldrye.junit.env.fixtures.FirstTestCase;
-import eu.coldrye.junit.env.fixtures.SecondTestCase;
+import eu.coldrye.junit.env.Fixtures.EnvProvider1;
+import eu.coldrye.junit.env.Fixtures.EnvProvider1ProvidedBoundaryInterface;
+import eu.coldrye.junit.env.Fixtures.EnvProvider2;
+import eu.coldrye.junit.env.Fixtures.EnvProvider2ProvidedBoundaryInterface;
+import eu.coldrye.junit.env.Fixtures.FirstTestCase;
+import eu.coldrye.junit.env.Fixtures.SecondTestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,44 +34,76 @@ import java.util.List;
 
 public class ParameterResolverImplTest {
 
-    private ParameterResolverImpl sut;
-    private List<EnvProvider> providers;
+  private ParameterResolverImpl sut;
 
-    @BeforeEach
-    public void setUp() {
-        sut = new ParameterResolverImpl();
-        providers = Arrays.asList(new EnvProvider[]{
-            new EnvProvider1(), new EnvProvider2()
-        });
-    }
+  private List<EnvProvider> providers;
 
-    @AfterEach
-    public void tearDown() {
-        sut = null;
-    }
+  @BeforeEach
+  public void setUp() {
 
-    @Test
-    public void mustResolveParameter0ForEnvProvider1ProvidedForFirstTestCase() throws Exception {
-        ParameterContext context = JunitHelper.createParameterContext(FirstTestCase.class,
-            "testing", 0);
-        Object instance = sut.resolveParameter(context, null, providers);
-        Assertions.assertTrue(instance instanceof EnvProvider1ProvidedBoundaryInterface);
-    }
+    sut = new ParameterResolverImpl();
+    providers = Arrays.asList(new EnvProvider[]{
+      new EnvProvider1(), new EnvProvider2()
+    });
+  }
 
-    @Test
-    public void mustResolveParameter0ForEnvProvider2ProvidedForSecondTestCase() throws Exception {
-        ParameterContext context = JunitHelper.createParameterContext(SecondTestCase.class,
-            "testing2", 0);
-        Object instance = sut.resolveParameter(context, null, providers);
-        Assertions.assertTrue(instance instanceof EnvProvider2ProvidedBoundaryInterface);
-    }
+  @AfterEach
+  public void tearDown() {
 
-    @Test
-    public void mustFailOnUnsupportedTypeParameter0ForSecondTestCase() throws Exception {
-        ParameterContext context = JunitHelper.createParameterContext(SecondTestCase.class,
-            "testing3", 0);
-        Assertions.assertThrows(ParameterResolutionException.class, () -> {
-            sut.resolveParameter(context, null, providers);
-        });
-    }
+    sut = null;
+  }
+
+  @Test
+  public void resolveParameterMustReturnExpectedResultForInheritedMethodAndCustomAnnotation() throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(FirstTestCase.class,
+      "testing", 0, EnvProvider1ProvidedBoundaryInterface.class);
+    Object instance = sut.resolveParameter(context, null, providers);
+    Assertions.assertTrue(instance instanceof EnvProvider1ProvidedBoundaryInterface);
+  }
+
+  @Test
+  public void supportsParameterMustReturnTrueForInheritedMethodForParameterWithCustomAnnotationAndSupportedType()
+    throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
+      "testing", 0, EnvProvider1ProvidedBoundaryInterface.class);
+    Assertions.assertTrue(sut.supportsParameter(context, null, providers));
+  }
+
+  @Test
+  public void resolveParameterMustReturnExpectedResultForCustomAnnotation() throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
+      "testing2", 0, EnvProvider2ProvidedBoundaryInterface.class);
+    Object instance = sut.resolveParameter(context, null, providers);
+    Assertions.assertTrue(instance instanceof EnvProvider2ProvidedBoundaryInterface);
+  }
+
+  @Test
+  public void supportsParameterMustReturnTrueForParameterWithCustomAnnotationAndSupportedType() throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
+      "testing2", 0, EnvProvider2ProvidedBoundaryInterface.class);
+    Assertions.assertTrue(sut.supportsParameter(context, null, providers));
+  }
+
+  @Test
+  public void resolveParameterMustFailForParameterWithExpectedCustomAnnotationButUnsupportedType() throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
+      "testing3", 0, EnvProvider1ProvidedBoundaryInterface.class);
+    Assertions.assertThrows(ParameterResolutionException.class, () -> {
+      sut.resolveParameter(context, null, providers);
+    });
+  }
+
+  @Test
+  public void supportsParameterMustReturnFalseForParameterWithExpectedCustomAnnotationButUnsupportedType()
+    throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
+      "testing3", 0, EnvProvider1ProvidedBoundaryInterface.class);
+    Assertions.assertFalse(sut.supportsParameter(context, null, providers));
+  }
 }

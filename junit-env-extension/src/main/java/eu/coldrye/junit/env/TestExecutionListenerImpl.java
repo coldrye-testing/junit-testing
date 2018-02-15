@@ -31,11 +31,12 @@ import org.junit.platform.launcher.TestPlan;
  */
 public final class TestExecutionListenerImpl implements TestExecutionListener {
 
-    @Override
-    public void testPlanExecutionFinished(TestPlan testPlan) {
-        EnvProviderManager instance = EnvProviderManager.INSTANCE.get();
-        if (instance != null) {
-            instance.shutdown();
-        }
+  @Override
+  public void testPlanExecutionFinished(TestPlan testPlan) {
+
+    EnvProviderManager instance = EnvProviderManager.INSTANCE.get();
+    if (instance != null) {
+      instance.shutdown();
     }
+  }
 }

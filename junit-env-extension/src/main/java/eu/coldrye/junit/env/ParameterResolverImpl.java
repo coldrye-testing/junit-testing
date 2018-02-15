@@ -32,54 +32,56 @@ import java.util.List;
  */
 class ParameterResolverImpl {
 
-    /**
-     * @param parameterContext
-     * @param extensionContext
-     * @param providers
-     * @return
-     * @throws ParameterResolutionException
-     */
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
-                                     List<EnvProvider> providers) throws ParameterResolutionException {
-        boolean result = false;
-
-        Parameter parameter = parameterContext.getParameter();
-        if (parameter.isAnnotationPresent(EnvProvided.class)) {
-            for (EnvProvider provider : providers) {
-                if (provider.canProvideInstance(parameter, parameter.getType())) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * @param parameterContext
-     * @param extensionContext
-     * @param providers
-     * @return
-     * @throws ParameterResolutionException
-     */
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
+  /**
+   * @param parameterContext
+   * @param extensionContext
+   * @param providers
+   * @return
+   * @throws ParameterResolutionException
+   */
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
                                    List<EnvProvider> providers) throws ParameterResolutionException {
-        Object result = null;
 
-        boolean found = false;
-        Parameter parameter = parameterContext.getParameter();
-        for (EnvProvider provider : providers) {
-            if (provider.canProvideInstance(parameter, parameter.getType())) {
-                result = provider.getOrCreateInstance(parameter, parameter.getType());
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            throw new ParameterResolutionException("unable to resolve parameter " + parameter.toString());
-        }
+    boolean result = false;
 
-        return result;
+    Parameter parameter = parameterContext.getParameter();
+    if (ReflectionHelper.isAnnotatedBy(parameter, EnvProvided.class)) {
+      for (EnvProvider provider : providers) {
+        if (provider.canProvideInstance(parameter, parameter.getType())) {
+          result = true;
+          break;
+        }
+      }
     }
+
+    return result;
+  }
+
+  /**
+   * @param parameterContext
+   * @param extensionContext
+   * @param providers
+   * @return
+   * @throws ParameterResolutionException
+   */
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
+                                 List<EnvProvider> providers) throws ParameterResolutionException {
+
+    Object result = null;
+
+    boolean found = false;
+    Parameter parameter = parameterContext.getParameter();
+    for (EnvProvider provider : providers) {
+      if (provider.canProvideInstance(parameter, parameter.getType())) {
+        result = provider.getOrCreateInstance(parameter, parameter.getType());
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      throw new ParameterResolutionException("unable to resolve parameter " + parameter.toString());
+    }
+
+    return result;
+  }
 }

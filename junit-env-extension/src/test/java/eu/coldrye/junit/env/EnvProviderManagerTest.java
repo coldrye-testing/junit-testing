@@ -24,23 +24,27 @@ import org.mockito.Mockito;
 
 public class EnvProviderManagerTest {
 
-    private EnvProviderManager sut;
-    private EnvProviderCollector mockCollector;
+  private EnvProviderManager sut;
 
-    @BeforeEach
-    public void setUp() {
-        mockCollector = Mockito.mock(EnvProviderCollector.class);
-        sut = new EnvProviderManager(mockCollector);
-    }
+  private EnvProviderCollector mockCollector;
 
-    @AfterEach
-    public void tearDown() {
-        sut = null;
-        mockCollector = null;
-    }
+  @BeforeEach
+  public void setUp() {
 
-    @Test
-    public void toDO() {
-        Assertions.fail("no tests have been implemented yet");
-    }
+    mockCollector = Mockito.mock(EnvProviderCollector.class);
+    sut = new EnvProviderManager(mockCollector);
+  }
+
+  @AfterEach
+  public void tearDown() {
+
+    sut = null;
+    mockCollector = null;
+  }
+
+  @Test
+  public void toDO() {
+
+    Assertions.fail("no tests have been implemented yet");
+  }
 }

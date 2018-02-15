@@ -29,38 +29,41 @@ import java.util.List;
  */
 class EnvProviderCollector {
 
-    /**
-     * @param testClass
-     * @return
-     * @throws Exception
-     */
-    List<Class<? extends EnvProvider>> collect(Class<?> testClass) throws Exception {
+  /**
+   * @param testClass
+   * @return
+   * @throws Exception
+   */
+  List<Class<? extends EnvProvider>> collect(Class<?> testClass) throws Exception {
 
-        List<Class<? extends EnvProvider>> result = new ArrayList<>();
+    List<Class<? extends EnvProvider>> result = new ArrayList<>();
 
-        List<Annotation> annotations = ReflectionHelper.getAllAnnotations(testClass, Environments.class,
-            Environment.class);
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof Environment) {
-                Environment environment = (Environment) annotation;
-                collect0(environment.value(), result);
-            } else if (annotation instanceof Environments) {
-                Environments environments = (Environments) annotation;
-                for (Environment environment : environments.value()) {
-                    collect0(environment.value(), result);
-                }
-            }
+    List<Annotation> annotations = ReflectionHelper.getAllAnnotations(testClass, Environments.class, Environment.class);
+    for (Annotation annotation : annotations) {
+      if (annotation instanceof Environment) {
+        Environment environment = (Environment) annotation;
+        collect0(environment.value(), result);
+      } else if (annotation instanceof Environments) {
+        Environments environments = (Environments) annotation;
+        for (Environment environment : environments.value()) {
+          collect0(environment.value(), result);
         }
-
-        return result;
+      }
     }
 
-    private void collect0(Class<? extends EnvProvider> providerClass,
-                          List<Class<? extends EnvProvider>> collectedProviderClasses) {
+    return result;
+  }
 
-        if (!collectedProviderClasses.contains(providerClass) && !providerClass.isInterface()
-                && !Modifier.isAbstract(providerClass.getModifiers())) {
-            collectedProviderClasses.add(providerClass);
-        }
+  /**
+   * @param providerClass
+   * @param collectedProviderClasses
+   */
+  private void collect0(Class<? extends EnvProvider> providerClass,
+                        List<Class<? extends EnvProvider>> collectedProviderClasses) {
+
+    if (!collectedProviderClasses.contains(providerClass) && !providerClass.isInterface()
+      && !Modifier.isAbstract(providerClass.getModifiers())) {
+      collectedProviderClasses.add(providerClass);
     }
+  }
 }

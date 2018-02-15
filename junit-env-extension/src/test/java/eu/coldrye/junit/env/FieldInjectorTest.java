@@ -16,10 +16,10 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.env.fixtures.EnvProvider1;
-import eu.coldrye.junit.env.fixtures.EnvProvider2;
-import eu.coldrye.junit.env.fixtures.FirstTestCase;
-import eu.coldrye.junit.env.fixtures.SecondTestCase;
+import eu.coldrye.junit.env.Fixtures.EnvProvider1;
+import eu.coldrye.junit.env.Fixtures.EnvProvider2;
+import eu.coldrye.junit.env.Fixtures.FirstTestCase;
+import eu.coldrye.junit.env.Fixtures.SecondTestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,42 +30,47 @@ import java.util.List;
 
 public class FieldInjectorTest {
 
-    private FieldInjector sut;
-    private List<EnvProvider> providers;
+  private FieldInjector sut;
 
-    @BeforeEach
-    public void setUp() {
-        sut = new FieldInjector();
-        providers = Arrays.asList(new EnvProvider[]{
-            new EnvProvider1(), new EnvProvider2()
-        });
-    }
+  private List<EnvProvider> providers;
 
-    @AfterEach
-    public void tearDown() {
-        sut = null;
-        providers = null;
-    }
+  @BeforeEach
+  public void setUp() {
 
-    @Test
-    public void mustInjectInheritedFields() throws Exception {
-        FirstTestCase instance = new FirstTestCase();
-        sut.inject(instance, null, providers);
-        Assertions.assertNotNull(instance.service);
-    }
+    sut = new FieldInjector();
+    providers = Arrays.asList(new EnvProvider[]{
+      new EnvProvider1(), new EnvProvider2()
+    });
+  }
 
-    @Test
-    public void mustHaveInjectedAnnotatedFields() throws Exception {
-        SecondTestCase instance = new SecondTestCase();
-        sut.inject(instance, null, providers);
-        Assertions.assertAll(
-            () -> Assertions.assertNotNull(instance.service),
-            () -> Assertions.assertNull(instance.service1),
-            () -> Assertions.assertNotNull(instance.service2),
-            () -> Assertions.assertNotNull(instance.service3),
-            () -> Assertions.assertNull(instance.service4),
-            () -> Assertions.assertNull(instance.service5),
-            () -> Assertions.assertNull(instance.service6)
-        );
-    }
+  @AfterEach
+  public void tearDown() {
+
+    sut = null;
+    providers = null;
+  }
+
+  @Test
+  public void mustInjectInheritedFields() throws Exception {
+
+    FirstTestCase instance = new FirstTestCase();
+    sut.inject(instance, null, providers);
+    Assertions.assertNotNull(instance.service);
+  }
+
+  @Test
+  public void mustHaveInjectedAnnotatedFields() throws Exception {
+
+    SecondTestCase instance = new SecondTestCase();
+    sut.inject(instance, null, providers);
+    Assertions.assertAll(
+      () -> Assertions.assertNotNull(instance.service),
+      () -> Assertions.assertNull(instance.service1),
+      () -> Assertions.assertNotNull(instance.service2),
+      () -> Assertions.assertNotNull(instance.service3),
+      () -> Assertions.assertNull(instance.service4),
+      () -> Assertions.assertNull(instance.service5),
+      () -> Assertions.assertNull(instance.service6)
+    );
+  }
 }

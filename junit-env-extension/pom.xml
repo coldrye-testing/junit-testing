@@ -2,43 +2,44 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>eu.coldrye.junit</groupId>
-        <artifactId>junit-testing</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>..</relativePath>
-    </parent>
-
+  <parent>
     <groupId>eu.coldrye.junit</groupId>
-    <artifactId>junit-env-extension</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <artifactId>junit-testing</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
 
-    <name>${project.groupId}:${project.artifactId}</name>
-    <description>Extension for JUnit5 for managing set up and tear down of environments during testing</description>
-    <url>https://github.com/coldrye-java/junit-testing</url>
+  <groupId>eu.coldrye.junit</groupId>
+  <artifactId>junit-env-extension</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Extension for JUnit5 for managing set up and tear down of environments during testing</description>
+  <url>https://github.com/coldrye-java/junit-testing</url>
 
-    <developers>
-        <developer>
-            <name>Carsten Klein</name>
-            <email>trancesilken@gmail.com</email>
-            <organization>coldrye.eu</organization>
-            <organizationUrl>https://github.com/coldrye</organizationUrl>
-        </developer>
-    </developers>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
 
-    <scm>
-        <connection>scm:git:git://github.com/coldrye-java/junit-testing.git</connection>
-        <developerConnection>scm:git:ssh://github.com:coldrye-java/junit-testing.git</developerConnection>
-        <url>https://github.com/coldrye-java/junit-testing/tree/master</url>
-    </scm>
+  <developers>
+    <developer>
+      <name>Carsten Klein</name>
+      <email>trancesilken@gmail.com</email>
+      <url>https://github.com/silkentrance</url>
+      <organization>coldrye.eu</organization>
+      <organizationUrl>https://github.com/coldrye</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/coldrye-java/junit-testing.git</connection>
+    <developerConnection>scm:git:ssh://github.com:coldrye-java/junit-testing.git</developerConnection>
+    <url>https://github.com/coldrye-java/junit-testing/tree/master</url>
+  </scm>
 </project>

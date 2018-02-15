@@ -16,16 +16,16 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.env.fixtures.EnvProvider1;
-import eu.coldrye.junit.env.fixtures.EnvProvider2;
-import eu.coldrye.junit.env.fixtures.EnvProvider3;
-import eu.coldrye.junit.env.fixtures.EnvProvider4;
-import eu.coldrye.junit.env.fixtures.EnvProvider5;
-import eu.coldrye.junit.env.fixtures.FifthTestCase;
-import eu.coldrye.junit.env.fixtures.FirstTestCase;
-import eu.coldrye.junit.env.fixtures.FourthTestCase;
-import eu.coldrye.junit.env.fixtures.SecondTestCase;
-import eu.coldrye.junit.env.fixtures.ThirdTestCase;
+import eu.coldrye.junit.env.Fixtures.EnvProvider1;
+import eu.coldrye.junit.env.Fixtures.EnvProvider2;
+import eu.coldrye.junit.env.Fixtures.EnvProvider3;
+import eu.coldrye.junit.env.Fixtures.EnvProvider4;
+import eu.coldrye.junit.env.Fixtures.EnvProvider5;
+import eu.coldrye.junit.env.Fixtures.FifthTestCase;
+import eu.coldrye.junit.env.Fixtures.FirstTestCase;
+import eu.coldrye.junit.env.Fixtures.FourthTestCase;
+import eu.coldrye.junit.env.Fixtures.SecondTestCase;
+import eu.coldrye.junit.env.Fixtures.ThirdTestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,57 +36,64 @@ import java.util.List;
 
 public class EnvProviderCollectorTest {
 
-    private EnvProviderCollector sut;
+  private EnvProviderCollector sut;
 
-    @BeforeEach
-    public void setup() {
-        sut = new EnvProviderCollector();
-    }
+  @BeforeEach
+  public void setup() {
 
-    @AfterEach
-    public void teardown() {
-        sut = null;
-    }
+    sut = new EnvProviderCollector();
+  }
 
-    @Test
-    public void shouldCollectAllEnvironmentsForSingularEnvironments() throws Exception {
-        List<Class<? extends EnvProvider>> collected = sut.collect(FirstTestCase.class);
-        List<Class<? extends EnvProvider>> expected = Arrays.asList(new Class[]{
-            EnvProvider1.class, EnvProvider2.class, EnvProvider3.class});
-        Assertions.assertAll(
-            () -> Assertions.assertEquals(3, collected.size()),
-            () -> Assertions.assertTrue(collected.containsAll(expected),
-                "collected env providers must match the expected env providers")
-        );
-    }
+  @AfterEach
+  public void teardown() {
 
-    @Test
-    public void shouldCollectAllEnvironmentsForMixedSingularAndRepeatedEnvironments() throws Exception {
-        List<Class<? extends EnvProvider>> collected = sut.collect(SecondTestCase.class);
-        List<Class<? extends EnvProvider>> expected = Arrays.asList(new Class[]{
-            EnvProvider1.class, EnvProvider2.class, EnvProvider4.class, EnvProvider5.class});
-        Assertions.assertAll(
-            () -> Assertions.assertEquals(4, collected.size()),
-            () -> Assertions.assertTrue(collected.containsAll(expected),
-                "collected env providers must match the expected env providers")
-        );
-    }
+    sut = null;
+  }
 
-    @Test
-    public void mustNotFailOnNoProvidedEnvironments() throws Exception {
-        List<Class<? extends EnvProvider>> collected = sut.collect(ThirdTestCase.class);
-        Assertions.assertEquals(0, collected.size());
-    }
+  @Test
+  public void shouldCollectAllEnvironmentsForSingularEnvironments() throws Exception {
 
-    @Test
-    public void mustNotCollectAbstractClasses() throws Exception {
-        List<Class<? extends EnvProvider>> collected = sut.collect(FourthTestCase.class);
-        Assertions.assertEquals(0, collected.size());
-    }
+    List<Class<? extends EnvProvider>> collected = sut.collect(FirstTestCase.class);
+    List<Class<? extends EnvProvider>> expected = Arrays.asList(new Class[]{
+      EnvProvider1.class, EnvProvider2.class, EnvProvider3.class});
+    Assertions.assertAll(
+      () -> Assertions.assertEquals(3, collected.size()),
+      () -> Assertions.assertTrue(collected.containsAll(expected),
+        "collected env providers must match the expected env providers")
+    );
+  }
 
-    @Test
-    public void mustNotCollectInterfaces() throws Exception {
-        List<Class<? extends EnvProvider>> collected = sut.collect(FifthTestCase.class);
-        Assertions.assertEquals(0, collected.size());
-    }
+  @Test
+  public void shouldCollectAllEnvironmentsForMixedSingularAndRepeatedEnvironments() throws Exception {
+
+    List<Class<? extends EnvProvider>> collected = sut.collect(SecondTestCase.class);
+    List<Class<? extends EnvProvider>> expected = Arrays.asList(new Class[]{
+      EnvProvider1.class, EnvProvider2.class, EnvProvider4.class, EnvProvider5.class});
+    Assertions.assertAll(
+      () -> Assertions.assertEquals(4, collected.size()),
+      () -> Assertions.assertTrue(collected.containsAll(expected),
+        "collected env providers must match the expected env providers")
+    );
+  }
+
+  @Test
+  public void mustNotFailOnNoProvidedEnvironments() throws Exception {
+
+    List<Class<? extends EnvProvider>> collected = sut.collect(ThirdTestCase.class);
+    Assertions.assertEquals(0, collected.size());
+  }
+
+  @Test
+  public void mustNotCollectAbstractClasses() throws Exception {
+
+    List<Class<? extends EnvProvider>> collected = sut.collect(FourthTestCase.class);
+    Assertions.assertEquals(0, collected.size());
+  }
+
+  @Test
+  public void mustNotCollectInterfaces() throws Exception {
+
+    List<Class<? extends EnvProvider>> collected = sut.collect(FifthTestCase.class);
+    Assertions.assertEquals(0, collected.size());
+  }
 }
