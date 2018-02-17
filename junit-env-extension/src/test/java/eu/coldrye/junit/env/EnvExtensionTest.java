@@ -17,8 +17,11 @@
 package eu.coldrye.junit.env;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
 import org.mockito.Mockito;
 
 public class EnvExtensionTest {
@@ -31,12 +34,18 @@ public class EnvExtensionTest {
 
   private ParameterResolverImpl mockResolver;
 
+  private ExtensionContext mockContext;
+
+  private ParameterContext mockParameter;
+
   @BeforeEach
   public void setUp() {
 
     mockResolver = Mockito.mock(ParameterResolverImpl.class);
     mockInjector = Mockito.mock(FieldInjector.class);
     mockManager = Mockito.mock(EnvProviderManager.class);
+    mockContext = Mockito.mock(ExtensionContext.class);
+    mockParameter = Mockito.mock(ParameterContext.class);
     sut = new EnvExtension(mockManager, mockInjector, mockResolver);
   }
 
@@ -47,11 +56,87 @@ public class EnvExtensionTest {
     mockManager = null;
     mockResolver = null;
     mockInjector = null;
+    mockContext = null;
+    mockParameter = null;
   }
 
   @Test
-  public void toDO() {
+  public void postProcessTestInstanceMustCallInjector() throws Exception {
 
-//    Assertions.fail("no tests have been implemented yet");
+    Object testInstance = new Object();
+    sut.postProcessTestInstance(testInstance, mockContext);
+    Mockito.verify(mockManager).getProviders(Mockito.eq(mockContext), Mockito.eq(EnvPhase.PREPARE));
+    Mockito.verify(mockInjector).inject(Mockito.eq(testInstance), Mockito.eq(mockContext), Mockito.any());
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void supportsParameterMustCallResolver() {
+
+    sut.supportsParameter(mockParameter, mockContext);
+    Mockito.verify(mockManager).getProviders(Mockito.eq(mockContext), Mockito.eq(EnvPhase.PREPARE));
+    Mockito.verify(mockResolver).supportsParameter(Mockito.eq(mockParameter), Mockito.eq(mockContext), Mockito.any());
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void resolveParameterMustCallResolver() {
+
+    sut.resolveParameter(mockParameter, mockContext);
+    Mockito.verify(mockManager).getProviders(Mockito.eq(mockContext), Mockito.eq(EnvPhase.PREPARE));
+    Mockito.verify(mockResolver).resolveParameter(Mockito.eq(mockParameter), Mockito.eq(mockContext), Mockito.any());
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void beforeEachMustCallManager() throws Exception {
+
+    sut.beforeEach(mockContext);
+    Mockito.verify(mockManager).setUpEnvironments(Mockito.eq(EnvPhase.BEFORE_EACH), Mockito.eq(mockContext));
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void afterEachMustCallManager() throws Exception {
+
+    sut.afterEach(mockContext);
+    Mockito.verify(mockManager).tearDownEnvironments(Mockito.eq(EnvPhase.AFTER_EACH), Mockito.eq(mockContext));
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void beforeAllMustNotInitializeEnvironmentsWhenPrepared() throws Exception {
+
+    Mockito.when(mockManager.isPrepared(Mockito.eq(mockContext))).thenReturn(true);
+    sut.beforeAll(mockContext);
+    Mockito.verify(mockManager).isPrepared(Mockito.eq(mockContext));
+    Mockito.verify(mockManager).setUpEnvironments(Mockito.eq(EnvPhase.BEFORE_ALL), Mockito.eq(mockContext));
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void beforeAllMustInitializeEnvironmentsWhenNotPrepared() throws Exception {
+
+    Mockito.when(mockManager.isPrepared(Mockito.eq(mockContext))).thenReturn(false);
+    sut.beforeAll(mockContext);
+    Mockito.verify(mockManager).isPrepared(Mockito.eq(mockContext));
+    Mockito.verify(mockManager).prepareEnvironmentProviders(Mockito.eq(mockContext));
+    Mockito.verify(mockManager).setUpEnvironments(Mockito.eq(EnvPhase.INIT), Mockito.eq(mockContext));
+    Mockito.verify(mockManager).setUpEnvironments(Mockito.eq(EnvPhase.BEFORE_ALL), Mockito.eq(mockContext));
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void afterAllMustCallManager() throws Exception {
+
+    sut.afterAll(mockContext);
+    Mockito.verify(mockManager).tearDownEnvironments(Mockito.eq(EnvPhase.AFTER_ALL), Mockito.eq(mockContext));
+    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  @Test
+  public void defaultConstructorMustNotFail() {
+
+    new EnvExtension();
   }
 }

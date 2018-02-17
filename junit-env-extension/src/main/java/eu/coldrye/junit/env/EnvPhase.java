@@ -72,5 +72,7 @@ public enum EnvPhase {
    * It is up to the implementer of the {@code EnvProvider} to decide whether to tear down all
    * or only parts of the environment.
    */
-  AFTER_EACH
+  AFTER_EACH,
+
+  PREPARE
 }

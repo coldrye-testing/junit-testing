@@ -48,7 +48,7 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   //NOSONAR
   public EnvExtension() {
 
-    this(new EnvProviderManager(), new FieldInjector(), new ParameterResolverImpl());
+    this(EnvProviderManager.getInstance(), new FieldInjector(), new ParameterResolverImpl());
   }
 
   /**
@@ -72,47 +72,48 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   @Override
   public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
 
-    fieldInjector.inject(testInstance, context, providerManager.getProviders());
+    fieldInjector.inject(testInstance, context, providerManager.getProviders(context, EnvPhase.PREPARE));
   }
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
 
     return parameterResolver.supportsParameter(parameterContext, extensionContext,
-      providerManager.getProviders());
+      providerManager.getProviders(extensionContext, EnvPhase.PREPARE));
   }
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
 
-    return parameterResolver.resolveParameter(parameterContext, extensionContext, providerManager.getProviders());
+    return parameterResolver.resolveParameter(parameterContext, extensionContext,
+      providerManager.getProviders(extensionContext, EnvPhase.PREPARE));
   }
 
   @Override
-  public void beforeEach(ExtensionContext extensionContext) throws Exception {
+  public void beforeEach(ExtensionContext context) throws Exception {
 
-    providerManager.setUpEnvironments(EnvPhase.BEFORE_EACH);
+    providerManager.setUpEnvironments(EnvPhase.BEFORE_EACH, context);
   }
 
   @Override
-  public void afterEach(ExtensionContext extensionContext) throws Exception {
+  public void afterEach(ExtensionContext context) throws Exception {
 
-    providerManager.tearDownEnvironments(EnvPhase.AFTER_EACH);
+    providerManager.tearDownEnvironments(EnvPhase.AFTER_EACH, context);
   }
 
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
 
-    if (!providerManager.isPrepared()) {
+    if (!providerManager.isPrepared(context)) {
       providerManager.prepareEnvironmentProviders(context);
-      providerManager.setUpEnvironments(EnvPhase.INIT);
+      providerManager.setUpEnvironments(EnvPhase.INIT, context);
     }
-    providerManager.setUpEnvironments(EnvPhase.BEFORE_ALL);
+    providerManager.setUpEnvironments(EnvPhase.BEFORE_ALL, context);
   }
 
   @Override
   public void afterAll(ExtensionContext context) throws Exception {
 
-    providerManager.tearDownEnvironments(EnvPhase.AFTER_ALL);
+    providerManager.tearDownEnvironments(EnvPhase.AFTER_ALL, context);
   }
 }

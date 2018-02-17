@@ -16,6 +16,7 @@
 
 package eu.coldrye.junit.env;
 
+import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestPlan;
 
@@ -35,9 +36,12 @@ public final class TestExecutionListenerImpl implements TestExecutionListener {
   @Override
   public void testPlanExecutionFinished(TestPlan testPlan) {
 
+    Preconditions.notNull(testPlan, "testPlan must not be null");
+
     EnvProviderManager instance = EnvProviderManager.INSTANCE.get();
     if (instance != null) {
       instance.shutdown();
+      EnvProviderManager.destroyInstance();
     }
   }
 }

@@ -24,6 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
 
 public interface Fixtures {
 
@@ -64,6 +65,14 @@ public interface Fixtures {
 
   }
 
+  class EnvProvider1ProvidedBoundaryInterface {
+
+  }
+
+  class EnvProvider2ProvidedBoundaryInterface {
+
+  }
+
   @Environment(EnvProvider1.class)
   abstract class AbstractTestCaseBase {
 
@@ -99,12 +108,12 @@ public interface Fixtures {
     }
 
     @Override
-    public void setUpEnvironment(EnvPhase phase) throws Exception {
+    public void setUpEnvironment(EnvPhase phase, Optional<AnnotatedElement> annotated) throws Exception {
 
     }
 
     @Override
-    public void tearDownEnvironment(EnvPhase phase) throws Exception {
+    public void tearDownEnvironment(EnvPhase phase, Optional<AnnotatedElement> annotated) throws Exception {
 
     }
   }
@@ -125,7 +134,36 @@ public interface Fixtures {
     }
   }
 
-  class EnvProvider1ProvidedBoundaryInterface {
+  class EnvProvider2 extends AbstractTestEnvProvider {
+
+    @Override
+    public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
+
+      return annotated.isAnnotationPresent(EnvProvider2Provided.class)
+        && EnvProvider2ProvidedBoundaryInterface.class.isAssignableFrom(classOrInterface);
+    }
+
+    @Override
+    public Object getOrCreateInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
+
+      return new EnvProvider2ProvidedBoundaryInterface();
+    }
+  }
+
+  class EnvProvider3 extends AbstractTestEnvProvider {
+
+  }
+
+  class EnvProvider4 extends AbstractTestEnvProvider {
+
+  }
+
+  class EnvProvider5 extends AbstractTestEnvProvider {
+
+  }
+
+  @Environment(EnvProvider3.class)
+  class FirstTestCase extends AbstractTestCaseBase implements EnvProvidingInterface {
 
   }
 
@@ -167,45 +205,7 @@ public interface Fixtures {
     }
   }
 
-  class EnvProvider2 extends AbstractTestEnvProvider {
-
-    @Override
-    public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
-
-      return annotated.isAnnotationPresent(EnvProvider2Provided.class)
-        && EnvProvider2ProvidedBoundaryInterface.class.isAssignableFrom(classOrInterface);
-    }
-
-    @Override
-    public Object getOrCreateInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
-
-      return new EnvProvider2ProvidedBoundaryInterface();
-    }
-  }
-
-  class EnvProvider2ProvidedBoundaryInterface {
-
-  }
-
-  class EnvProvider3 extends AbstractTestEnvProvider {
-
-  }
-
-  class EnvProvider4 extends AbstractTestEnvProvider {
-
-  }
-
-  class EnvProvider5 extends AbstractTestEnvProvider {
-
-  }
-
-  @Environment(EnvProvider.class)
-  class FifthTestCase {
-
-  }
-
-  @Environment(EnvProvider3.class)
-  class FirstTestCase extends AbstractTestCaseBase implements EnvProvidingInterface {
+  class ThirdTestCase {
 
   }
 
@@ -214,7 +214,8 @@ public interface Fixtures {
 
   }
 
-  class ThirdTestCase {
+  @Environment(EnvProvider.class)
+  class FifthTestCase {
 
   }
 }

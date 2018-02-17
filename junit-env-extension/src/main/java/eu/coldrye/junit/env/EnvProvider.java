@@ -19,6 +19,7 @@ package eu.coldrye.junit.env;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
 
 /**
  * The interface EnvProvider models a provider for means to both set up and
@@ -61,9 +62,10 @@ public interface EnvProvider {
    * phase and take no action.
    *
    * @param phase
+   * @param annotated
    * @throws Exception
    */
-  void setUpEnvironment(EnvPhase phase) throws Exception;
+  void setUpEnvironment(EnvPhase phase, Optional<AnnotatedElement> annotated) throws Exception;
 
   /**
    * During specific {@link EnvPhase}S, namely {@link EnvPhase#AFTER_EACH}, {@link EnvPhase#AFTER_ALL},
@@ -72,9 +74,10 @@ public interface EnvProvider {
    * specified phase and take no action.
    *
    * @param phase
+   * @param annotated
    * @throws Exception
    */
-  void tearDownEnvironment(EnvPhase phase) throws Exception;
+  void tearDownEnvironment(EnvPhase phase, Optional<AnnotatedElement> annotated) throws Exception;
 
   /**
    * Gets the underlying store.

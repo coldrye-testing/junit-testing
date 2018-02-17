@@ -16,10 +16,13 @@
 
 package eu.coldrye.junit;
 
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.platform.commons.util.Preconditions;
+import org.mockito.Mockito;
 
-import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
@@ -28,6 +31,8 @@ import java.util.Optional;
  * Helpers for junit tests.
  */
 public final class JunitTestHelper {
+
+  private static final String PRECOND_CLASS_MUST_NOT_BE_NULL = "klass must not be null";
 
   /**
    * Must not be instantiated.
@@ -39,14 +44,31 @@ public final class JunitTestHelper {
 
   /**
    * @param klass
+   * @param store
+   * @return
+   */
+  public static ExtensionContext createExtensionContextMock(Class<?> klass, Store store) {
+
+    Preconditions.notNull(klass, PRECOND_CLASS_MUST_NOT_BE_NULL);
+    Preconditions.notNull(store, "store must not be null");
+
+    ExtensionContext result = Mockito.mock(ExtensionContext.class);
+    Mockito.when(result.getStore(Mockito.any(Namespace.class))).thenReturn(store);
+    Mockito.when(result.getTestClass()).thenReturn(Optional.of(klass));
+    Mockito.when(result.getRequiredTestClass()).thenReturn((Class)klass);
+    return result;
+  }
+
+  /**
+   * @param klass
    * @param name
    * @param index
    * @return
    */
-  public static ParameterContext createParameterContext(Class<?> klass, String name, int index,
-                                                        Class<?>... parameterTypes) throws Exception {
+  public static ParameterContext createParameterContextMock(Class<?> klass, String name, int index,
+                                                            Class<?>... parameterTypes) throws Exception {
 
-    Preconditions.notNull(klass, "klass must not be null");
+    Preconditions.notNull(klass, PRECOND_CLASS_MUST_NOT_BE_NULL);
     Preconditions.notNull(name, "name must not be null");
     Preconditions.notBlank(name, "name must not be blank");
 
@@ -59,31 +81,11 @@ public final class JunitTestHelper {
 
     Parameter parameter = parameters[index];
 
-    return new ParameterContext() {
-
-      @Override
-      public Parameter getParameter() {
-
-        return parameter;
-      }
-
-      @Override
-      public int getIndex() {
-
-        return index;
-      }
-
-      @Override
-      public Executable getDeclaringExecutable() {
-
-        return method;
-      }
-
-      @Override
-      public Optional<Object> getTarget() {
-
-        return Optional.of(klass);
-      }
-    };
+    ParameterContext result = Mockito.mock(ParameterContext.class);
+    Mockito.when(result.getParameter()).thenReturn(parameter);
+    Mockito.when(result.getIndex()).thenReturn(index);
+    Mockito.when(result.getTarget()).thenReturn(Optional.of(klass));
+    Mockito.when(result.getDeclaringExecutable()).thenReturn(method);
+    return result;
   }
 }

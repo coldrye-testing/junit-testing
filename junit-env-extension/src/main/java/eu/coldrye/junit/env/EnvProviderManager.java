@@ -17,13 +17,20 @@
 package eu.coldrye.junit.env;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.platform.commons.util.Preconditions;
+import org.junit.platform.launcher.TestPlan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The final class EnvProviderManager models a manager for instances of the available {@link EnvProvider}S.
@@ -33,7 +40,7 @@ import java.util.List;
 class EnvProviderManager {
 
   /*
-   * For use with TestExecutionListenerImpl.
+   * Made accessible for TestExecutionListenerImpl
    */
   static final ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
 
@@ -41,31 +48,57 @@ class EnvProviderManager {
 
   private final EnvProviderCollector collector;
 
-  private final List<EnvProvider> providers = new ArrayList<>();
-
-  private boolean providersPrepared = false;
-
-  //NOSONAR
-  EnvProviderManager() {
-
-    this(new EnvProviderCollector());
-  }
+  private Map<Class<?>, List<EnvProvider>> preparedProviders = new HashMap<>();
 
   // For testing only
   EnvProviderManager(EnvProviderCollector collector) {
 
     Preconditions.notNull(collector, "collector must not be null");
+    Preconditions.condition(Objects.isNull(INSTANCE.get()), "must not be instantiated more than once per thread");
 
     this.collector = collector;
-    EnvProviderManager.INSTANCE.set(this);
   }
 
   /**
    * @return
    */
-  List<EnvProvider> getProviders() {
+  static EnvProviderManager getInstance() {
+    return getInstance(new EnvProviderCollector());
+  }
 
-    return Collections.unmodifiableList(providers);
+  /**
+   * @param collector
+   * @return
+   */
+  static EnvProviderManager getInstance(EnvProviderCollector collector) {
+
+    if (Objects.isNull(INSTANCE.get())) {
+      INSTANCE.set(new EnvProviderManager(collector));
+    }
+
+    return INSTANCE.get();
+  }
+
+  /**
+   * Destroys the instance. Called by {@link TestExecutionListenerImpl#testPlanExecutionFinished(TestPlan)} at the end
+   * of the test execution.
+   */
+  static void destroyInstance() {
+
+    INSTANCE.set(null);
+  }
+
+  /**
+   * @return
+   */
+  List<EnvProvider> getProviders(ExtensionContext context, EnvPhase phase) {
+
+    Preconditions.notNull(context, "context must not be null");
+    Preconditions.notNull(phase, "phase must not be null");
+    Preconditions.condition(isPrepared(context),
+      "Illegal state: environment providers have not yet been prepared during phase " + phase);
+
+    return preparedProviders.get(context.getRequiredTestClass());
   }
 
   /**
@@ -77,19 +110,21 @@ class EnvProviderManager {
 
     Preconditions.notNull(context, "context must not be null");
 
-    if (providersPrepared) {
-      throw new IllegalStateException("providers have already been prepared");
+    if (isPrepared(context)) {
+      return;
     }
 
-    List<Class<? extends EnvProvider>> providerClasses = collector.collect(context.getRequiredTestClass());
+    List<EnvProvider> providers = new ArrayList<>();
+    Class<?> testClass = context.getRequiredTestClass();
+    List<Class<? extends EnvProvider>> providerClasses = collector.collect(testClass);
     for (Class<? extends EnvProvider> providerClass : providerClasses) {
       EnvProvider provider = providerClass.getConstructor().newInstance();
-      ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create(providerClass.getName(),
-        Thread.currentThread().getId()));
+      Namespace ns = Namespace.create(providerClass.getName(), Thread.currentThread().getId());
+      Store store = context.getStore(ns);
       provider.setStore(store);
       providers.add(provider);
     }
-    providersPrepared = true;
+    preparedProviders.put(testClass, providers);
   }
 
   /**
@@ -97,16 +132,31 @@ class EnvProviderManager {
    */
   void shutdown() {
 
-    if (providersPrepared) {
-      providersPrepared = false;
-      for (EnvProvider provider : providers) {
-        try {
-          provider.tearDownEnvironment(EnvPhase.DEINIT);
-        } catch (Exception ex) {
-          EnvProviderManager.log.error("There was an error during shutdown ", ex);
+    if (preparedProviders.isEmpty()) {
+      return;
+    }
+
+    for (Entry<Class<?>, List<EnvProvider>> entry : preparedProviders.entrySet()) {
+      try {
+        for (EnvProvider provider : entry.getValue()) {
+          provider.tearDownEnvironment(EnvPhase.DEINIT, Optional.of(entry.getKey()));
         }
+      } catch (Exception ex) {
+        EnvProviderManager.log.error("There was an error during shutdown ", ex);
       }
-      providers.clear();
+      entry.setValue(null);
+    }
+    preparedProviders.clear();
+  }
+
+  /**
+   * @param phase
+   * @throws Exception
+   */
+  void setUpEnvironments(EnvPhase phase, ExtensionContext context) throws Exception {
+
+    for (EnvProvider provider : getProviders(context, phase)) {
+      provider.setUpEnvironment(phase, context.getElement());
     }
   }
 
@@ -114,39 +164,18 @@ class EnvProviderManager {
    * @param phase
    * @throws Exception
    */
-  void setUpEnvironments(EnvPhase phase) throws Exception {
+  void tearDownEnvironments(EnvPhase phase, ExtensionContext context) throws Exception {
 
-    Preconditions.notNull(phase, "phase must not be null");
-
-    if (!providersPrepared) {
-      throw new IllegalStateException("environment providers have not yet been prepared during phase " + phase);
-    }
-    for (EnvProvider provider : providers) {
-      provider.setUpEnvironment(phase);
-    }
-  }
-
-  /**
-   * @param phase
-   * @throws Exception
-   */
-  void tearDownEnvironments(EnvPhase phase) throws Exception {
-
-    Preconditions.notNull(phase, "phase must not be null");
-
-    if (!providersPrepared) {
-      throw new IllegalStateException("providers have not yet been prepared");
-    }
-    for (EnvProvider provider : providers) {
-      provider.tearDownEnvironment(phase);
+    for (EnvProvider provider : getProviders(context, phase)) {
+      provider.tearDownEnvironment(phase, context.getElement());
     }
   }
 
   /**
    * @return
    */
-  boolean isPrepared() {
+  boolean isPrepared(ExtensionContext context) {
 
-    return providersPrepared;
+    return !Objects.isNull(preparedProviders.getOrDefault(context.getRequiredTestClass(), null));
   }
 }

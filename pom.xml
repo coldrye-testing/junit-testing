@@ -58,6 +58,7 @@
     <slf4j-api.version>1.7.25</slf4j-api.version>
     <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
     <mockito-all.version>2.0.2-beta</mockito-all.version>
+    <slf4j-test.version>1.1.0</slf4j-test.version>
 
     <!-- MAVEN PLUGINS -->
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -120,12 +121,13 @@
         <scope>compile</scope>
       </dependency>
 
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j-log4j12.version}</version>
-        <scope>test</scope>
-      </dependency>
+      <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-log4j12</artifactId>-->
+        <!--<version>${slf4j-log4j12.version}</version>-->
+        <!--<scope>provided</scope>-->
+      <!--</dependency>-->
+
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-engine</artifactId>
@@ -148,6 +150,12 @@
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>${mockito-all.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>uk.org.lidalia</groupId>
+        <artifactId>slf4j-test</artifactId>
+        <version>${slf4j-test.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -174,10 +182,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-engine</artifactId>
     </dependency>
@@ -192,6 +196,10 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>uk.org.lidalia</groupId>
+      <artifactId>slf4j-test</artifactId>
     </dependency>
   </dependencies>
 
@@ -258,7 +266,10 @@
                   <element>BUNDLE</element>
                   <limits>
                     <!--  implementation is needed only for Maven 2  -->
-                    <!--
+                    <!-- TODO figure out what this means and how this can be instrumented on a per project maturity level, e.g. SNAPSHOT, RC, RELEASE
+                    e.g. 1.0.0-SNAPSHOT will require 60% total coverage and a CCC of at most 30 per method
+                    whereas a 1.0.0-RC will require 80% total coverage and a CCC of at most 20 per method
+                    and a 1.0.0-RELEASE will require near 100% and a CCC of at most 10 per method
                     <limit implementation="org.jacoco.report.check.Limit">
                       <counter>COMPLEXITY</counter>
                       <value>COVEREDRATIO</value>
@@ -273,13 +284,13 @@
         </executions>
       </plugin>
 
-      <!-- unit tests src/test/... -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <includes>
+            <!-- do not remove as we have *TestCase fixtures that would otherwise fail our tests -->
             <include>**/*Test</include>
           </includes>
         </configuration>
@@ -323,6 +334,7 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -335,6 +347,7 @@
             </goals>
             <configuration>
               <additionalJOptions>
+                <!-- TODO make the reported errors warnings instead -->
                 <additionalJOption>-Xdoclint:none</additionalJOption>
               </additionalJOptions>
             </configuration>
@@ -382,5 +395,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>
