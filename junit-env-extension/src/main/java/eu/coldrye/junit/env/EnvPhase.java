@@ -27,20 +27,20 @@ public enum EnvPhase {
 
   /**
    * During initialization, i.e. before any tests are being run and also before any test instances will be prepared,
-   * {@link EnvProvider}S are instructed to set up their provided environments by a call to
-   * {@link EnvProvider#setUpEnvironment(EnvPhase)}.
+   * {@code EnvProvider}S are instructed to set up their provided environments by a call to
+   * {@link EnvProvider#setUpEnvironment(EnvPhase, java.util.Optional< java.lang.reflect.AnnotatedElement >)}.
    */
   INIT,
 
   /**
-   * During shutdown, i.e. all tests have been run, {@link EnvProvider}S are instructed to tear down
-   * their provided environments by a call to {@link EnvProvider#tearDownEnvironment(EnvPhase)}.
+   * During shutdown, i.e. all tests have been run, {@code EnvProvider}S are instructed to tear down
+   * their provided environments by a call to {@link EnvProvider#tearDownEnvironment(EnvPhase, java.util.Optional< java.lang.reflect.AnnotatedElement >)}.
    */
   DEINIT,
 
   /**
-   * Before all tests in a given test class, {@link EnvProvider}S are instructed to set up their provided environments
-   * by a call to {@link EnvProvider#setUpEnvironment(EnvPhase)}.
+   * Before all tests in a given test class, {@code EnvProvider}S are instructed to set up their provided environments
+   * by a call to {@code EnvProvider#setUpEnvironment(EnvPhase, Optional<AnnotatedElement>)}.
    * <p>
    * It is up to the implementer of the {@code EnvProvider} to decide whether to set up all or only parts of the
    * environment.
@@ -48,8 +48,8 @@ public enum EnvPhase {
   BEFORE_ALL,
 
   /**
-   * After all tests in a given test class, {@link EnvProvider}S are instructed to tear down their
-   * provided environments by a call to {@link EnvProvider#tearDownEnvironment(EnvPhase)}.
+   * After all tests in a given test class, {@code EnvProvider}S are instructed to tear down their
+   * provided environments by a call to {@code EnvProvider#tearDownEnvironment(EnvPhase, Optional<AnnotatedElement>)}.
    * <p>
    * It is up to the implementer of the {@code EnvProvider} to decide whether to tear down all
    * or only parts of the environment.
@@ -57,8 +57,8 @@ public enum EnvPhase {
   AFTER_ALL,
 
   /**
-   * Before each testt in a given test class, {@link EnvProvider}S are instructed to set up their provided
-   * environments by a call to {@link EnvProvider#setUpEnvironment(EnvPhase)}.
+   * Before each testt in a given test class, {@code EnvProvider}S are instructed to set up their provided
+   * environments by a call to {@code EnvProvider#setUpEnvironment(EnvPhase, Optional<AnnotatedElement>)}.
    * <p>
    * It is up to the implementer of the {@code EnvProvider} to decide whether to set up all or only parts of the
    * environment.
@@ -66,8 +66,8 @@ public enum EnvPhase {
   BEFORE_EACH,
 
   /**
-   * After each test in a given test class, {@link EnvProvider}S are instructed to tear down their
-   * provided environments by a call to {@link EnvProvider#tearDownEnvironment(EnvPhase)}.
+   * After each test in a given test class, {@code EnvProvider}S are instructed to tear down their
+   * provided environments by a call to {@code EnvProvider#tearDownEnvironment(EnvPhase, Optional<AnnotatedElement>)}.
    * <p>
    * It is up to the implementer of the {@code EnvProvider} to decide whether to tear down all
    * or only parts of the environment.
