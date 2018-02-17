@@ -8,7 +8,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="junit-common" />
         <module name="junit-env-extension" />
-        <module name="junit-selenium-extension" />
         <module name="junit-testing-common" />
       </profile>
     </annotationProcessing>

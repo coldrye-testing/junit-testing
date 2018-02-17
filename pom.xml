@@ -40,7 +40,6 @@
     <module>junit-common</module>
     <module>junit-testing-common</module>
     <module>junit-env-extension</module>
-    <module>junit-env-selenium</module>
   </modules>
 
   <properties>
@@ -235,6 +234,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.0.1</version>
       </plugin>
 
       <plugin>
