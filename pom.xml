@@ -155,6 +155,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.apiguardian</groupId>
+      <artifactId>apiguardian-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
     </dependency>
@@ -252,11 +258,13 @@
                   <element>BUNDLE</element>
                   <limits>
                     <!--  implementation is needed only for Maven 2  -->
+                    <!--
                     <limit implementation="org.jacoco.report.check.Limit">
                       <counter>COMPLEXITY</counter>
                       <value>COVEREDRATIO</value>
                       <minimum>0.60</minimum>
                     </limit>
+                    -->
                   </limits>
                 </rule>
               </rules>
@@ -325,6 +333,11 @@
             <goals>
               <goal>jar</goal>
             </goals>
+            <configuration>
+              <additionalJOptions>
+                <additionalJOption>-Xdoclint:none</additionalJOption>
+              </additionalJOptions>
+            </configuration>
           </execution>
         </executions>
       </plugin>
