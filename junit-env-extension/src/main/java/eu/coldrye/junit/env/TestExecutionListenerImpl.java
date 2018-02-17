@@ -29,6 +29,7 @@ import org.junit.platform.launcher.TestPlan;
  *
  * @since 1.0.0
  */
+//NOSONAR
 public final class TestExecutionListenerImpl implements TestExecutionListener {
 
   @Override

@@ -16,9 +16,11 @@
 
 package eu.coldrye.junit.env;
 
+import eu.coldrye.junit.ReflectionHelper;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.platform.commons.util.Preconditions;
 
 import java.lang.reflect.Parameter;
 import java.util.List;
@@ -40,21 +42,20 @@ class ParameterResolverImpl {
    * @throws ParameterResolutionException
    */
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
-                                   List<EnvProvider> providers) throws ParameterResolutionException {
+                                   List<EnvProvider> providers) {
 
-    boolean result = false;
+    Preconditions.notNull(parameterContext, "parameterContext must not be null");
+    Preconditions.notNull(providers, "providers must not be null");
 
     Parameter parameter = parameterContext.getParameter();
     if (ReflectionHelper.isAnnotatedBy(parameter, EnvProvided.class)) {
       for (EnvProvider provider : providers) {
         if (provider.canProvideInstance(parameter, parameter.getType())) {
-          result = true;
-          break;
+          return true;
         }
       }
     }
-
-    return result;
+    return false;
   }
 
   /**
@@ -65,23 +66,17 @@ class ParameterResolverImpl {
    * @throws ParameterResolutionException
    */
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext,
-                                 List<EnvProvider> providers) throws ParameterResolutionException {
+                                 List<EnvProvider> providers) {
 
-    Object result = null;
+    Preconditions.notNull(parameterContext, "parameterContext must not be null");
+    Preconditions.notNull(providers, "providers must not be null");
 
-    boolean found = false;
     Parameter parameter = parameterContext.getParameter();
     for (EnvProvider provider : providers) {
       if (provider.canProvideInstance(parameter, parameter.getType())) {
-        result = provider.getOrCreateInstance(parameter, parameter.getType());
-        found = true;
-        break;
+        return provider.getOrCreateInstance(parameter, parameter.getType());
       }
     }
-    if (!found) {
-      throw new ParameterResolutionException("unable to resolve parameter " + parameter.toString());
-    }
-
-    return result;
+    throw new ParameterResolutionException("unable to resolve parameter " + parameter.toString());
   }
 }

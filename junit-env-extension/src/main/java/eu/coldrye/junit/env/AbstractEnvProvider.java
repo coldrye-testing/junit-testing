@@ -17,6 +17,7 @@
 package eu.coldrye.junit.env;
 
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.platform.commons.util.Preconditions;
 
 /**
  * The abstract class AbstractEnvProvider models the root of a hierarchy of
@@ -44,6 +45,8 @@ public abstract class AbstractEnvProvider implements EnvProvider {
 
   @Override
   public final void setStore(Store store) {
+
+    Preconditions.notNull(store, "store must not be null");
 
     this.store = store;
   }

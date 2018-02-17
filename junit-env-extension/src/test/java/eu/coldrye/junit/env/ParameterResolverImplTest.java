@@ -16,6 +16,7 @@
 
 package eu.coldrye.junit.env;
 
+import eu.coldrye.junit.JunitTestHelper;
 import eu.coldrye.junit.env.Fixtures.EnvProvider1;
 import eu.coldrye.junit.env.Fixtures.EnvProvider1ProvidedBoundaryInterface;
 import eu.coldrye.junit.env.Fixtures.EnvProvider2;
@@ -69,6 +70,15 @@ public class ParameterResolverImplTest {
     ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
       "testing", 0, EnvProvider1ProvidedBoundaryInterface.class);
     Assertions.assertTrue(sut.supportsParameter(context, null, providers));
+  }
+
+  @Test
+  public void supportsParameterMustReturnFalseForParameterNotAnnotatedWithEnvProvided()
+    throws Exception {
+
+    ParameterContext context = JunitTestHelper.createParameterContext(SecondTestCase.class,
+      "testing4", 0, Object.class);
+    Assertions.assertFalse(sut.supportsParameter(context, null, providers));
   }
 
   @Test

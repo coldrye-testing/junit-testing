@@ -17,6 +17,9 @@
 package eu.coldrye.junit.env;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.platform.commons.util.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +35,9 @@ class EnvProviderManager {
   /*
    * For use with TestExecutionListenerImpl.
    */
-  static ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
+  static final ThreadLocal<EnvProviderManager> INSTANCE = new ThreadLocal<>();
+
+  private static final Logger log = LoggerFactory.getLogger(EnvProviderManager.class);
 
   private final EnvProviderCollector collector;
 
@@ -40,6 +45,7 @@ class EnvProviderManager {
 
   private boolean providersPrepared = false;
 
+  //NOSONAR
   EnvProviderManager() {
 
     this(new EnvProviderCollector());
@@ -47,6 +53,8 @@ class EnvProviderManager {
 
   // For testing only
   EnvProviderManager(EnvProviderCollector collector) {
+
+    Preconditions.notNull(collector, "collector must not be null");
 
     this.collector = collector;
     EnvProviderManager.INSTANCE.set(this);
@@ -66,6 +74,8 @@ class EnvProviderManager {
    * the order will be from top to bottom.
    */
   void prepareEnvironmentProviders(ExtensionContext context) throws Exception {
+
+    Preconditions.notNull(context, "context must not be null");
 
     if (providersPrepared) {
       throw new IllegalStateException("providers have already been prepared");
@@ -93,7 +103,7 @@ class EnvProviderManager {
         try {
           provider.tearDownEnvironment(EnvPhase.DEINIT);
         } catch (Exception ex) {
-          ex.printStackTrace();
+          EnvProviderManager.log.error("There was an error during shutdown ", ex);
         }
       }
       providers.clear();
@@ -105,6 +115,8 @@ class EnvProviderManager {
    * @throws Exception
    */
   void setUpEnvironments(EnvPhase phase) throws Exception {
+
+    Preconditions.notNull(phase, "phase must not be null");
 
     if (!providersPrepared) {
       throw new IllegalStateException("environment providers have not yet been prepared during phase " + phase);
@@ -119,6 +131,8 @@ class EnvProviderManager {
    * @throws Exception
    */
   void tearDownEnvironments(EnvPhase phase) throws Exception {
+
+    Preconditions.notNull(phase, "phase must not be null");
 
     if (!providersPrepared) {
       throw new IllegalStateException("providers have not yet been prepared");

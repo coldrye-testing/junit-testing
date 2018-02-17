@@ -22,9 +22,9 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.junit.platform.commons.util.Preconditions;
 
 /**
  * The final class EnvExtension models a Junit extension for both management and provisioning
@@ -60,6 +60,10 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   EnvExtension(EnvProviderManager providerManager, FieldInjector fieldInjector,
                ParameterResolverImpl parameterResolver) {
 
+    Preconditions.notNull(providerManager, "providerManager must not be null");
+    Preconditions.notNull(fieldInjector, "fieldInjector must not be null");
+    Preconditions.notNull(parameterResolver, "parameterResolver must not be null");
+
     this.providerManager = providerManager;
     this.fieldInjector = fieldInjector;
     this.parameterResolver = parameterResolver;
@@ -72,16 +76,14 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   }
 
   @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-    throws ParameterResolutionException {
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
 
     return parameterResolver.supportsParameter(parameterContext, extensionContext,
       providerManager.getProviders());
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-    throws ParameterResolutionException {
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
 
     return parameterResolver.resolveParameter(parameterContext, extensionContext, providerManager.getProviders());
   }

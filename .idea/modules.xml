@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/junit-common/junit-common.iml" filepath="$PROJECT_DIR$/junit-common/junit-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/junit-env-extension/junit-env-extension.iml" filepath="$PROJECT_DIR$/junit-env-extension/junit-env-extension.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junit-env-selenium/junit-selenium-extension.iml" filepath="$PROJECT_DIR$/junit-env-selenium/junit-selenium-extension.iml" />
       <module fileurl="file://$PROJECT_DIR$/junit-testing.iml" filepath="$PROJECT_DIR$/junit-testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junit-testing-common/junit-testing-common.iml" filepath="$PROJECT_DIR$/junit-testing-common/junit-testing-common.iml" />
     </modules>
   </component>
 </project>

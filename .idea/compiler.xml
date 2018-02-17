@@ -6,12 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="junit-common" />
         <module name="junit-env-extension" />
+        <module name="junit-selenium-extension" />
+        <module name="junit-testing-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="junit-common" target="1.8" />
       <module name="junit-env-extension" target="1.8" />
+      <module name="junit-selenium-extension" target="1.8" />
       <module name="junit-testing" target="1.8" />
+      <module name="junit-testing-common" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

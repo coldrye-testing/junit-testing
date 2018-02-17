@@ -48,6 +48,13 @@ public interface Fixtures {
 
   }
 
+  @Target({ElementType.FIELD, ElementType.PARAMETER})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Documented
+  @interface NotEnvProvided {
+
+  }
+
   @Environment(EnvProvider2.class)
   interface EnvProvidingInterface {
 
@@ -140,6 +147,8 @@ public interface Fixtures {
     @EnvProvider2Provided
     public EnvProvider1ProvidedBoundaryInterface service6;
 
+    public Object notEnvProvided;
+
     @Test
     public void testing2(@EnvProvider2Provided EnvProvider2ProvidedBoundaryInterface service4) {
 
@@ -150,6 +159,11 @@ public interface Fixtures {
     public void testing3(@EnvProvider2Provided EnvProvider1ProvidedBoundaryInterface service5) {
 
       this.service5 = service5;
+    }
+
+    @Test
+    public void testing4(@NotEnvProvided Object notEnvProvided) {
+      this.notEnvProvided = notEnvProvided;
     }
   }
 
