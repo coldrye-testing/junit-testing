@@ -22,9 +22,6 @@ Include the following dependency in your pom and you are good to go
 </dependency>
 ```
 
-The most recent version you will have to find out via maven central,
-in case that this documentation becomes out of date.
-
 ### Junit
 
 In your test classes, you just have to annotate the test class with 

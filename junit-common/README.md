@@ -1,7 +1,20 @@
-# junit-testing-common
+# junit-common
 
 This projects provides commonly used code for ``junit-testing`` projects.
 
+## Usage
+
+### Maven
+
+Include the following dependency in your pom and you are good to go
+
+```
+<dependency>
+  <groupId>eu.coldrye.junit</groupId>
+  <artifactId>junit-common</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```
 
 ## References
 

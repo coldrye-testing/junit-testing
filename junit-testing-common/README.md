@@ -2,6 +2,19 @@
 
 This projects provides commonly used test code for ``junit-testing`` projects.
 
+## Usage
+
+### Maven
+
+Include the following dependency in your pom and you are good to go
+
+```
+<dependency>
+  <groupId>eu.coldrye.junit</groupId>
+  <artifactId>junit-testing-common</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```
 
 ## References
 
