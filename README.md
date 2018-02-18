@@ -3,6 +3,16 @@
 This project aims to provide you with useful extensions for and other additions to JUnit5.
 
 
+## [junit-common](https://github.com/coldrye-java/junit-testing/tree/master/junit-common)
+
+Provides commonly used code for ``junit-testing`` projects.
+
+
+## [junit-testing-common](https://github.com/coldrye-java/junit-testing/tree/master/junit-testing-common)
+
+Provides commonly used test code for ``junit-testing`` projects.
+
+
 ## [junit-env-extension](https://github.com/coldrye-java/junit-testing/tree/master/junit-env-extension)
 
 The extension provides you with an infrastructure for setting up and tearing down long
@@ -17,3 +27,4 @@ test is executed and tear it down when all tests have been executed.
 ## References
 
 - [Github](https://github.com/coldrye-java/junit-testing)
+- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-testing)
