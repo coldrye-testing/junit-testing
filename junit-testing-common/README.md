@@ -20,4 +20,4 @@ Include the following dependency in your pom and you are good to go
 ## References
 
 - [Github](https://github.com/coldrye-java/junit-testing/tree/master/junit-testing-common)
-- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-testing)
+- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-testing-common)
