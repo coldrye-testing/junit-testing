@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * The final class EnvProviderManager models a manager for instances of the available {@link EnvProvider}S.
@@ -50,6 +50,9 @@ class EnvProviderManager {
 
   private Map<Class<?>, List<EnvProvider>> preparedProviders = new HashMap<>();
 
+  /**
+   * @param collector
+   */
   // For testing only
   EnvProviderManager(EnvProviderCollector collector) {
 
@@ -89,6 +92,8 @@ class EnvProviderManager {
   }
 
   /**
+   * @param context
+   * @param phase
    * @return
    */
   List<EnvProvider> getProviders(ExtensionContext context, EnvPhase phase) {
@@ -105,6 +110,8 @@ class EnvProviderManager {
    * Prepare the environment providers inherited from both super classes and implemented interfaces.
    * The order of these environments should never matters, but for fail safe reasons,
    * the order will be from top to bottom.
+   *
+   * @param context
    */
   void prepareEnvironmentProviders(ExtensionContext context) throws Exception {
 
@@ -136,10 +143,11 @@ class EnvProviderManager {
       return;
     }
 
+    // TODO calling DEINIT on same provider multiple times might result in error
     for (Entry<Class<?>, List<EnvProvider>> entry : preparedProviders.entrySet()) {
       try {
         for (EnvProvider provider : entry.getValue()) {
-          provider.tearDownEnvironment(EnvPhase.DEINIT, Optional.of(entry.getKey()));
+          provider.tearDownEnvironment(EnvPhase.DEINIT, entry.getKey());
         }
       } catch (Exception ex) {
         EnvProviderManager.log.error("There was an error during shutdown ", ex);
@@ -151,31 +159,43 @@ class EnvProviderManager {
 
   /**
    * @param phase
+   * @param context
    * @throws Exception
    */
   void setUpEnvironments(EnvPhase phase, ExtensionContext context) throws Exception {
 
     for (EnvProvider provider : getProviders(context, phase)) {
-      provider.setUpEnvironment(phase, context.getElement());
+      provider.setUpEnvironment(phase, context.getElement().orElseThrow(new IllegalState()));
     }
   }
 
   /**
    * @param phase
+   * @param context
    * @throws Exception
    */
   void tearDownEnvironments(EnvPhase phase, ExtensionContext context) throws Exception {
 
     for (EnvProvider provider : getProviders(context, phase)) {
-      provider.tearDownEnvironment(phase, context.getElement());
+      provider.tearDownEnvironment(phase, context.getElement().orElseThrow(new IllegalState()));
     }
   }
 
   /**
+   * @param context
    * @return
    */
   boolean isPrepared(ExtensionContext context) {
 
     return !Objects.isNull(preparedProviders.getOrDefault(context.getRequiredTestClass(), null));
+  }
+
+  class IllegalState implements Supplier<IllegalStateException> {
+
+    @Override
+    public IllegalStateException get() {
+
+      return new IllegalStateException("context did not provide the required annotated element");
+    }
   }
 }

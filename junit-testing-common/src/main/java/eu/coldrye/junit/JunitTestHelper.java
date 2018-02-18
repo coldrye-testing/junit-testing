@@ -55,6 +55,7 @@ public final class JunitTestHelper {
     ExtensionContext result = Mockito.mock(ExtensionContext.class);
     Mockito.when(result.getStore(Mockito.any(Namespace.class))).thenReturn(store);
     Mockito.when(result.getTestClass()).thenReturn(Optional.of(klass));
+    Mockito.when(result.getElement()).thenReturn(Optional.of(klass));
     Mockito.when(result.getRequiredTestClass()).thenReturn((Class)klass);
     return result;
   }

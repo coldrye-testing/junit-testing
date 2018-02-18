@@ -16,11 +16,14 @@
 
 package eu.coldrye.junit.env;
 
+import eu.coldrye.junit.JunitTestHelper;
+import eu.coldrye.junit.env.Fixtures.FirstTestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.mockito.Mockito;
 
@@ -44,7 +47,7 @@ public class EnvExtensionTest {
     mockResolver = Mockito.mock(ParameterResolverImpl.class);
     mockInjector = Mockito.mock(FieldInjector.class);
     mockManager = Mockito.mock(EnvProviderManager.class);
-    mockContext = Mockito.mock(ExtensionContext.class);
+    mockContext = JunitTestHelper.createExtensionContextMock(FirstTestCase.class, Mockito.mock(Store.class));
     mockParameter = Mockito.mock(ParameterContext.class);
     sut = new EnvExtension(mockManager, mockInjector, mockResolver);
   }

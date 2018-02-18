@@ -108,12 +108,12 @@ public interface Fixtures {
     }
 
     @Override
-    public void setUpEnvironment(EnvPhase phase, Optional<AnnotatedElement> annotated) throws Exception {
+    public void setUpEnvironment(EnvPhase phase, AnnotatedElement annotated) throws Exception {
 
     }
 
     @Override
-    public void tearDownEnvironment(EnvPhase phase, Optional<AnnotatedElement> annotated) throws Exception {
+    public void tearDownEnvironment(EnvPhase phase, AnnotatedElement annotated) throws Exception {
 
     }
   }

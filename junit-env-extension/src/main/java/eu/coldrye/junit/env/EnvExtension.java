@@ -104,6 +104,9 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
 
+    Preconditions.notNull(context.getTestClass().orElse(null),
+      "EnvExtension can only be used on ElementType.TYPE");
+
     if (!providerManager.isPrepared(context)) {
       providerManager.prepareEnvironmentProviders(context);
       providerManager.setUpEnvironments(EnvPhase.INIT, context);

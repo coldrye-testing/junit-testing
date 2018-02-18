@@ -133,8 +133,7 @@ public class EnvProviderManagerTest {
   @Test
   public void setUpEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
-    Optional annotated = Optional.of(SecondTestCase.class);
-    Mockito.when(mockContext.getElement()).thenReturn(annotated);
+    Mockito.when(mockContext.getElement()).thenReturn(Optional.of(SecondTestCase.class));
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
     Mockito.when(mockManager.getProviders(mockContext, EnvPhase.INIT)).thenReturn(Arrays.asList(mockProvider));
@@ -142,14 +141,25 @@ public class EnvProviderManagerTest {
       Mockito.eq(EnvPhase.INIT), Mockito.eq(mockContext));
     Mockito.when(mockManager.isPrepared(mockContext)).thenReturn(true);
     mockManager.setUpEnvironments(EnvPhase.INIT, mockContext);
-    Mockito.verify(mockProvider).setUpEnvironment(Mockito.eq(EnvPhase.INIT), Mockito.eq(annotated));
+    Mockito.verify(mockProvider).setUpEnvironment(Mockito.eq(EnvPhase.INIT), Mockito.eq(SecondTestCase.class));
+  }
+
+  @Test
+  public void setUpEnvironmentsMustBailOutOnMissingElementFromContext() throws Exception {
+    Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
+      Arrays.asList(EnvProvider1.class, EnvProvider2.class));
+    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    Mockito.when(mockContext.getElement()).thenReturn(Optional.empty());
+    sut.prepareEnvironmentProviders(mockContext);
+    Assertions.assertThrows(IllegalStateException.class, () -> {
+      sut.setUpEnvironments(EnvPhase.BEFORE_ALL, mockContext);
+    });
   }
 
   @Test
   public void tearDownEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
-    Optional annotated = Optional.of(SecondTestCase.class);
-    Mockito.when(mockContext.getElement()).thenReturn(annotated);
+    Mockito.when(mockContext.getElement()).thenReturn(Optional.of(SecondTestCase.class));
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
     Mockito.when(mockManager.getProviders(mockContext, EnvPhase.BEFORE_ALL)).thenReturn(Arrays.asList(mockProvider));
@@ -157,12 +167,23 @@ public class EnvProviderManagerTest {
       Mockito.eq(EnvPhase.BEFORE_ALL), Mockito.eq(mockContext));
     Mockito.when(mockManager.isPrepared(mockContext)).thenReturn(true);
     mockManager.tearDownEnvironments(EnvPhase.BEFORE_ALL, mockContext);
-    Mockito.verify(mockProvider).tearDownEnvironment(Mockito.eq(EnvPhase.BEFORE_ALL), Mockito.eq(annotated));
+    Mockito.verify(mockProvider).tearDownEnvironment(Mockito.eq(EnvPhase.BEFORE_ALL), Mockito.eq(SecondTestCase.class));
+  }
+
+  @Test
+  public void tearDownEnvironmentsMustBailOutOnMissingElementFromContext() throws Exception {
+    Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
+      Arrays.asList(EnvProvider1.class, EnvProvider2.class));
+    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    Mockito.when(mockContext.getElement()).thenReturn(Optional.empty());
+    sut.prepareEnvironmentProviders(mockContext);
+    Assertions.assertThrows(IllegalStateException.class, () -> {
+      sut.tearDownEnvironments(EnvPhase.BEFORE_ALL, mockContext);
+    });
   }
 
   @Test
   public void shutdownMustCallProviderWithExpectedArguments() throws Exception {
-    Optional annotated = Optional.of(SecondTestCase.class);
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -176,14 +197,13 @@ public class EnvProviderManagerTest {
 
     sut.shutdown();
 
-    Mockito.verify(provider0).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(annotated));
-    Mockito.verify(provider1).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(annotated));
+    Mockito.verify(provider0).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class));
+    Mockito.verify(provider1).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class));
   }
 
 
   @Test
   public void shutdownMustLogExceptions() throws Exception {
-    Optional annotated = Optional.of(SecondTestCase.class);
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -192,7 +212,7 @@ public class EnvProviderManagerTest {
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);
     EnvProvider provider0 = Mockito.spy(providers.get(0));
     Mockito.doThrow(Exception.class).when(provider0).tearDownEnvironment(
-      Mockito.eq(EnvPhase.DEINIT), Mockito.eq(annotated));
+      Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class));
     providers.set(0, provider0);
 
     sut.shutdown();
