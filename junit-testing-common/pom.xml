@@ -42,10 +42,15 @@
     <url>https://github.com/coldrye-java/junit-testing/tree/master</url>
   </scm>
 
+  <properties>
+    <junit-common.version>1.0.0-SNAPSHOT</junit-common.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-common</artifactId>
+      <version>${junit-common.version}</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
