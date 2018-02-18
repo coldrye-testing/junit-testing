@@ -60,7 +60,8 @@ The annotated parameter on the test method ``clientMustRespondWithHelloWorld()``
 resolved by the ``ExampleEnvProvider`` and the test will be provided with an instance of
 the requested client.
 
-See the provided example for more information.
+See the provided [examples](https://github.com/coldrye-java/junit-testing/tree/master/junit-env-extension/src/examples) 
+for more information.
 
 ## Phases
 

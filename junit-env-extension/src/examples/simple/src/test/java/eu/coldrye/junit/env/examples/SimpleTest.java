@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(EnvExtension.class)
-@Environment(ExampleEnvProvider.class)
-public class SampleTest {
+@Environment(SimpleEnvProvider.class)
+public class SimpleTest {
 
   @Test
-  public void helloWorld(@ExampleEnvProvided ExampleClient client) {
+  public void helloWorld(@SimpleEnvProvided HelloWorldClient client) {
 
-    Response response = client.helloWorld();
+    HelloWorldResponse response = client.helloWorld();
     Assertions.assertEquals("hello world", response.data());
   }
 }

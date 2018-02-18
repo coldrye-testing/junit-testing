@@ -28,6 +28,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Documented
-public @interface ExampleEnvProvided {
+public @interface SimpleEnvProvided {
 
 }
