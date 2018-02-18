@@ -4,6 +4,10 @@
 # Maven
 target
 
+# maven-release-plugin
+release.properties
+pom.xml.releaseBackup
+
 # General
 *.tmp
 tmp
