@@ -133,7 +133,6 @@ public class EnvProviderManagerTest {
   @Test
   public void setUpEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
-    Mockito.when(mockContext.getElement()).thenReturn(Optional.of(SecondTestCase.class));
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
     Mockito.when(mockManager.getProviders(mockContext, EnvPhase.INIT)).thenReturn(Arrays.asList(mockProvider));
