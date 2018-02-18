@@ -46,6 +46,7 @@
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-env-extension</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>
