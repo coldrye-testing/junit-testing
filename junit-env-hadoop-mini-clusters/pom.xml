@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>eu.coldrye.junit</groupId>
+    <artifactId>junit-testing</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>junit-env-hadoop-mini-clusters</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Extension providers for junit-env-extension integrating hadoop-mini-clusters</description>
+  <url>https://github.com/coldrye-java/junit-testing</url>
+
+  <properties>
+    <coy-junit-common.version>1.0.0-SNAPSHOT</coy-junit-common.version>
+    <coy-junit-testing-common.version>1.0.0-SNAPSHOT</coy-junit-testing-common.version>
+    <coy-junit-env-extension.version>1.0.0-SNAPSHOT</coy-junit-env-extension.version>
+
+    <hadoop-mini-clusters.version>0.1.14</hadoop-mini-clusters.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
+      <artifactId>junit-common</artifactId>
+      <version>${coy-junit-common.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
+      <artifactId>junit-env-extension</artifactId>
+      <version>${coy-junit-env-extension.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.18</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.sakserv</groupId>
+      <artifactId>hadoop-mini-clusters-hdfs</artifactId>
+      <version>${hadoop-mini-clusters.version}</version>
+    </dependency>
+    <!-- TODO do we need this here? -->
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
+      <artifactId>junit-testing-common</artifactId>
+      <version>${coy-junit-testing-common.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>${project.build.directory}/generated-sources/delombok</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>1.16.18.1</version>
+        <configuration>
+          <sourceDirectory>src/main/java</sourceDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>delombok</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -6,7 +6,7 @@
 
   <groupId>eu.coldrye.junit</groupId>
   <artifactId>junit-testing</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -32,14 +32,15 @@
 
   <scm>
     <connection>scm:git:git://github.com/coldrye-java/junit-testing.git</connection>
-    <developerConnection>scm:git:ssh://github.com:coldrye-java/junit-testing.git</developerConnection>
-    <url>https://github.com/coldrye-java/junit-testing/tree/master</url>
+    <developerConnection>scm:git:git@github.com:coldrye-java/junit-testing.git</developerConnection>
+    <url>https://github.com/coldrye-java/junit-testing</url>
   </scm>
 
   <modules>
     <module>junit-common</module>
     <module>junit-testing-common</module>
     <module>junit-env-extension</module>
+    <!--<module>junit-env-hadoop-mini-clusters</module>-->
   </modules>
 
   <properties>
@@ -97,13 +98,6 @@
         <version>${junit-platform.version}</version>
         <scope>compile</scope>
       </dependency>
-
-      <!--<dependency>-->
-        <!--<groupId>org.slf4j</groupId>-->
-        <!--<artifactId>slf4j-log4j12</artifactId>-->
-        <!--<version>${slf4j-log4j12.version}</version>-->
-        <!--<scope>provided</scope>-->
-      <!--</dependency>-->
 
       <dependency>
         <groupId>org.junit.platform</groupId>

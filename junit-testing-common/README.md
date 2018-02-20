@@ -1,6 +1,7 @@
-# junit-testing-common
+# junit-env-hadoop-mini-clusters
 
-This projects provides commonly used test code for ``junit-testing`` projects.
+This projects provides environments for [hadoop-mini-clusters](https://github.com/sakserv/hadoop-mini-clusters)
+for use with ``junit-env-extension``.
 
 ## Usage
 
@@ -11,7 +12,7 @@ Include the following dependency in your pom and you are good to go
 ```
 <dependency>
   <groupId>eu.coldrye.junit</groupId>
-  <artifactId>junit-testing-common</artifactId>
+  <artifactId>junit-env-hadoop-mini-clusters</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <scope>test</scope>
 </dependency>
@@ -19,5 +20,5 @@ Include the following dependency in your pom and you are good to go
 
 ## References
 
-- [Github](https://github.com/coldrye-java/junit-testing/tree/master/junit-testing-common)
-- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-testing-common)
+- [Github](https://github.com/coldrye-java/junit-testing/tree/master/junit-env-hadoop-mini-clusters)
+- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-env-hadoop-mini-clusters)

@@ -7,12 +7,13 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <relativePath>../../../..</relativePath>
   </parent>
 
   <groupId>eu.coldrye.junit.env.examples</groupId>
   <artifactId>junit-env-simple-example</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -42,11 +43,16 @@
     <url>https://github.com/coldrye-java/junit-testing/tree/master</url>
   </scm>
 
+  <properties>
+    <coy-junit-env-extension.version>1.0.0-SNAPSHOT</coy-junit-env-extension.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-env-extension</artifactId>
-      <version>${project.version}</version>
+      <version>${coy-junit-env-extension.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
