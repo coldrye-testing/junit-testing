@@ -7,12 +7,12 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <relativePath>..</relativePath>
   </parent>
 
   <artifactId>junit-env-extension</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -20,8 +20,8 @@
   <url>https://github.com/coldrye-java/junit-testing</url>
 
   <properties>
-    <coy-junit-common.version>1.0.0-SNAPSHOT</coy-junit-common.version>
-    <coy-junit-testing-common.version>1.0.0-SNAPSHOT</coy-junit-testing-common.version>
+    <coy-junit-common.version>1.0.0</coy-junit-common.version>
+    <coy-junit-testing-common.version>1.0.0</coy-junit-testing-common.version>
   </properties>
 
   <dependencies>

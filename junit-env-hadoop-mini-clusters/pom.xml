@@ -20,9 +20,9 @@
   <url>https://github.com/coldrye-java/junit-testing</url>
 
   <properties>
-    <coy-junit-common.version>1.0.0-SNAPSHOT</coy-junit-common.version>
-    <coy-junit-testing-common.version>1.0.0-SNAPSHOT</coy-junit-testing-common.version>
-    <coy-junit-env-extension.version>1.0.0-SNAPSHOT</coy-junit-env-extension.version>
+    <coy-junit-common.version>1.0.0</coy-junit-common.version>
+    <coy-junit-testing-common.version>1.0.0</coy-junit-testing-common.version>
+    <coy-junit-env-extension.version>1.0.0</coy-junit-env-extension.version>
 
     <hadoop-mini-clusters.version>0.1.14</hadoop-mini-clusters.version>
   </properties>

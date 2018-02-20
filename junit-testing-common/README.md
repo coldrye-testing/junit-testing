@@ -13,7 +13,7 @@ Include the following dependency in your pom and you are good to go
 <dependency>
   <groupId>eu.coldrye.junit</groupId>
   <artifactId>junit-env-hadoop-mini-clusters</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
