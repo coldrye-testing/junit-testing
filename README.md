@@ -24,6 +24,11 @@ Another example would be to pull and start a given docker image before that the 
 test is executed and tear it down when all tests have been executed.
 
 
+## [junit-env-hadoop-mini-clusters](./junit-env-hadoop-mini-clusters)
+
+
+
+
 ## References
 
 - [Github](https://github.com/coldrye-java/junit-testing)
