@@ -129,4 +129,4 @@ class or test method thereof.
 ## References
 
 - [Github](https://github.com/coldrye-java/junit-testing/tree/master/junit-env-extension)
-- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-env-extension)
+- [Sonar](http://sonar.coldrye.eu/dashboard?id=eu.coldrye.junit%3Ajunit-env-extension)

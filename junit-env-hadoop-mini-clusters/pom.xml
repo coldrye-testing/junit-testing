@@ -7,7 +7,7 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -22,7 +22,7 @@
   <properties>
     <coy-junit-common.version>1.0.0</coy-junit-common.version>
     <coy-junit-testing-common.version>1.0.0</coy-junit-testing-common.version>
-    <coy-junit-env-extension.version>1.0.1-SNAPSHOT</coy-junit-env-extension.version>
+    <coy-junit-env-extension.version>1.0.2-SNAPSHOT</coy-junit-env-extension.version>
 
     <hadoop-mini-clusters.version>0.1.14</hadoop-mini-clusters.version>
   </properties>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>eu.coldrye.junit</groupId>
+    <artifactId>junit-testing</artifactId>
+    <version>1.0</version>
+    <relativePath>../../../..</relativePath>
+  </parent>
+
+  <groupId>eu.coldrye.junit.env.hadoop.examples</groupId>
+  <artifactId>junit-env-hadoop-mini-clusters-hdfs-example</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Simple HDFS example for junit-env-hadoop-mini-clusters</description>
+  <url>https://github.com/coldrye-java/junit-testing</url>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Carsten Klein</name>
+      <email>trancesilken@gmail.com</email>
+      <url>https://github.com/silkentrance</url>
+      <organization>coldrye.eu</organization>
+      <organizationUrl>https://github.com/coldrye</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/coldrye-java/junit-testing.git</connection>
+    <developerConnection>scm:git:ssh://github.com:coldrye-java/junit-testing.git</developerConnection>
+    <url>https://github.com/coldrye-java/junit-testing/tree/master</url>
+  </scm>
+
+  <properties>
+    <coy-junit-env-extension.version>1.0.0</coy-junit-env-extension.version>
+    <coy-junit-env-hadoop-mini-clusters.version>1.0.0-SNAPSHOT</coy-junit-env-hadoop-mini-clusters.version>
+
+    <hadoop-mini-clusters.version>0.1.14</hadoop-mini-clusters.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
+      <artifactId>junit-env-extension</artifactId>
+      <version>${coy-junit-env-extension.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
+      <artifactId>junit-env-hadoop-mini-clusters</artifactId>
+      <version>${coy-junit-env-hadoop-mini-clusters.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.sakserv</groupId>
+      <artifactId>hadoop-mini-clusters-hdfs</artifactId>
+      <version>${hadoop-mini-clusters.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

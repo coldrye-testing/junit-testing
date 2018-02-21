@@ -32,4 +32,4 @@ test is executed and tear it down when all tests have been executed.
 ## References
 
 - [Github](https://github.com/coldrye-java/junit-testing)
-- [Sonar](http://coldrye.eu:9000/dashboard?id=eu.coldrye.junit%3Ajunit-testing)
+- [Sonar](http://sonar.coldrye.eu/dashboard?id=eu.coldrye.junit%3Ajunit-testing)
