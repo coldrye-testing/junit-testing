@@ -58,3 +58,4 @@ for more information.
 
 - [Github](https://github.com/coldrye-java/junit-testing/tree/master/junit-env-hadoop-mini-clusters)
 - [Sonar](http://sonar.coldrye.eu/dashboard?id=eu.coldrye.junit%3Ajunit-env-hadoop-mini-clusters)
+- [hadoop-mini-clusters](https://github.com/sakserv/hadoop-mini-clusters)
