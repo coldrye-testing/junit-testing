@@ -19,7 +19,6 @@ package eu.coldrye.junit.env;
 import eu.coldrye.junit.JunitTestHelper;
 import eu.coldrye.junit.env.Fixtures.FirstTestCase;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -29,17 +28,17 @@ import org.mockito.Mockito;
 
 public class EnvExtensionTest {
 
-  private EnvExtension sut;
+  protected EnvExtension sut;
 
-  private EnvProviderManager mockManager;
+  protected EnvProviderManager mockManager;
 
-  private FieldInjector mockInjector;
+  protected FieldInjector mockInjector;
 
-  private ParameterResolverImpl mockResolver;
+  protected ParameterResolverImpl mockResolver;
 
-  private ExtensionContext mockContext;
+  protected ExtensionContext mockContext;
 
-  private ParameterContext mockParameter;
+  protected ParameterContext mockParameter;
 
   @BeforeEach
   public void setUp() {
@@ -130,11 +129,25 @@ public class EnvExtensionTest {
   }
 
   @Test
-  public void afterAllMustCallManager() throws Exception {
+  public void afterAllMustCallManagerTearDownEnvironments() throws Exception {
 
+    Mockito.when(mockManager.isPrepared(Mockito.eq(mockContext))).thenReturn(true);
     sut.afterAll(mockContext);
     Mockito.verify(mockManager).tearDownEnvironments(Mockito.eq(EnvPhase.AFTER_ALL), Mockito.eq(mockContext));
-    Mockito.verifyNoMoreInteractions(mockManager, mockResolver, mockInjector);
+  }
+
+  /**
+   * #1 - Illegal state exception when using @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+   *
+   * @throws Exception
+   */
+  @Test
+  public void afterAllMustCallManagerPrepareEnvironments() throws Exception {
+
+    Mockito.when(mockManager.isPrepared(Mockito.eq(mockContext))).thenReturn(false);
+    sut.afterAll(mockContext);
+    Mockito.verify(mockManager).prepareEnvironmentProviders(Mockito.eq(mockContext));
+    Mockito.verify(mockManager).tearDownEnvironments(Mockito.eq(EnvPhase.AFTER_ALL), Mockito.eq(mockContext));
   }
 
   @Test
