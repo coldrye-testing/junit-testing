@@ -32,10 +32,16 @@ import org.mockito.Mockito;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EnvProviderManagerTest {
 
@@ -217,5 +223,41 @@ public class EnvProviderManagerTest {
     sut.shutdown();
 
     Assertions.assertEquals(1, logger.getAllLoggingEvents().size());
+  }
+
+  @Test
+  public void multipleThreadsMustNotGetDifferentInstances() throws Exception {
+
+    final AtomicReference<Object> singleton = new AtomicReference<>();
+
+    long seed = System.currentTimeMillis();
+    Random random = new Random(seed);
+
+    Runnable runnable = () -> {
+      try {
+        long sleep = Math.abs(random.nextLong());
+        sleep = sleep % 10;
+        Thread.sleep(sleep);
+        Object instance = EnvProviderManager.getInstance();
+        if (Objects.isNull(singleton.get())) {
+          singleton.set(instance);
+        } else {
+          Assertions.assertSame(singleton.get(), instance);
+        }
+      } catch (InterruptedException ex) {
+        Assertions.fail("unexpected interruption", ex);
+      }
+    };
+
+    List<Thread> threads = new ArrayList<>();
+    for (int index = 0; index < 10; index++) {
+      threads.add(new Thread(runnable));
+    }
+    for (Thread thread : threads) {
+      thread.run();
+    }
+    for (Thread thread : threads) {
+      thread.join();
+    }
   }
 }

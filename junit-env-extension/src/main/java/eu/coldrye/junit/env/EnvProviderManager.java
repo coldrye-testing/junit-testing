@@ -76,8 +76,10 @@ class EnvProviderManager {
    */
   static EnvProviderManager getInstance(EnvProviderCollector collector) {
 
-    if (Objects.isNull(INSTANCE.get())) {
-      INSTANCE.set(new EnvProviderManager(collector));
+    synchronized (EnvProviderManager.class) {
+      if (Objects.isNull(INSTANCE.get())) {
+        INSTANCE.set(new EnvProviderManager(collector));
+      }
     }
 
     return INSTANCE.get();
