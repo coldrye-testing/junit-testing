@@ -66,6 +66,7 @@ class EnvProviderManager {
    * @return
    */
   static EnvProviderManager getInstance() {
+
     return getInstance(new EnvProviderCollector());
   }
 
@@ -143,14 +144,13 @@ class EnvProviderManager {
       return;
     }
 
-    // TODO calling DEINIT on same provider multiple times might result in error
     for (Entry<Class<?>, List<EnvProvider>> entry : preparedProviders.entrySet()) {
-      try {
-        for (EnvProvider provider : entry.getValue()) {
+      for (EnvProvider provider : entry.getValue()) {
+        try {
           provider.tearDownEnvironment(EnvPhase.DEINIT, entry.getKey());
+        } catch (Exception ex) {
+          EnvProviderManager.log.error("There was an error during shutdown ", ex);
         }
-      } catch (Exception ex) {
-        EnvProviderManager.log.error("There was an error during shutdown ", ex);
       }
       entry.setValue(null);
     }

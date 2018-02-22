@@ -28,19 +28,25 @@ public enum EnvPhase {
   /**
    * During initialization, i.e. before any tests are being run and also before any test instances will be prepared,
    * {@code EnvProvider}S are instructed to set up their provided environments by a call to
-   * {@link EnvProvider#setUpEnvironment(EnvPhase, java.util.Optional) EnvProvider#setUpEnvironment()}.
+   * {@link EnvProvider#setUpEnvironment(EnvPhase, java.lang.reflect.AnnotatedElement) EnvProvider#setUpEnvironment()}.
+   * <p>
+   * Implementations of {@code EnvProvider} must prepare themselves for being called multiple times during the
+   * {@code INIT} phase when setting up environments that have to be reused by multiple threads.
    */
   INIT,
 
   /**
    * During shutdown, i.e. all tests have been run, {@code EnvProvider}S are instructed to tear down
-   * their provided environments by a call to {@link EnvProvider#tearDownEnvironment(EnvPhase, java.util.Optional) EnvProvider#tearDownEnvironment()}.
+   * their provided environments by a call to {@link EnvProvider#tearDownEnvironment(EnvPhase, java.lang.reflect.AnnotatedElement) EnvProvider#tearDownEnvironment()}.
+   * <p>
+   * Implementations of {@code EnvProvider} must prepare themselves for being called multiple times during the
+   * {@code DEINIT} phase when tearing down environments that have to be reused by multiple threads.
    */
   DEINIT,
 
   /**
-   * Before all tests in a given test class, {@code EnvProvider}S are instructed to set up their provided environments
-   * by a call to {@code EnvProvider#setUpEnvironment(EnvPhase, Optional)}.
+   * Before any tests in a given test class will be run, {@code EnvProvider}S are instructed to set up their provided
+   * environments by a call to {@code EnvProvider#setUpEnvironment(EnvPhase, Optional)}.
    * <p>
    * It is up to the implementer of the {@code EnvProvider} to decide whether to set up all or only parts of the
    * environment.
@@ -48,11 +54,11 @@ public enum EnvPhase {
   BEFORE_ALL,
 
   /**
-   * After all tests in a given test class, {@code EnvProvider}S are instructed to tear down their
+   * After all tests in a given test class have been run, {@code EnvProvider}S are instructed to tear down their
    * provided environments by a call to {@code EnvProvider#tearDownEnvironment(EnvPhase, Optional)}.
    * <p>
-   * It is up to the implementer of the {@code EnvProvider} to decide whether to tear down all
-   * or only parts of the environment.
+   * It is up to the implementer of the {@code EnvProvider} to decide whether to tear down all or only parts of the
+   * environment.
    */
   AFTER_ALL,
 
