@@ -72,6 +72,15 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   @Override
   public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
 
+    /*
+     * #1 - when using {@code @TestInstance(Lifecycle.PER_CLASS)}, then junit will first
+     *      invoke the {@code AfterAllCallback}S.
+     *      make sure that the environment providers have been prepared
+     */
+    if (!providerManager.isPrepared(context)) {
+      providerManager.prepareEnvironmentProviders(context);
+      providerManager.setUpEnvironments(EnvPhase.INIT, context);
+    }
     fieldInjector.inject(testInstance, context, providerManager.getProviders(context, EnvPhase.PREPARE));
   }
 
