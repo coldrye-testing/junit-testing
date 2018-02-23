@@ -24,7 +24,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.lang.reflect.Parameter;
 
 public interface Fixtures {
 
@@ -217,5 +218,30 @@ public interface Fixtures {
   @Environment(EnvProvider.class)
   class FifthTestCase {
 
+  }
+
+  class SimpleEnvProvider extends AbstractEnvProvider {
+
+    @Override
+    public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
+
+      return annotated.isAnnotationPresent(EnvProvided.class);
+    }
+
+    @Override
+    public Object getOrCreateInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
+
+      return new Object();
+    }
+
+    @Override
+    public void setUpEnvironment(EnvPhase phase, AnnotatedElement annotated) throws Exception {
+
+    }
+
+    @Override
+    public void tearDownEnvironment(EnvPhase phase, AnnotatedElement annotated) throws Exception {
+
+    }
   }
 }

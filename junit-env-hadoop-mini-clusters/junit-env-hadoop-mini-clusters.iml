@@ -7,12 +7,14 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/examples/hdfs/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/delombok" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="junit-common" />
     <orderEntry type="library" name="Maven: eu.coldrye.junit:junit-env-extension:1.0.0" level="project" />
+    <orderEntry type="module" module-name="junit-common" />
+    <orderEntry type="module" module-name="junit-env-extension" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
     <orderEntry type="library" name="Maven: com.github.sakserv:hadoop-mini-clusters-hdfs:0.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-client:2.7.3.2.6.2.0-205" level="project" />
