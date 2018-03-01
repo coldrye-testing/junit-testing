@@ -56,6 +56,10 @@
     <mockito-all.version>2.0.2-beta</mockito-all.version>
     <slf4j-test.version>1.1.0</slf4j-test.version>
 
+    <javax-servlet-api.version>3.0.1</javax-servlet-api.version>
+    <spring-framework.version>5.0.2.RELEASE</spring-framework.version>
+    <spring-test.version>5.0.4.RELEASE</spring-test.version>
+
     <!-- MAVEN PLUGINS -->
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <!-- IMPORTANT! we have to use this version otherwise the junit5 based tests will fail -->
@@ -127,6 +131,38 @@
         <groupId>uk.org.lidalia</groupId>
         <artifactId>slf4j-test</artifactId>
         <version>${slf4j-test.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- spring dependencies -->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring-test.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring-framework.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>${spring-framework.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring-framework.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${javax-servlet-api.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>

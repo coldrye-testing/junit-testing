@@ -24,8 +24,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
-import java.lang.reflect.Parameter;
 
 public interface Fixtures {
 
@@ -202,6 +200,7 @@ public interface Fixtures {
 
     @Test
     public void testing4(@NotEnvProvided Object notEnvProvided) {
+
       this.notEnvProvided = notEnvProvided;
     }
   }
@@ -225,13 +224,13 @@ public interface Fixtures {
     @Override
     public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
 
-      return annotated.isAnnotationPresent(EnvProvided.class);
+      return annotated.isAnnotationPresent(EnvProvided.class) && String.class.isAssignableFrom(classOrInterface);
     }
 
     @Override
-    public Object getOrCreateInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
+    public String getOrCreateInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
 
-      return new Object();
+      return "envProvided";
     }
 
     @Override
