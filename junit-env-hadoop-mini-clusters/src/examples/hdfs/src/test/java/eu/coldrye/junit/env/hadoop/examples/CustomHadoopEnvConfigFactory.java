@@ -21,7 +21,7 @@ import eu.coldrye.junit.env.hadoop.HdfsConfig;
 
 public class CustomHadoopEnvConfigFactory implements HadoopEnvConfigFactory {
 
-  public HdfsConfig defaultHdfsConfig() {
+  public HdfsConfig hdfsConfig() {
 
     HdfsConfig result = new HdfsConfig();
     result.setHdfsFormat(true);

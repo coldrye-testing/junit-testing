@@ -58,7 +58,6 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>${project.build.directory}/generated-sources/delombok</sourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.projectlombok</groupId>

@@ -18,22 +18,27 @@ package eu.coldrye.junit.env.hadoop;
 
 public interface HadoopEnvConfigFactory {
 
-  default HdfsConfig defaultHdfsConfig() {
+  default HdfsConfig hdfsConfig() {
 
     return null;
   }
 
-  default ZkConfig defaultZkConfig() {
+  default ZkConfig zookeeperConfig() {
 
     return null;
   }
 
-  default HbaseConfig defaultHbaseConfig() {
+  default HbaseConfig hbaseConfig() {
 
     return null;
   }
 
-  default KafkaConfig defaultKafkaConfig() {
+  default HbaseRestConfig hbaseRestConfig() {
+
+    return null;
+  }
+
+  default KafkaConfig kafkaConfig() {
 
     return null;
   }
