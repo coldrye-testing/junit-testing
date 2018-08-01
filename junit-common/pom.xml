@@ -7,15 +7,26 @@
   <parent>
     <artifactId>junit-testing</artifactId>
     <groupId>eu.coldrye.junit</groupId>
-    <version>1.0</version>
-    <relativePath>..</relativePath>
+    <version>1.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>junit-common</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Commonly used code for junit-testing projects</description>
   <url>https://github.com/coldrye-java/junit-testing</url>
+
+  <properties>
+    <sonar.exclusions>**/SocketUtils.java,**/DiffMatchPatch.java</sonar.exclusions>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+  </dependencies>
 </project>

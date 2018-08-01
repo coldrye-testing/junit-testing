@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public class ZkConfig {
+public class ZookeeperConfig {
+
+  private boolean shared;
 
   private Integer port;
 

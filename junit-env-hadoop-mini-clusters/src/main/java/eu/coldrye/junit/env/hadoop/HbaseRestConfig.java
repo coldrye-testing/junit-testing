@@ -1,7 +1,6 @@
 package eu.coldrye.junit.env.hadoop;
 
 import lombok.Data;
-import org.apache.hadoop.conf.Configuration;
 
 @Data
 public class HbaseRestConfig {

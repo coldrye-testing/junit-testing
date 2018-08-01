@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: eu.coldrye.junit:junit-common:1.0.0" level="project" />
     <orderEntry type="module" module-name="junit-common" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
     <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.0.2" level="project" />

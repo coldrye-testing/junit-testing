@@ -17,15 +17,30 @@
 package eu.coldrye.junit.env.hadoop.examples;
 
 import eu.coldrye.junit.env.hadoop.HadoopEnvConfigFactory;
+import eu.coldrye.junit.env.hadoop.HbaseConfig;
 import eu.coldrye.junit.env.hadoop.HdfsConfig;
+import org.apache.hadoop.conf.Configuration;
 
 public class CustomHadoopEnvConfigFactory implements HadoopEnvConfigFactory {
 
+  @Override
   public HdfsConfig hdfsConfig() {
 
     HdfsConfig result = new HdfsConfig();
     result.setHdfsFormat(true);
     result.setHdfsTempDir("/tmp");
+    result.setHdfsEnableRunningUserAsProxyUser(false);
+    result.setHdfsNumDatanodes(3);
+    result.setHdfsEnablePermissions(false);
+    Configuration config = new Configuration();
+    result.setHdfsConfig(config);
+    return result;
+  }
+
+  @Override
+  public HbaseConfig hbaseConfig() {
+
+    HbaseConfig result = new HbaseConfig();
     return result;
   }
 }

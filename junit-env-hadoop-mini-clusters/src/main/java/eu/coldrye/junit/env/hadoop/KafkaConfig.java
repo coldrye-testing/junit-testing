@@ -8,9 +8,14 @@ import java.util.Properties;
 public class KafkaConfig {
 
   private String kafkaHostname;
+
   private Integer kafkaPort;
+
   private Integer kafkaBrokerId;
+
   private Properties kafkaProperties;
+
   private String kafkaTempDir;
+
   private String zookeeperConnectionString;
 }

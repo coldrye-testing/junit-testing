@@ -29,6 +29,10 @@ test is executed and tear it down when all tests have been executed.
 Work in progress.
 
 
+## [file-assertions](./file-assertions)
+
+Assertions for files and their content.
+
 
 ## References
 

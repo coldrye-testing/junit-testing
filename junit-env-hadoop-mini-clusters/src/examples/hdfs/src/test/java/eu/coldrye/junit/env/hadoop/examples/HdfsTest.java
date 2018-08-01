@@ -16,11 +16,13 @@
 
 package eu.coldrye.junit.env.hadoop.examples;
 
+import com.github.sakserv.minicluster.impl.HdfsLocalCluster;
 import eu.coldrye.junit.env.EnvExtension;
 import eu.coldrye.junit.env.Environment;
 import eu.coldrye.junit.env.hadoop.HadoopEnvConfig;
 import eu.coldrye.junit.env.hadoop.HadoopEnvProvided;
 import eu.coldrye.junit.env.hadoop.HadoopEnvProvider;
+import eu.coldrye.junit.env.hadoop.HdfsConfig;
 import org.apache.hadoop.fs.FileSystem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,9 +36,27 @@ public class HdfsTest {
   @HadoopEnvProvided
   private FileSystem dfs;
 
+  @HadoopEnvProvided
+  private HdfsLocalCluster hdfsLocalCluster;
+
+  @HadoopEnvProvided
+  private HdfsConfig hdfsConfig;
+
   @Test
   public void dfsIsAvailable() {
 
     Assertions.assertNotNull(dfs);
+  }
+
+  @Test
+  public void hdfsLocalClusterIsAvailable() {
+
+    Assertions.assertNotNull(hdfsLocalCluster);
+  }
+
+  @Test
+  public void hdfsConfigIsAvailable() throws Exception {
+
+    Assertions.assertNotNull(hdfsConfig);
   }
 }

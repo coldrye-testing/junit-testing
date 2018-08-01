@@ -1,6 +1,8 @@
 package eu.coldrye.junit.env.hadoop;
 
+import com.github.sakserv.minicluster.impl.HbaseLocalCluster;
 import com.github.sakserv.minicluster.impl.HdfsLocalCluster;
+import com.github.sakserv.minicluster.impl.KafkaLocalBroker;
 
 public class HadoopMiniClusterFactory {
 
@@ -15,6 +17,33 @@ public class HadoopMiniClusterFactory {
       .setHdfsNamenodePort(config.getHdfsNamenodePort())
       .setHdfsNumDatanodes(config.getHdfsNumDatanodes())
       .setHdfsTempDir(config.getHdfsTempDir())
+      .build();
+  }
+
+  KafkaLocalBroker createNewKafkaLocalBrokerInstance(KafkaConfig config) {
+
+    return new KafkaLocalBroker.Builder()
+      .setKafkaBrokerId(config.getKafkaBrokerId())
+      .setKafkaHostname(config.getKafkaHostname())
+      .setKafkaPort(config.getKafkaPort())
+      .setKafkaProperties(config.getKafkaProperties())
+      .setKafkaTempDir(config.getKafkaTempDir())
+      .setZookeeperConnectionString(config.getZookeeperConnectionString())
+      .build();
+  }
+
+  HbaseLocalCluster createNewHbaseLocalClusterInstance(HbaseConfig config) {
+
+    return new HbaseLocalCluster.Builder()
+      .setHbaseConfiguration(config.getHbaseConfiguration())
+      .setHbaseMasterInfoPort(config.getHbaseMasterInfoPort())
+      .setHbaseMasterPort(config.getHbaseMasterPort())
+      .setHbaseRootDir(config.getHbaseRootDir())
+      .setHbaseWalReplicationEnabled(config.getHbaseWalReplicationEnabled())
+      .setNumRegionServers(config.getNumRegionServers())
+      .setZookeeperConnectionString(config.getZookeeperConnectionString())
+      .setZookeeperPort(config.getZookeeperPort())
+      .setZookeeperZnodeParent(config.getZookeeperZnodeParent())
       .build();
   }
 }

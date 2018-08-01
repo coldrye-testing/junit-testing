@@ -41,6 +41,7 @@
     <module>junit-testing-common</module>
     <module>junit-env-extension</module>
     <module>junit-env-hadoop-mini-clusters</module>
+    <module>file-assertions</module>
   </modules>
 
   <properties>
@@ -86,28 +87,38 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit-jupiter.version}</version>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${lombok.version}</version>
         <scope>compile</scope>
       </dependency>
+
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j-api.version}</version>
         <scope>compile</scope>
       </dependency>
+
+      <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-commons</artifactId>
+        <version>${junit-platform.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit-jupiter.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
         <version>${junit-platform.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${lombok.version}</version>
-        <scope>compile</scope>
+        <scope>test</scope>
       </dependency>
 
       <dependency>
@@ -116,24 +127,34 @@
         <version>${junit-platform.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
         <version>${junit-jupiter.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-runner</artifactId>
         <version>${junit-platform.version}</version>
         <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
+
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>${mockito-all.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>uk.org.lidalia</groupId>
         <artifactId>slf4j-test</artifactId>
@@ -148,24 +169,28 @@
         <version>${spring-test.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
         <version>${spring-framework.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-tx</artifactId>
         <version>${spring-framework.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>
         <version>${spring-framework.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
@@ -182,14 +207,22 @@
       <version>1.0.0</version>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-commons</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
@@ -199,18 +232,22 @@
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-engine</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-runner</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
     </dependency>
+
     <dependency>
       <groupId>uk.org.lidalia</groupId>
       <artifactId>slf4j-test</artifactId>
