@@ -30,7 +30,6 @@ import org.junit.platform.launcher.TestPlan;
  *
  * @since 1.0.0
  */
-//NOSONAR
 public final class TestExecutionListenerImpl implements TestExecutionListener {
 
   @Override
@@ -40,6 +39,7 @@ public final class TestExecutionListenerImpl implements TestExecutionListener {
 
     EnvProviderManager instance = EnvProviderManager.INSTANCE.get();
     if (instance != null) {
+
       instance.shutdown();
       EnvProviderManager.destroyInstance();
     }

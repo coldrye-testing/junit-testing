@@ -16,9 +16,9 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.ReflectionHelper;
-import org.junit.jupiter.api.Assertions;
+import eu.coldrye.junit.util.ReflectionUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.platform.commons.util.Preconditions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -41,10 +41,10 @@ class FieldInjector {
    */
   public void inject(Object testInstance, ExtensionContext context, List<EnvProvider> providers) throws Exception {
 
-    Assertions.assertNotNull(testInstance, "testInstance must not be null");
-    Assertions.assertNotNull(providers, "providers must not be null");
+    Preconditions.notNull(testInstance, "testInstance must not be null");
+    Preconditions.notNull(providers, "providers must not be null");
 
-    List<Field> fields = ReflectionHelper.getDeclaredFields(testInstance.getClass(), EnvProvided.class);
+    List<Field> fields = ReflectionUtils.getDeclaredFields(testInstance.getClass(), EnvProvided.class);
     for (Field field : fields) {
       for (EnvProvider provider : providers) {
         if (provider.canProvideInstance(field, field.getType())) {
@@ -64,7 +64,7 @@ class FieldInjector {
   private void inject0(Object testInstance, Field field, EnvProvider provider) throws Exception {
 
     Object instance = provider.getOrCreateInstance(field, field.getType());
-    Method setter = ReflectionHelper.findMethod(testInstance.getClass(), ReflectionHelper.setterName(field),
+    Method setter = ReflectionUtils.findMethod(testInstance.getClass(), ReflectionUtils.setterName(field),
       field.getType());
     if (Objects.isNull(setter)) {
       field.setAccessible(true);
