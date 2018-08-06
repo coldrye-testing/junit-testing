@@ -18,6 +18,7 @@ package eu.coldrye.junit.env.hadoop;
 
 import com.github.sakserv.minicluster.MiniCluster;
 import com.github.sakserv.minicluster.impl.HdfsLocalCluster;
+import eu.coldrye.junit.util.SocketUtils;
 import eu.coldrye.junit.env.AbstractEnvProvider;
 import eu.coldrye.junit.env.EnvPhase;
 import org.apache.hadoop.fs.FileSystem;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HadoopEnvProvider extends AbstractEnvProvider {

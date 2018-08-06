@@ -16,6 +16,7 @@
 
 package eu.coldrye.junit;
 
+import eu.coldrye.junit.util.ReflectionUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
@@ -73,7 +74,7 @@ public final class JunitTestHelper {
     Preconditions.notNull(name, "name must not be null");
     Preconditions.notBlank(name, "name must not be blank");
 
-    Method method = ReflectionHelper.findMethod(klass, name, parameterTypes);
+    Method method = ReflectionUtils.findMethod(klass, name, parameterTypes);
     Preconditions.notNull(method, "method " + name + " was not found");
 
     Parameter[] parameters = method.getParameters();

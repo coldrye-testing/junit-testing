@@ -50,6 +50,7 @@ public class EnvProviderManagerTest {
   private EnvProviderManager sut;
 
   private EnvProviderCollector mockCollector;
+
   private Store mockStore;
 
   @BeforeEach
@@ -94,16 +95,19 @@ public class EnvProviderManagerTest {
 
   @Test
   public void instanceMustNotBeNull() {
+
     Assertions.assertNotNull(EnvProviderManager.getInstance());
   }
 
   @Test
   public void instanceMustBeSame() {
+
     Assertions.assertEquals(sut, EnvProviderManager.getInstance());
   }
 
   @Test
   public void getProvidersMustReturnTheExpectedProviderInstances() throws Exception {
+
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -118,6 +122,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void prepareEnvironmentCanBeCalledMultipleTimes() throws Exception {
+
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -130,6 +135,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void getProvidersMustFailForUnpreparedContext() throws Exception {
+
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
     Assertions.assertThrows(PreconditionViolationException.class, () -> {
       sut.getProviders(mockContext, EnvPhase.INIT);
@@ -138,6 +144,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void setUpEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
+
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
@@ -151,6 +158,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void setUpEnvironmentsMustBailOutOnMissingElementFromContext() throws Exception {
+
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -163,6 +171,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void tearDownEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
+
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
     Mockito.when(mockContext.getElement()).thenReturn(Optional.of(SecondTestCase.class));
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
@@ -177,6 +186,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void tearDownEnvironmentsMustBailOutOnMissingElementFromContext() throws Exception {
+
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -189,6 +199,7 @@ public class EnvProviderManagerTest {
 
   @Test
   public void shutdownMustCallProviderWithExpectedArguments() throws Exception {
+
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -206,9 +217,9 @@ public class EnvProviderManagerTest {
     Mockito.verify(provider1).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class));
   }
 
-
   @Test
   public void shutdownMustLogExceptions() throws Exception {
+
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
@@ -226,6 +237,7 @@ public class EnvProviderManagerTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2925")
   public void multipleThreadsMustNotGetDifferentInstances() throws Exception {
 
     final AtomicReference<Object> singleton = new AtomicReference<>();

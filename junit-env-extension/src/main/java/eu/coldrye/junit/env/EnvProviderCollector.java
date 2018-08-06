@@ -16,7 +16,7 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.ReflectionHelper;
+import eu.coldrye.junit.util.ReflectionUtils;
 import org.junit.platform.commons.util.Preconditions;
 
 import java.lang.annotation.Annotation;
@@ -33,17 +33,17 @@ import java.util.List;
 class EnvProviderCollector {
 
   /**
-   * @param klass
+   * @param clazz
    * @return
    * @throws Exception
    */
-  List<Class<? extends EnvProvider>> collect(Class<?> klass) {
+  List<Class<? extends EnvProvider>> collect(Class<?> clazz) {
 
-    Preconditions.notNull(klass, "klass must not be null");
+    Preconditions.notNull(clazz, "clazz must not be null");
 
     List<Class<? extends EnvProvider>> result = new ArrayList<>();
 
-    List<Annotation> annotations = ReflectionHelper.getAllAnnotations(klass, Environments.class, Environment.class);
+    List<Annotation> annotations = ReflectionUtils.getAllAnnotations(clazz, Environments.class, Environment.class);
     for (Annotation annotation : annotations) {
       if (annotation instanceof Environment) {
         Environment environment = (Environment) annotation;

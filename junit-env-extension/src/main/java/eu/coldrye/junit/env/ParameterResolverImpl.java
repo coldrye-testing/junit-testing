@@ -16,7 +16,7 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.ReflectionHelper;
+import eu.coldrye.junit.util.ReflectionUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
@@ -48,7 +48,7 @@ class ParameterResolverImpl {
     Preconditions.notNull(providers, "providers must not be null");
 
     Parameter parameter = parameterContext.getParameter();
-    if (ReflectionHelper.isAnnotatedBy(parameter, EnvProvided.class)) {
+    if (ReflectionUtils.isAnnotatedBy(parameter, EnvProvided.class)) {
       for (EnvProvider provider : providers) {
         if (provider.canProvideInstance(parameter, parameter.getType())) {
           return true;
