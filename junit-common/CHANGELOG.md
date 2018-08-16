@@ -1,6 +1,24 @@
-# Changelog
+# CHANGELOG
 
-## 1.0.0 (2018-02-20)
+## eu.coldrye.junit:junit-common:1.1.0
 
- - initial release
+- TBD
+- major refactoring
+- implement diff/patch reporting API
+
+## eu.coldrye.junit:junit-common:1.0.3
+
+- TBD
+
+## eu.coldrye.junit:junit-common:1.0.2
+
+- TBD
+
+## eu.coldrye.junit:junit-common:1.0.1
+
+- TBD
+
+## eu.coldrye.junit:junit-common:1.0.0
+
+- initial release
 

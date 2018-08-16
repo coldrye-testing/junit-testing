@@ -7,8 +7,8 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <version>1.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>junit-env-hadoop-mini-clusters</artifactId>
@@ -17,23 +17,65 @@
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Extension providers for junit-env-extension integrating hadoop-mini-clusters</description>
-  <url>https://github.com/coldrye-java/junit-testing</url>
+  <url>https://github.com/coldrye-java/junit-testing/tree/master/junit-env-hadoop-mini-clusters</url>
 
   <properties>
+    <junit-common.version>1.1.0</junit-common.version>
+    <junit-env-extension.version>1.0.3</junit-env-extension.version>
     <hadoop-mini-clusters.version>0.1.14</hadoop-mini-clusters.version>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>eu.coldrye.junit</groupId>
+        <artifactId>junit-common</artifactId>
+        <version>${junit-common.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>eu.coldrye.junit</groupId>
+        <artifactId>junit-env-extension</artifactId>
+        <version>${junit-env-extension.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.sakserv</groupId>
+        <artifactId>hadoop-mini-clusters-hdfs</artifactId>
+        <version>${hadoop-mini-clusters.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.sakserv</groupId>
+        <artifactId>hadoop-mini-clusters-hbase</artifactId>
+        <version>${hadoop-mini-clusters.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.sakserv</groupId>
+        <artifactId>hadoop-mini-clusters-kafka</artifactId>
+        <version>${hadoop-mini-clusters.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.sakserv</groupId>
+        <artifactId>hadoop-mini-clusters-zookeeper</artifactId>
+        <version>${hadoop-mini-clusters.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-common</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-env-extension</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -44,31 +86,21 @@
     <dependency>
       <groupId>com.github.sakserv</groupId>
       <artifactId>hadoop-mini-clusters-hdfs</artifactId>
-      <version>${hadoop-mini-clusters.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.sakserv</groupId>
-      <artifactId>hadoop-mini-clusters-kafka</artifactId>
-      <version>${hadoop-mini-clusters.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.github.sakserv</groupId>
-      <artifactId>hadoop-mini-clusters-hbase</artifactId>
-      <version>${hadoop-mini-clusters.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.sakserv</groupId>
-      <artifactId>hadoop-mini-clusters-kafka</artifactId>
-      <version>${hadoop-mini-clusters.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.github.sakserv</groupId>
       <artifactId>hadoop-mini-clusters-hbase</artifactId>
-      <version>${hadoop-mini-clusters.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.sakserv</groupId>
+      <artifactId>hadoop-mini-clusters-kafka</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.sakserv</groupId>
+      <artifactId>hadoop-mini-clusters-zookeeper</artifactId>
     </dependency>
   </dependencies>
 </project>

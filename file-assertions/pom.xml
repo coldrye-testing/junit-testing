@@ -7,7 +7,7 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -17,13 +17,27 @@
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Assertions dealing explicitly with files and their content</description>
-  <url>https://github.com/coldrye-java/junit-testing</url>
+  <url>https://github.com/coldrye-java/junit-testing/tree/master/file-assertions</url>
+
+  <properties>
+    <junit-common.version>1.1.0</junit-common.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>eu.coldrye.junit</groupId>
+        <artifactId>junit-common</artifactId>
+        <version>${junit-common.version}</version>
+        <scope>compile</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-common</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

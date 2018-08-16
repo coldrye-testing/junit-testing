@@ -1,14 +1,18 @@
-# Changelog
+# CHANGELOG
 
-## 1.0.2 (2018-02-23)
+## eu.coldrye.junit:junit-env-extension:1.0.3
 
- - fix #1 TestInstancePostProcessor#postProcessTestInstance() is called during before
+- TBD
 
-## 1.0.1 (2018-02-22)
+## eu.coldrye.junit:junit-env-extension:1.0.2
 
- - fix #1 Illegal state exception when using @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+- TBD
 
-## 1.0.0 (2018-02-20)
+## eu.coldrye.junit:junit-env-extension:1.0.1
 
- - initial release
+- TBD
+
+## eu.coldrye.junit:junit-env-extension:1.0.0
+
+- initial release
 

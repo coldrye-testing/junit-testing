@@ -7,66 +7,87 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <version>1.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>junit-env-extension</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>Extension for JUnit5 for managing set up and tear down of environments during (integration) testing</description>
-  <url>https://github.com/coldrye-java/junit-testing</url>
+  <description>Extension for JUnit5 for managing set up and tear down of environments during testing</description>
+  <url>https://github.com/coldrye-java/junit-testing/tree/master/junit-env-extension</url>
+
+  <properties>
+    <junit-common.version>1.1.0</junit-common.version>
+    <junit-testing-common.version>1.0.1</junit-testing-common.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>eu.coldrye.junit</groupId>
+        <artifactId>junit-common</artifactId>
+        <version>${junit-common.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>eu.coldrye.junit</groupId>
+        <artifactId>junit-testing-common</artifactId>
+        <version>${junit-testing-common.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-common</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- test dependencies -->
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-testing-common</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

@@ -4,7 +4,7 @@ package eu.coldrye.junit.util;
 
 import java.util.Objects;
 
-public class StringUtils {
+public final class StringUtils {
 
   public static final String EMPTY = "";
 
@@ -26,5 +26,10 @@ public class StringUtils {
     }
 
     return result;
+  }
+
+  // must not be instantiated
+  private StringUtils() {
+
   }
 }

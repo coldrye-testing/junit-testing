@@ -1,6 +1,10 @@
-# Changelog
+# CHANGELOG
 
-## 1.0 (2018-02-20)
+## eu.coldrye.junit:junit-testing:1.1
 
- - initial release
+- TBD
+
+## eu.coldrye.junit:junit-testing:1.0
+
+- initial release
 
