@@ -1,6 +1,6 @@
 # file-assertions
 
-A fixtures.simple assertion framework for files and file content.
+A simple assertion framework for files and file content.
 
 The assertions can be used with all testing frameworks and are not limited to just JUnit5, although they make use of 
 some of the available infrastructure provided by the JUnit5 platform.
@@ -17,7 +17,7 @@ some of the available infrastructure provided by the JUnit5 platform.
 ### File Content Level Assertions (FileAssertions.assertEquals(...))
 
 - not to be used with very large files unless you have plenty of both time and memory in order to handle the load,
-  so keep it crisp and fixtures.simple
+  so keep it crisp and simple
 - does not work with binary files, if you need a binary diff, you will have to use different tools
 - there will never be any content level ``assertNotEquals`` assertions, use ``assertEquals`` with the proper fixtures
   for that purpose
