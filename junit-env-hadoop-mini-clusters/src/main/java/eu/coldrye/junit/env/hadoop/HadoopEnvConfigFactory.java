@@ -23,7 +23,7 @@ public interface HadoopEnvConfigFactory {
     return null;
   }
 
-  default ZkConfig zookeeperConfig() {
+  default ZookeeperConfig zookeeperConfig() {
 
     return null;
   }

@@ -14,4 +14,12 @@ public class HdfsConfig {
   private Boolean hdfsFormat;
   private Boolean hdfsEnableRunningUserAsProxyUser;
   private Configuration hdfsConfig;
+
+  void setHdfsNamenodePort(int port) {
+    hdfsNamenodePort = port;
+  }
+
+  void setHdfsNamenodeHttpPort(int port) {
+    hdfsNamenodeHttpPort = port;
+  }
 }

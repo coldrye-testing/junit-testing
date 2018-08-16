@@ -26,6 +26,12 @@
   <dependencies>
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
+      <artifactId>junit-common</artifactId>
+      <version>1.1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-env-extension</artifactId>
       <version>1.0.3-SNAPSHOT</version>
     </dependency>
@@ -38,6 +44,18 @@
     <dependency>
       <groupId>com.github.sakserv</groupId>
       <artifactId>hadoop-mini-clusters-hdfs</artifactId>
+      <version>${hadoop-mini-clusters.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.sakserv</groupId>
+      <artifactId>hadoop-mini-clusters-kafka</artifactId>
+      <version>${hadoop-mini-clusters.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.github.sakserv</groupId>
+      <artifactId>hadoop-mini-clusters-hbase</artifactId>
       <version>${hadoop-mini-clusters.version}</version>
     </dependency>
 

@@ -18,13 +18,14 @@ package eu.coldrye.junit.env.hadoop;
 
 import com.github.sakserv.minicluster.MiniCluster;
 import com.github.sakserv.minicluster.impl.HdfsLocalCluster;
-import eu.coldrye.junit.util.SocketUtils;
 import eu.coldrye.junit.env.AbstractEnvProvider;
 import eu.coldrye.junit.env.EnvPhase;
+import eu.coldrye.junit.util.SocketUtils;
 import org.apache.hadoop.fs.FileSystem;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +37,12 @@ public class HadoopEnvProvider extends AbstractEnvProvider {
   @Override
   public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
 
-    return annotated.isAnnotationPresent(HadoopEnvProvided.class);
+    return annotated.isAnnotationPresent(HadoopEnvProvided.class)
+      && (
+        FileSystem.class.equals(classOrInterface)
+      || HdfsLocalCluster.class.equals(classOrInterface)
+      || HdfsConfig.class.equals(classOrInterface)
+      );
   }
 
   @Override
@@ -49,6 +55,10 @@ public class HadoopEnvProvider extends AbstractEnvProvider {
       catch (Exception ex) {
         throw new RuntimeException(ex);
       }
+    } else if (HdfsLocalCluster.class == classOrInterface) {
+      return getStore().get(HdfsLocalCluster.class, HdfsLocalCluster.class);
+    } else if (HdfsConfig.class == classOrInterface) {
+      return getStore().get(HdfsConfig.class, HdfsConfig.class);
     }
 
     throw new IllegalArgumentException("TODO:classOrInterface not supported");
@@ -69,7 +79,26 @@ public class HadoopEnvProvider extends AbstractEnvProvider {
             throw new IllegalArgumentException("no @HadoopEnvConfig specified, unable to set up the environment during INIT");
           }
 
+          // if initialized ...
 
+          HadoopMiniClusterFactory miniClusterFactory = new HadoopMiniClusterFactory();
+
+          HadoopEnvConfig envConfig = annotated.getAnnotation(HadoopEnvConfig.class);
+
+          Class<? extends HadoopEnvConfigFactory> factoryClass = envConfig.value();
+          Constructor constructor = factoryClass.getConstructor();
+          HadoopEnvConfigFactory factory = (HadoopEnvConfigFactory) constructor.newInstance();
+
+          HdfsConfig hdfsConfig = factory.hdfsConfig();
+          if (!Objects.isNull(hdfsConfig)) {
+            Integer[] ports = SocketUtils.findAvailableTcpPorts(2).toArray(new Integer[0]);
+            hdfsConfig.setHdfsNamenodePort(ports[0]);
+            hdfsConfig.setHdfsNamenodeHttpPort(ports[1]);
+            HdfsLocalCluster instance = miniClusterFactory.createNewHdfsLocalClusterInstance(hdfsConfig);
+            instance.start();
+            store.put(HdfsLocalCluster.class, instance);
+            store.put(HdfsConfig.class, hdfsConfig);
+          }
         }
         break;
       }
