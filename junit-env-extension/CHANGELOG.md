@@ -2,15 +2,15 @@
 
 ## eu.coldrye.junit:junit-env-extension:1.0.3
 
-- TBD
+- minor bug fixes
 
 ## eu.coldrye.junit:junit-env-extension:1.0.2
 
-- TBD
+- minor bug fixes
 
 ## eu.coldrye.junit:junit-env-extension:1.0.1
 
-- TBD
+- minor bug fixes
 
 ## eu.coldrye.junit:junit-env-extension:1.0.0
 

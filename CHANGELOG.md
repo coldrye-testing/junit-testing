@@ -2,7 +2,7 @@
 
 ## eu.coldrye.junit:junit-testing:1.1
 
-- TBD
+- major refactoring of the parent pom
 
 ## eu.coldrye.junit:junit-testing:1.0
 

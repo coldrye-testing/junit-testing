@@ -2,7 +2,7 @@
 
 ## eu.coldrye.junit:junit-testing-common:1.0.1
 
-- TBD
+- refactor pom
 
 ## eu.coldrye.junit:junit-testing-common:1.0.0
 
