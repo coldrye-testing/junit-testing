@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -20,6 +21,55 @@ import java.util.stream.Stream;
 public final class FileUtils {
 
   private static final String DOT = ".";
+
+  public static Path createTempFile() throws IOException {
+
+    return createTempFile(null, null, true);
+  }
+
+  public static Path createTempFile(String prefix, String suffix, boolean deleteOnExit) throws IOException {
+
+    return createTempFile(null, prefix, suffix, deleteOnExit);
+  }
+
+  public static Path createTempFile(Path path, String prefix, String suffix, boolean deleteOnExit,
+                                    FileAttribute<?>... attrs) throws IOException {
+
+    Path result = Files.createTempFile(path, prefix, suffix, attrs);
+    if (deleteOnExit) {
+
+      DeleteOnExitHook.add(result);
+    }
+
+    return result;
+  }
+
+  public static Path createTempDirectory() throws IOException {
+
+    return createTempDirectory(null,true);
+  }
+
+  public static Path createTempDirectory(String prefix, boolean deleteOnExit) throws IOException {
+
+    return createTempDirectory(null, prefix, deleteOnExit);
+  }
+
+  public static Path createTempDirectory(Path path, String prefix, boolean deleteOnExit) throws IOException {
+
+    return createTempDirectory(path, prefix, deleteOnExit);
+  }
+
+  public static Path createTempDirectory(Path path, String prefix, boolean deleteOnExit, FileAttribute<?>... attrs)
+    throws IOException {
+
+    Path result = Files.createTempDirectory(path, prefix, attrs);
+    if (deleteOnExit) {
+
+      DeleteOnExitHook.add(result);
+    }
+
+    return result;
+  }
 
   public static String extend(String name, String extension) {
 
