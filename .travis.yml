@@ -1,9 +1,5 @@
 sudo: false
 jdk:
-  - oraclejdk8
-  - oraclejdk9
-  - oraclejdk10
-  - oraclejdk-ea
   - openjdk8
   - openjdk9
   - openjdk10
