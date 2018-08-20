@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -124,15 +125,24 @@ class EnvProviderManager {
       return;
     }
 
-    List<EnvProvider> providers = new ArrayList<>();
+    List<EnvProvider> providers;
     Class<?> testClass = context.getRequiredTestClass();
+    if (preparedProviders.containsKey(testClass)) {
+      providers = preparedProviders.get(testClass);
+    } else {
+      providers = new ArrayList<>();
+    }
     List<Class<? extends EnvProvider>> providerClasses = collector.collect(testClass);
     for (Class<? extends EnvProvider> providerClass : providerClasses) {
-      EnvProvider provider = providerClass.getConstructor().newInstance();
-      Namespace ns = Namespace.create(providerClass.getName(), Thread.currentThread().getId());
-      Store store = context.getStore(ns);
-      provider.setStore(store);
-      providers.add(provider);
+      Optional<EnvProvider> availableProvider = providers.stream().filter(
+        p -> p.getClass().isAssignableFrom(providerClass)).findFirst();
+      if (!availableProvider.isPresent()) {
+        EnvProvider provider = providerClass.getConstructor().newInstance();
+        Namespace ns = Namespace.create(providerClass.getName(), Thread.currentThread().getId());
+        Store store = context.getStore(ns);
+        provider.setStore(store);
+        providers.add(provider);
+      }
     }
     preparedProviders.put(testClass, providers);
   }
