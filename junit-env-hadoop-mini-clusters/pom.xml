@@ -7,7 +7,7 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -51,6 +51,12 @@
         <groupId>com.github.sakserv</groupId>
         <artifactId>hadoop-mini-clusters-hbase</artifactId>
         <version>${hadoop-mini-clusters.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>jdk.tools</groupId>
+            <artifactId>jdk.tools</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
