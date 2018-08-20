@@ -29,7 +29,6 @@ public class DiffReportWriter {
     writeExpected(expectedPath, dmp, report);
     writeActual(actualPath, dmp, report);
     writePatch(patchPath, report);
-    writePatched(patchedPath, report);
 
     return new DiffReportResult(outputPath, expected.toPath(), expectedPath, actualPath, patchPath, patchedPath);
   }
@@ -48,15 +47,8 @@ public class DiffReportWriter {
 
   private void writePatch(Path path, DiffReport report) throws IOException {
 
-    DiffRenderer renderer = new DiffRenderer();
-    String content = renderer.render(report.getDiffs());
-    FileUtils.writeFile(path.toFile(), content, report.getEncoding());
-  }
-
-  private void writePatched(Path target, DiffReport report) throws IOException {
-
     PatchRenderer renderer = new PatchRenderer();
     String content = renderer.render(report.getDiffs());
-    FileUtils.writeFile(target.toFile(), content, report.getEncoding());
+    FileUtils.writeFile(path.toFile(), content, report.getEncoding());
   }
 }
