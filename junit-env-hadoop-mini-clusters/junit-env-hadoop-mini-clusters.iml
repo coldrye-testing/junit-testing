@@ -13,8 +13,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: eu.coldrye.junit:junit-env-extension:1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: eu.coldrye.junit:junit-testing-common:1.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: eu.coldrye.junit:junit-common:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: eu.coldrye.junit:junit-env-extension:1.0.3" level="project" />
+    <orderEntry type="module" module-name="junit-common" />
+    <orderEntry type="module" module-name="junit-env-extension" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.2" level="project" />
     <orderEntry type="library" name="Maven: com.github.sakserv:hadoop-mini-clusters-hdfs:0.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-client:2.7.3.2.6.2.0-205" level="project" />
