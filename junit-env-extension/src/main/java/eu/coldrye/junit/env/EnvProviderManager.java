@@ -47,15 +47,15 @@ class EnvProviderManager {
 
   private static final Logger log = LoggerFactory.getLogger(EnvProviderManager.class);
 
-  private final EnvProviderCollector collector;
+  // exposed for testing purposes only
+  EnvProviderCollector collector;
 
   private Map<Class<?>, List<EnvProvider>> preparedProviders = new HashMap<>();
 
   /**
    * @param collector
    */
-  // For testing only
-  EnvProviderManager(EnvProviderCollector collector) {
+  private EnvProviderManager(EnvProviderCollector collector) {
 
     Preconditions.notNull(collector, "collector must not be null");
     Preconditions.condition(Objects.isNull(INSTANCE.get()), "must not be instantiated more than once per thread");
@@ -66,24 +66,13 @@ class EnvProviderManager {
   /**
    * @return
    */
-  static EnvProviderManager getInstance() {
+  static synchronized EnvProviderManager getInstance() {
 
-    return getInstance(new EnvProviderCollector());
-  }
+    return Optional.ofNullable(INSTANCE.get()).orElseGet(() -> {
 
-  /**
-   * @param collector
-   * @return
-   */
-  static EnvProviderManager getInstance(EnvProviderCollector collector) {
-
-    synchronized (EnvProviderManager.class) {
-      if (Objects.isNull(INSTANCE.get())) {
-        INSTANCE.set(new EnvProviderManager(collector));
-      }
-    }
-
-    return INSTANCE.get();
+      INSTANCE.set(new EnvProviderManager(new EnvProviderCollector()));
+      return INSTANCE.get();
+    });
   }
 
   /**
@@ -135,7 +124,7 @@ class EnvProviderManager {
     List<Class<? extends EnvProvider>> providerClasses = collector.collect(testClass);
     for (Class<? extends EnvProvider> providerClass : providerClasses) {
       Optional<EnvProvider> availableProvider = providers.stream().filter(
-        p -> p.getClass().isAssignableFrom(providerClass)).findFirst();
+        p -> providerClass.equals(p.getClass())).findFirst();
       if (!availableProvider.isPresent()) {
         EnvProvider provider = providerClass.getConstructor().newInstance();
         Namespace ns = Namespace.create(providerClass.getName(), Thread.currentThread().getId());
