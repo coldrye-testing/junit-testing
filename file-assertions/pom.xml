@@ -20,7 +20,9 @@
   <url>https://github.com/coldrye-java/junit-testing/tree/master/file-assertions</url>
 
   <properties>
-    <junit-common.version>1.1.0</junit-common.version>
+    <!-- runtime dependencies -->
+
+    <junit-common.version>1.1.1-SNAPSHOT</junit-common.version>
   </properties>
 
   <dependencyManagement>

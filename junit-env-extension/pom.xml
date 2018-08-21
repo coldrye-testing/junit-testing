@@ -20,7 +20,12 @@
   <url>https://github.com/coldrye-java/junit-testing/tree/master/junit-env-extension</url>
 
   <properties>
+    <!-- runtime dependencies -->
+
     <junit-common.version>1.1.1-SNAPSHOT</junit-common.version>
+
+    <!-- test dependencies -->
+
     <junit-testing-common.version>1.0.2-SNAPSHOT</junit-testing-common.version>
   </properties>
 
@@ -32,6 +37,8 @@
         <version>${junit-common.version}</version>
         <scope>compile</scope>
       </dependency>
+
+      <!-- test dependencies -->
 
       <dependency>
         <groupId>eu.coldrye.junit</groupId>
@@ -63,31 +70,26 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
