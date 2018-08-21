@@ -56,7 +56,12 @@ public class EnvProviderManagerTest {
 
     mockCollector = Mockito.mock(EnvProviderCollector.class);
     mockStore = Mockito.mock(Store.class);
-    sut = EnvProviderManager.getInstance(mockCollector);
+    sut = EnvProviderManager.getInstance();
+    // NOTE: this is the only way that builds on TravisCI will work, using a static getInstance(collector) will
+    // always fail even if destroyInstance() is called after each test
+    // getInstance(collector) will work on the local machine, though.
+    // Still wondering why.
+    sut.collector = mockCollector;
   }
 
   @AfterEach
@@ -65,30 +70,6 @@ public class EnvProviderManagerTest {
     sut = null;
     mockCollector = null;
     EnvProviderManager.destroyInstance();
-  }
-
-  @Test
-  public void prepareEnvironmentsMustCallUponCollector() throws Exception {
-
-    Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(Collections.EMPTY_LIST);
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
-    sut.prepareEnvironmentProviders(mockContext);
-    Mockito.verify(mockContext, Mockito.atMost(2)).getRequiredTestClass();
-    Mockito.verify(mockCollector, Mockito.atMost(1)).collect(Mockito.any(Class.class));
-    Mockito.verifyNoMoreInteractions(mockContext, mockCollector);
-    Assertions.assertTrue(sut.isPrepared(mockContext));
-  }
-
-  @Test
-  public void prepareEnvironmentsMustGetStoreFromContextForEachProvider() throws Exception {
-
-    Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(Arrays.asList(
-      new Class[]{EnvProvider1.class, EnvProvider2.class}));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
-    sut.prepareEnvironmentProviders(mockContext);
-    Mockito.verify(mockContext, Mockito.atMost(2)).getRequiredTestClass();
-    Mockito.verify(mockContext, Mockito.atMost(2)).getStore(Mockito.any(Namespace.class));
-    Mockito.verifyNoMoreInteractions(mockContext);
   }
 
   @Test
@@ -104,31 +85,74 @@ public class EnvProviderManagerTest {
   }
 
   @Test
+  public void prepareEnvironmentsMustCallUponCollector() throws Exception {
+
+    Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(new ArrayList<>());
+    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    sut.prepareEnvironmentProviders(mockContext);
+
+    Assertions.assertAll(
+      () -> Assertions.assertTrue(sut.isPrepared(mockContext)),
+      () -> Mockito.verify(mockContext, Mockito.times(3)).getRequiredTestClass(),
+      () -> Mockito.verify(mockCollector, Mockito.times(1)).collect(Mockito.any()),
+      () -> Mockito.verifyNoMoreInteractions(mockContext, mockCollector)
+    );
+  }
+
+  @Test
+  public void prepareEnvironmentsMustGetStoreFromContextForEachProvider() throws Exception {
+
+    Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(
+      Arrays.asList(EnvProvider1.class, EnvProvider2.class));
+    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    sut.prepareEnvironmentProviders(mockContext);
+
+    Assertions.assertAll(
+      () -> Mockito.verify(mockContext, Mockito.times(2)).getRequiredTestClass(),
+      () -> Mockito.verify(mockContext, Mockito.times(2)).getStore(Mockito.any(Namespace.class)),
+      () -> Mockito.verify(mockCollector, Mockito.times(1)).collect(Mockito.any()),
+      () -> Mockito.verifyNoMoreInteractions(mockContext, mockCollector)
+    );
+  }
+
+  @Test
   public void getProvidersMustReturnTheExpectedProviderInstances() throws Exception {
 
-    Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
+    Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);
+
     Assertions.assertAll(
       () -> Assertions.assertEquals(2, providers.size()),
       () -> Assertions.assertTrue(providers.get(0) instanceof EnvProvider1),
-      () -> Assertions.assertTrue(providers.get(1) instanceof EnvProvider2)
+      () -> Assertions.assertTrue(providers.get(1) instanceof EnvProvider2),
+      () -> Mockito.verify(mockContext, Mockito.times(4)).getRequiredTestClass(),
+      () -> Mockito.verify(mockContext, Mockito.times(2)).getStore(Mockito.any(Namespace.class)),
+      () -> Mockito.verify(mockCollector, Mockito.times(1)).collect(Mockito.any()),
+      () -> Mockito.verifyNoMoreInteractions(mockContext, mockCollector)
     );
   }
 
   @Test
   public void prepareEnvironmentCanBeCalledMultipleTimes() throws Exception {
 
-    Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
+    Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);
     sut.prepareEnvironmentProviders(mockContext);
     List<EnvProvider> providers2 = sut.getProviders(mockContext, EnvPhase.INIT);
-    Assertions.assertSame(providers, providers2);
+
+    Assertions.assertAll(
+      () -> Assertions.assertSame(providers, providers2),
+      () -> Mockito.verify(mockContext, Mockito.times(7)).getRequiredTestClass(),
+      () -> Mockito.verify(mockContext, Mockito.times(2)).getStore(Mockito.any(Namespace.class)),
+      () -> Mockito.verify(mockCollector, Mockito.times(1)).collect(Mockito.any()),
+      () -> Mockito.verifyNoMoreInteractions(mockContext, mockCollector)
+    );
   }
 
   @Test
@@ -146,7 +170,7 @@ public class EnvProviderManagerTest {
     ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
-    Mockito.when(mockManager.getProviders(mockContext, EnvPhase.INIT)).thenReturn(Arrays.asList(mockProvider));
+    Mockito.when(mockManager.getProviders(mockContext, EnvPhase.INIT)).thenReturn(Collections.singletonList(mockProvider));
     Mockito.doCallRealMethod().when(mockManager).setUpEnvironments(
       Mockito.eq(EnvPhase.INIT), Mockito.eq(mockContext));
     Mockito.when(mockManager.isPrepared(mockContext)).thenReturn(true);
@@ -211,8 +235,10 @@ public class EnvProviderManagerTest {
 
     sut.shutdown();
 
-    Mockito.verify(provider0).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class));
-    Mockito.verify(provider1).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class));
+    Assertions.assertAll(
+      () -> Mockito.verify(provider0).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class)),
+      () -> Mockito.verify(provider1).tearDownEnvironment(Mockito.eq(EnvPhase.DEINIT), Mockito.eq(SecondTestCase.class))
+    );
   }
 
   @Test
