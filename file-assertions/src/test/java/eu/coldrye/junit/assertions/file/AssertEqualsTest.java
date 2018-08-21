@@ -212,19 +212,16 @@ public class AssertEqualsTest {
     Path expectedPath = basePath.resolve(expectedName);
     Path actualPath = basePath.resolve(Paths.get(actual).getFileName());
     Path patchPath = basePath.resolve(FileUtils.extend(expectedName, "patch"));
-    Path patchedPath = basePath.resolve(FileUtils.extend(expectedName,"new"));
 
     Assertions.assertAll(
 
-      () -> FileAssertions.assertExists(expectedPath, expectedPath.toString()),
+      () -> FileAssertions.assertExists(expectedPath),
       () -> FileAssertions.assertEquals(Paths.get("/", expected), expectedPath),
       () -> FileAssertions.assertExists(actualPath, actualPath.toString()),
       () -> FileAssertions.assertEquals(Paths.get("/", actual), actualPath),
       () -> FileAssertions.assertExists(patchPath, patchPath.toString()),
       () -> FileAssertions.assertEquals(Paths.get("/", patch), patchPath),
-      () -> FileAssertions.assertExists(patchedPath, patchedPath.toString()),
-      () -> FileAssertions.assertEquals(Paths.get("/", patched), patchedPath, patchedPath.toString()),
-      () -> FileAssertions.assertEquals(Paths.get("/", actual), actualPath, actualPath.toString())
+      () -> FileAssertions.assertEquals(Paths.get("/", actual), actualPath)
     );
   }
 }
