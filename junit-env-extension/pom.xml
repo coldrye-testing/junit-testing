@@ -23,6 +23,7 @@
     <!-- runtime dependencies -->
 
     <junit-common.version>1.2.0-SNAPSHOT</junit-common.version>
+    <enum-test-base.version>1.0.0-SNAPSHOT</enum-test-base.version>
 
     <!-- test dependencies -->
 
@@ -39,6 +40,13 @@
       </dependency>
 
       <!-- test dependencies -->
+
+      <dependency>
+        <groupId>eu.coldrye.junit</groupId>
+        <artifactId>enum-test-base</artifactId>
+        <version>${enum-test-base.version}</version>
+        <scope>test</scope>
+      </dependency>
 
       <dependency>
         <groupId>eu.coldrye.junit</groupId>
@@ -65,6 +73,11 @@
     <dependency>
       <groupId>eu.coldrye.junit</groupId>
       <artifactId>junit-testing-common</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>eu.coldrye.junit</groupId>
+      <artifactId>enum-test-base</artifactId>
     </dependency>
 
     <dependency>

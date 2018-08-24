@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit;
+package eu.coldrye.junit.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,13 +27,13 @@ import org.mockito.Mockito;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-public class JunitTestHelperTest {
+public class JunitExtensionTestUtilsTest {
 
   @Test
   public void createExtensionContextMockMustReturnProperlyConfiguredMock() {
 
     Store mockStore = Mockito.mock(Store.class);
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(Object.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(Object.class, mockStore);
     Assertions.assertAll(
       () -> mockContext.getElement().orElseThrow(() -> {
         return new AssertionError("element must not be null");
@@ -48,7 +48,7 @@ public class JunitTestHelperTest {
   @Test
   public void createParameterContextMockMustReturnProperlyConfiguredMock() throws Exception {
 
-    ParameterContext mockParameter = JunitTestHelper.createParameterContextMock(
+    ParameterContext mockParameter = JunitExtensionTestUtils.createParameterContextMock(
       Object.class, "equals", 0, Object.class);
 
     Method method = Object.class.getMethod("equals", Object.class);

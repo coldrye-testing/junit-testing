@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit;
+package eu.coldrye.junit.bases;
 
-import eu.coldrye.junit.Fixtures.EnumFixture;
-
-public class EnumTest extends AbstractEnumTestBase<EnumFixture>{
-
+public class SimpleEnumTest extends AbstractEnumTestBase<EnumFixture> {
 }

@@ -16,7 +16,7 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.JunitTestHelper;
+import eu.coldrye.junit.util.JunitExtensionTestUtils;
 import eu.coldrye.junit.env.Fixtures.EnvProvider1;
 import eu.coldrye.junit.env.Fixtures.EnvProvider1ProvidedBoundaryInterface;
 import eu.coldrye.junit.env.Fixtures.EnvProvider2;
@@ -57,7 +57,7 @@ public class ParameterResolverImplTest {
   @Test
   public void resolveParameterMustReturnExpectedResultForInheritedMethodAndCustomAnnotation() throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(FirstTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(FirstTestCase.class,
       "testing", 0, EnvProvider1ProvidedBoundaryInterface.class);
     Object instance = sut.resolveParameter(context, null, providers);
     Assertions.assertTrue(instance instanceof EnvProvider1ProvidedBoundaryInterface);
@@ -67,7 +67,7 @@ public class ParameterResolverImplTest {
   public void supportsParameterMustReturnTrueForInheritedMethodForParameterWithCustomAnnotationAndSupportedType()
     throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(SecondTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(SecondTestCase.class,
       "testing", 0, EnvProvider1ProvidedBoundaryInterface.class);
     Assertions.assertTrue(sut.supportsParameter(context, null, providers));
   }
@@ -76,7 +76,7 @@ public class ParameterResolverImplTest {
   public void supportsParameterMustReturnFalseForParameterNotAnnotatedWithEnvProvided()
     throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(SecondTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(SecondTestCase.class,
       "testing4", 0, Object.class);
     Assertions.assertFalse(sut.supportsParameter(context, null, providers));
   }
@@ -84,7 +84,7 @@ public class ParameterResolverImplTest {
   @Test
   public void resolveParameterMustReturnExpectedResultForCustomAnnotation() throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(SecondTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(SecondTestCase.class,
       "testing2", 0, EnvProvider2ProvidedBoundaryInterface.class);
     Object instance = sut.resolveParameter(context, null, providers);
     Assertions.assertTrue(instance instanceof EnvProvider2ProvidedBoundaryInterface);
@@ -93,7 +93,7 @@ public class ParameterResolverImplTest {
   @Test
   public void supportsParameterMustReturnTrueForParameterWithCustomAnnotationAndSupportedType() throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(SecondTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(SecondTestCase.class,
       "testing2", 0, EnvProvider2ProvidedBoundaryInterface.class);
     Assertions.assertTrue(sut.supportsParameter(context, null, providers));
   }
@@ -101,7 +101,7 @@ public class ParameterResolverImplTest {
   @Test
   public void resolveParameterMustFailForParameterWithExpectedCustomAnnotationButUnsupportedType() throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(SecondTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(SecondTestCase.class,
       "testing3", 0, EnvProvider1ProvidedBoundaryInterface.class);
     Assertions.assertThrows(ParameterResolutionException.class, () -> {
       sut.resolveParameter(context, null, providers);
@@ -112,7 +112,7 @@ public class ParameterResolverImplTest {
   public void supportsParameterMustReturnFalseForParameterWithExpectedCustomAnnotationButUnsupportedType()
     throws Exception {
 
-    ParameterContext context = JunitTestHelper.createParameterContextMock(SecondTestCase.class,
+    ParameterContext context = JunitExtensionTestUtils.createParameterContextMock(SecondTestCase.class,
       "testing3", 0, EnvProvider1ProvidedBoundaryInterface.class);
     Assertions.assertFalse(sut.supportsParameter(context, null, providers));
   }

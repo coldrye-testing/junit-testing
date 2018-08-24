@@ -191,7 +191,7 @@ class EnvProviderManager {
     return !Objects.isNull(preparedProviders.getOrDefault(context.getRequiredTestClass(), null));
   }
 
-  class IllegalState implements Supplier<IllegalStateException> {
+  static class IllegalState implements Supplier<IllegalStateException> {
 
     @Override
     public IllegalStateException get() {

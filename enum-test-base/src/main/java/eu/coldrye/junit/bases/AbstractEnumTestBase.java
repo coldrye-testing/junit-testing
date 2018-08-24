@@ -14,28 +14,31 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit;
+package eu.coldrye.junit.bases;
 
+import eu.coldrye.junit.util.GenericTypeParameterResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.ParameterizedType;
 
 /**
  * @param <T>
  */
-@SuppressWarnings("squid:S1610")
 public abstract class AbstractEnumTestBase<T extends Enum<T>> {
 
   /**
-   * This test is included for the purpose of getting full coverage for standard enums.
+   * This test is included for the purpose of getting full coverage for standard enum behaviour.
    */
   @Test
-  public void valueOfMustReturnExpectedValue() {
+  public void ensureFullCoverageForStandardEnumBehaviour() {
 
-    ParameterizedType pt = (ParameterizedType) getClass().getGenericSuperclass();
-    Class type = (Class) pt.getActualTypeArguments()[0];
-    Object ec = type.getEnumConstants()[0];
-    Assertions.assertEquals(ec, Enum.valueOf(type, ((T) ec).name()));
+    Class<T> clazz = getEnumClass();
+    T ec = clazz.getEnumConstants()[0];
+    Assertions.assertEquals(ec, Enum.valueOf(clazz, ec.name()));
+  }
+
+  @SuppressWarnings("unchecked")
+  protected final Class<T> getEnumClass() {
+
+    return (Class<T>) GenericTypeParameterResolver.resolve(this, AbstractEnumTestBase.class, 0);
   }
 }

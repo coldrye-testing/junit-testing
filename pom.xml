@@ -38,6 +38,7 @@
 
   <modules>
     <module>junit-common</module>
+    <module>enum-test-base</module>
     <module>junit-testing-common</module>
     <module>junit-env-extension</module>
     <module>junit-env-hadoop-mini-clusters</module>
