@@ -7,7 +7,7 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -22,7 +22,7 @@
   <properties>
     <!-- runtime dependencies -->
 
-    <junit-common.version>1.1.1</junit-common.version>
+    <junit-common.version>1.2.0-SNAPSHOT</junit-common.version>
     <junit-env-extension.version>1.0.4-SNAPSHOT</junit-env-extension.version>
     <hadoop-mini-clusters.version>0.1.14</hadoop-mini-clusters.version>
   </properties>
