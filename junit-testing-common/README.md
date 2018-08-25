@@ -14,7 +14,7 @@ Include the following dependency in your pom and you are good to go
 <dependency>
   <groupId>eu.coldrye.junit</groupId>
   <artifactId>junit-testing-common</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <scope>test</scope>
 </dependency>
 ```

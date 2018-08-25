@@ -13,6 +13,18 @@ Provides commonly used code for ``junit-testing`` projects.
 Provides commonly used test code for ``junit-testing`` projects.
 
 
+## [enum-test-base](./enum-test-base)
+
+Abstract test base class for enums. The default behaviour is to ensure 100% coverage on
+standard enums, so there is no longer an excuse for you not to write any tests for your
+enums.
+
+
+## [file-assertions](./file-assertions)
+
+Assertions for files and their content.
+
+
 ## [junit-env-extension](./junit-env-extension)
 
 The extension provides you with an infrastructure for setting up and tearing down long
@@ -27,11 +39,6 @@ test is executed and tear it down when all tests have been executed.
 ## [junit-env-hadoop-mini-clusters](./junit-env-hadoop-mini-clusters)
 
 Work in progress.
-
-
-## [file-assertions](./file-assertions)
-
-Assertions for files and their content.
 
 
 ## References

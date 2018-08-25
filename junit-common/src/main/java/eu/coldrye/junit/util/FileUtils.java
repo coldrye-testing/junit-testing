@@ -1,4 +1,18 @@
-// TBD:LICENSE
+/*
+ * Copyright 2018 coldrye.eu, Carsten Klein
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package eu.coldrye.junit.util;
 
@@ -16,6 +30,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public final class FileUtils {
@@ -35,7 +50,8 @@ public final class FileUtils {
   public static Path createTempFile(Path path, String prefix, String suffix, boolean deleteOnExit,
                                     FileAttribute<?>... attrs) throws IOException {
 
-    Path result = Files.createTempFile(path, prefix, suffix, attrs);
+    Path result = Objects.nonNull(path)
+      ? Files.createTempFile(path, prefix, suffix, attrs) : Files.createTempFile(prefix, suffix, attrs);
     if (deleteOnExit) {
 
       DeleteOnExitHook.add(result);
@@ -54,15 +70,11 @@ public final class FileUtils {
     return createTempDirectory(null, prefix, deleteOnExit);
   }
 
-  public static Path createTempDirectory(Path path, String prefix, boolean deleteOnExit) throws IOException {
-
-    return createTempDirectory(path, prefix, deleteOnExit);
-  }
-
   public static Path createTempDirectory(Path path, String prefix, boolean deleteOnExit, FileAttribute<?>... attrs)
     throws IOException {
 
-    Path result = Files.createTempDirectory(path, prefix, attrs);
+    Path result = Objects.nonNull(path)
+      ? Files.createTempDirectory(path, prefix, attrs) : Files.createTempDirectory(prefix, attrs);
     if (deleteOnExit) {
 
       DeleteOnExitHook.add(result);
@@ -122,7 +134,7 @@ public final class FileUtils {
    */
   public static File resolve(Class<?> clazz, Path path) throws IOException {
 
-    PreconditionsEx.notBlank(path, "path must not be blank"); // NOSONAR
+    PathPreconditions.notBlank(path, "path must not be blank"); // NOSONAR
 
     File resolved;
     ClassPathResource cpr = ClassPathResource.of(clazz, path);
@@ -146,7 +158,7 @@ public final class FileUtils {
    */
   public static void deleteRecursively(Path path) throws IOException {
 
-    PreconditionsEx.notBlank(path, "path must not be blank"); // NOSONAR
+    PathPreconditions.notBlank(path, "path must not be blank"); // NOSONAR
 
     Deque<Path> pending = new ArrayDeque<>();
     pending.push(path);

@@ -1,4 +1,4 @@
-# junit5-env-extension
+# junit-env-extension
 
 The extension provides you with an infrastructure for setting up and tearing down long
 running environments during your integration tests, something that you would not want
@@ -7,6 +7,7 @@ to do before each or after each test, or, before all or after all tests in a tes
 For example starting and stopping an embedded Hadoop mini cluster or an embedded Kafka.
 Another example would be to pull and start a given docker image before that the first
 test is executed and tear it down when all tests have been executed.
+
 
 ## Usage
 
@@ -18,7 +19,7 @@ Include the following dependency in your pom and you are good to go
 <dependency>
   <groupId>eu.coldrye.junit</groupId>
   <artifactId>junit-env-extension</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
 </dependency>
 ```
 

@@ -3,6 +3,7 @@
 The project provides you with an environment provider for hadoop mini clusters, for use
 with ``junit-env-extension``.
 
+NOTE: THIS IS WORK IN PROGRESS AND ATM NOTHING WILL WORK AS EXPECTED.
 
 
 ## Usage
