@@ -15,4 +15,3 @@
 ## eu.coldrye.junit:junit-env-extension:1.0.0
 
 - initial release
-

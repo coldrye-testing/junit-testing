@@ -76,9 +76,10 @@
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-    <sonar-maven-plugin.version>3.0.2</sonar-maven-plugin.version>
+    <sonar-maven-plugin.version>3.4.0.905</sonar-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+    <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
   </properties>
 
   <distributionManagement>
@@ -306,6 +307,21 @@
             </dependency>
           </dependencies>
         </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>${findbugs-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>findbugs</id>
+              <phase>test</phase>
+              <goals>
+                <goal>findbugs</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -313,6 +329,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
       </plugin>
 
       <plugin>
@@ -399,6 +420,15 @@
               <groupId>org.sonarsource.scanner.maven</groupId>
               <artifactId>sonar-maven-plugin</artifactId>
               <version>${sonar-maven-plugin.version}</version>
+              <executions>
+                <execution>
+                  <id>sonar</id>
+                  <phase>test</phase>
+                  <goals>
+                    <goal>sonar</goal>
+                  </goals>
+                </execution>
+              </executions>
             </plugin>
 
             <plugin>

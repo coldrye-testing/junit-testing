@@ -28,6 +28,7 @@ public interface Fixtures {
   @Retention(RetentionPolicy.RUNTIME)
   @Documented
   @interface Provided {
+
   }
 
   @Provided
@@ -88,6 +89,7 @@ public interface Fixtures {
     Custom1 custom;
 
     public void setCustom1(@CustomProvided Custom1 custom) {
+
       this.custom = custom;
     }
   }
@@ -95,4 +97,5 @@ public interface Fixtures {
   class ThirdTestCase {
 
   }
+
 }

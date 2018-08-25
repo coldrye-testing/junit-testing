@@ -16,15 +16,22 @@
 
 package eu.coldrye.junit.util;
 
-public class UnexpectedError extends Error {
+import org.junit.platform.commons.util.Preconditions;
 
-  public UnexpectedError(String message) {
+import java.nio.file.Path;
 
-    super(message);
+public final class PathPreconditions {
+
+  public static Path notBlank(Path path, String message) {
+
+    Preconditions.notNull(path, message);
+    Preconditions.notBlank(path.toString(), message);
+
+    return path;
   }
 
-  public UnexpectedError(String message, Throwable cause) {
+  // must not be instantiated
+  private PathPreconditions() {
 
-    super(message, cause);
   }
 }

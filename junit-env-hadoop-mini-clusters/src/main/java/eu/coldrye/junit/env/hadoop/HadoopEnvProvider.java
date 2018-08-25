@@ -108,15 +108,15 @@ public class HadoopEnvProvider extends AbstractEnvProvider {
   @Override
   public void tearDownEnvironment(EnvPhase phase, AnnotatedElement annotated) throws Exception {
 
-    Store store = getStore();
-
-    switch (phase) {
-
-      case DEINIT: {
-
-//        new HadoopEnvDeinitializer().run(getStore());
-        break;
-      }
-    }
+//    Store store = getStore();
+//
+//    switch (phase) {
+//
+//      case DEINIT: {
+//
+////        new HadoopEnvDeinitializer().run(getStore());
+//        break;
+//      }
+//    }
   }
 }
