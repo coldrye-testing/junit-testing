@@ -7,12 +7,12 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>junit-env-extension</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
+  <version>1.0.4</version>
   <packaging>jar</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -22,12 +22,12 @@
   <properties>
     <!-- runtime dependencies -->
 
-    <junit-common.version>1.2.0-SNAPSHOT</junit-common.version>
-    <enum-test-base.version>1.0.0-SNAPSHOT</enum-test-base.version>
+    <junit-common.version>1.2.0</junit-common.version>
+    <enum-test-base.version>1.0.0</enum-test-base.version>
 
     <!-- test dependencies -->
 
-    <junit-testing-common.version>1.0.2-SNAPSHOT</junit-testing-common.version>
+    <junit-testing-common.version>1.0.2</junit-testing-common.version>
   </properties>
 
   <dependencyManagement>

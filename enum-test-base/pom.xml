@@ -7,15 +7,15 @@
   <parent>
     <groupId>eu.coldrye.junit</groupId>
     <artifactId>junit-testing</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
   </parent>
 
   <artifactId>enum-test-base</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 
   <properties>
-    <junit-common.version>1.2.0-SNAPSHOT</junit-common.version>
+    <junit-common.version>1.2.0</junit-common.version>
   </properties>
 
   <dependencies>
