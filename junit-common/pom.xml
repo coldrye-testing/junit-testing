@@ -7,12 +7,12 @@
   <parent>
     <artifactId>junit-testing</artifactId>
     <groupId>eu.coldrye.junit</groupId>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>junit-common</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
