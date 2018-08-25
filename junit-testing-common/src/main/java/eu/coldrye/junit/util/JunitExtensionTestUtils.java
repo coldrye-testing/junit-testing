@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit;
+package eu.coldrye.junit.util;
 
-import eu.coldrye.junit.util.ReflectionUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
@@ -29,52 +28,42 @@ import java.lang.reflect.Parameter;
 import java.util.Optional;
 
 /**
- * Helpers for junit tests.
+ * Assorted util for testing JUunit 5 extensions.
  */
-public final class JunitTestHelper {
-
-  private static final String PRECOND_CLASS_MUST_NOT_BE_NULL = "klass must not be null";
+public final class JunitExtensionTestUtils {
 
   /**
-   * Must not be instantiated.
-   */
-  //NOSONAR
-  private JunitTestHelper() {
-
-  }
-
-  /**
-   * @param klass
+   * @param clazz
    * @param store
    * @return
    */
-  public static ExtensionContext createExtensionContextMock(Class<?> klass, Store store) {
+  public static ExtensionContext createExtensionContextMock(Class<?> clazz, Store store) {
 
-    Preconditions.notNull(klass, PRECOND_CLASS_MUST_NOT_BE_NULL);
+    Preconditions.notNull(clazz, "clazz must not be null"); // NOSONAR
     Preconditions.notNull(store, "store must not be null");
 
     ExtensionContext result = Mockito.mock(ExtensionContext.class);
     Mockito.when(result.getStore(Mockito.any(Namespace.class))).thenReturn(store);
-    Mockito.when(result.getTestClass()).thenReturn(Optional.of(klass));
-    Mockito.when(result.getElement()).thenReturn(Optional.of(klass));
-    Mockito.when(result.getRequiredTestClass()).thenReturn((Class)klass);
+    Mockito.when(result.getTestClass()).thenReturn(Optional.of(clazz));
+    Mockito.when(result.getElement()).thenReturn(Optional.of(clazz));
+    Mockito.when(result.getRequiredTestClass()).thenReturn((Class)clazz);
+
     return result;
   }
 
   /**
-   * @param klass
+   * @param clazz
    * @param name
    * @param index
    * @return
    */
-  public static ParameterContext createParameterContextMock(Class<?> klass, String name, int index,
-                                                            Class<?>... parameterTypes) throws Exception {
+  public static ParameterContext createParameterContextMock(Class<?> clazz, String name, int index,
+                                                            Class<?>... parameterTypes) {
 
-    Preconditions.notNull(klass, PRECOND_CLASS_MUST_NOT_BE_NULL);
-    Preconditions.notNull(name, "name must not be null");
+    Preconditions.notNull(clazz, "clazz must not be null"); // NOSONAR
     Preconditions.notBlank(name, "name must not be blank");
 
-    Method method = ReflectionUtils.findMethod(klass, name, parameterTypes);
+    Method method = ReflectionUtils.findMethod(clazz, name, parameterTypes);
     Preconditions.notNull(method, "method " + name + " was not found");
 
     Parameter[] parameters = method.getParameters();
@@ -86,8 +75,14 @@ public final class JunitTestHelper {
     ParameterContext result = Mockito.mock(ParameterContext.class);
     Mockito.when(result.getParameter()).thenReturn(parameter);
     Mockito.when(result.getIndex()).thenReturn(index);
-    Mockito.when(result.getTarget()).thenReturn(Optional.of(klass));
+    Mockito.when(result.getTarget()).thenReturn(Optional.of(clazz));
     Mockito.when(result.getDeclaringExecutable()).thenReturn(method);
+
     return result;
+  }
+
+  // must not be instantiated
+  private JunitExtensionTestUtils() {
+
   }
 }

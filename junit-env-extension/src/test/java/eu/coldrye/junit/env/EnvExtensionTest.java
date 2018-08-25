@@ -16,7 +16,7 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.JunitTestHelper;
+import eu.coldrye.junit.util.JunitExtensionTestUtils;
 import eu.coldrye.junit.env.Fixtures.FirstTestCase;
 import eu.coldrye.junit.env.regression.Issue1Test;
 import org.junit.jupiter.api.AfterEach;
@@ -49,7 +49,7 @@ public class EnvExtensionTest {
     mockResolver = Mockito.mock(ParameterResolverImpl.class);
     mockInjector = Mockito.mock(FieldInjector.class);
     mockManager = Mockito.mock(EnvProviderManager.class);
-    mockContext = JunitTestHelper.createExtensionContextMock(FirstTestCase.class, Mockito.mock(Store.class));
+    mockContext = JunitExtensionTestUtils.createExtensionContextMock(FirstTestCase.class, Mockito.mock(Store.class));
     mockParameter = Mockito.mock(ParameterContext.class);
     sut = new EnvExtension(mockManager, mockInjector, mockResolver);
   }
@@ -83,7 +83,7 @@ public class EnvExtensionTest {
   public void postProcessTestInstanceMustCallManagerPrepareAndInitEnvironments() throws Exception {
 
     Object testInstance = new Issue1Test();
-    mockContext = JunitTestHelper.createExtensionContextMock(Issue1Test.class, Mockito.mock(Store.class));
+    mockContext = JunitExtensionTestUtils.createExtensionContextMock(Issue1Test.class, Mockito.mock(Store.class));
     Mockito.when(mockManager.isPrepared(Mockito.eq(mockContext))).thenReturn(false);
     Mockito.when(mockContext.getTestInstance()).thenReturn(Optional.of(testInstance));
     sut.postProcessTestInstance(testInstance, mockContext);

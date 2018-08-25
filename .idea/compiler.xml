@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="enum-test-base" />
         <module name="file-assertions" />
         <module name="junit-common" />
         <module name="junit-env-extension" />
@@ -15,6 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="enum-test-base" target="1.8" />
       <module name="file-assertions" target="1.8" />
       <module name="junit-common" target="1.8" />
       <module name="junit-env-extension" target="1.8" />

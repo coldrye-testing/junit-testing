@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit;
+package eu.coldrye.junit.bases;
 
-public interface Fixtures {
+public abstract class AbstractOuterTestBase<V extends Enum<V>> extends AbstractEnumTestBase<V> {
 
-  enum EnumFixture {
-    ECONST
+
+  public static abstract class AbstractInnerTestBase<O, X extends Enum<X>> extends AbstractOuterTestBase<X> {
+
   }
 }

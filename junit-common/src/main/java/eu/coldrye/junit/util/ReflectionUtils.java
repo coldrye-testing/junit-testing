@@ -219,8 +219,31 @@ public final class ReflectionUtils {
     return null;
   }
 
+  public static boolean hasEnclosingInstance(Object instance) {
+
+    return Arrays.stream(instance.getClass().getDeclaredFields()).anyMatch(f -> "this$0".equals(f.getName()));
+  }
+
+  public static Object getEnclosingInstance(Object instance) {
+
+    if (hasEnclosingInstance(instance)) {
+
+      try {
+
+        Field field = instance.getClass().getDeclaredField("this$0");
+        field.setAccessible(true);
+
+        return field.get(instance);
+      } catch (IllegalAccessException|NoSuchFieldException ex) {
+
+        // ignore
+      }
+    }
+
+    return null;
+  }
+
   // must not be instantiated
-  //NOSONAR
   private ReflectionUtils() {
 
   }

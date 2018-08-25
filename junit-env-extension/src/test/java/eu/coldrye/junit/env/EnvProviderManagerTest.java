@@ -16,7 +16,7 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.JunitTestHelper;
+import eu.coldrye.junit.util.JunitExtensionTestUtils;
 import eu.coldrye.junit.env.Fixtures.EnvProvider1;
 import eu.coldrye.junit.env.Fixtures.EnvProvider2;
 import eu.coldrye.junit.env.Fixtures.SecondTestCase;
@@ -88,7 +88,7 @@ public class EnvProviderManagerTest {
   public void prepareEnvironmentsMustCallUponCollector() throws Exception {
 
     Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(new ArrayList<>());
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
 
     Assertions.assertAll(
@@ -104,7 +104,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
 
     Assertions.assertAll(
@@ -120,7 +120,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);
 
@@ -140,7 +140,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(Mockito.any())).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);
     sut.prepareEnvironmentProviders(mockContext);
@@ -158,7 +158,7 @@ public class EnvProviderManagerTest {
   @Test
   public void getProvidersMustFailForUnpreparedContext() throws Exception {
 
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     Assertions.assertThrows(PreconditionViolationException.class, () -> {
       sut.getProviders(mockContext, EnvPhase.INIT);
     });
@@ -167,7 +167,7 @@ public class EnvProviderManagerTest {
   @Test
   public void setUpEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
 
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
     Mockito.when(mockManager.getProviders(mockContext, EnvPhase.INIT)).thenReturn(Collections.singletonList(mockProvider));
@@ -183,7 +183,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     Mockito.when(mockContext.getElement()).thenReturn(Optional.empty());
     sut.prepareEnvironmentProviders(mockContext);
     Assertions.assertThrows(IllegalStateException.class, () -> {
@@ -194,7 +194,7 @@ public class EnvProviderManagerTest {
   @Test
   public void tearDownEnvironmentsMustCallProviderWithExpectedArguments() throws Exception {
 
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     Mockito.when(mockContext.getElement()).thenReturn(Optional.of(SecondTestCase.class));
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProvider mockProvider = Mockito.mock(EnvProvider.class);
@@ -211,7 +211,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     Mockito.when(mockContext.getElement()).thenReturn(Optional.empty());
     sut.prepareEnvironmentProviders(mockContext);
     Assertions.assertThrows(IllegalStateException.class, () -> {
@@ -224,7 +224,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
 
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);
@@ -246,7 +246,7 @@ public class EnvProviderManagerTest {
 
     Mockito.when(mockCollector.collect(SecondTestCase.class)).thenReturn(
       Arrays.asList(EnvProvider1.class, EnvProvider2.class));
-    ExtensionContext mockContext = JunitTestHelper.createExtensionContextMock(SecondTestCase.class, mockStore);
+    ExtensionContext mockContext = JunitExtensionTestUtils.createExtensionContextMock(SecondTestCase.class, mockStore);
     sut.prepareEnvironmentProviders(mockContext);
 
     List<EnvProvider> providers = sut.getProviders(mockContext, EnvPhase.INIT);

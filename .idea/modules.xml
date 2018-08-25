@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/enum-test-base/enum-test-base.iml" filepath="$PROJECT_DIR$/enum-test-base/enum-test-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/file-assertions/file-assertions.iml" filepath="$PROJECT_DIR$/file-assertions/file-assertions.iml" />
       <module fileurl="file://$PROJECT_DIR$/junit-common/junit-common.iml" filepath="$PROJECT_DIR$/junit-common/junit-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/junit-env-extension/junit-env-extension.iml" filepath="$PROJECT_DIR$/junit-env-extension/junit-env-extension.iml" />

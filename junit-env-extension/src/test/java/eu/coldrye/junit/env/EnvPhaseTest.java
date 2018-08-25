@@ -16,7 +16,7 @@
 
 package eu.coldrye.junit.env;
 
-import eu.coldrye.junit.AbstractEnumTestBase;
+import eu.coldrye.junit.bases.AbstractEnumTestBase;
 
 public class EnvPhaseTest extends AbstractEnumTestBase<EnvPhase> {
 
