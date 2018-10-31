@@ -76,7 +76,7 @@ class EnvProviderManager {
   }
 
   /**
-   * Destroys the instance. Called by {@link TestExecutionListenerImpl#testPlanExecutionFinished(TestPlan)} at the end
+   * Destroys the instance. Called by {@link DefaultTestExecutionListener#testPlanExecutionFinished(TestPlan)} at the end
    * of the test execution.
    */
   static void destroyInstance() {

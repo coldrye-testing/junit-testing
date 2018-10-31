@@ -20,14 +20,20 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-public interface Fixtures {
+public class Fixtures {
+
+  private Fixtures() {
+
+  }
 
   @Configuration
   @ComponentScan("eu.coldrye.junit.env")
-  class TestConfig {
+  public static class TestConfig {
 
   }
 
   @Component
-  class SimpleComponent {}
+  public static class SimpleComponent {
+
+  }
 }

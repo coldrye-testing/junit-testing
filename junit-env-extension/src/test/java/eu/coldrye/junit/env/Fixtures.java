@@ -25,7 +25,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
-public interface Fixtures {
+public class Fixtures {
+
+  private Fixtures() {
+
+  }
 
   @Environment(EnvProvider2.class)
   interface AnotherEnvProvidingInterface extends SomethingInBetween {
@@ -60,20 +64,20 @@ public interface Fixtures {
 
   }
 
-  interface SomethingInBetween extends EnvProvidingInterface {
+  public interface SomethingInBetween extends EnvProvidingInterface {
 
   }
 
-  class EnvProvider1ProvidedBoundaryInterface {
+  public static class EnvProvider1ProvidedBoundaryInterface {
 
   }
 
-  class EnvProvider2ProvidedBoundaryInterface {
+  public static class EnvProvider2ProvidedBoundaryInterface {
 
   }
 
   @Environment(EnvProvider1.class)
-  abstract class AbstractTestCaseBase {
+  public static abstract class AbstractTestCaseBase {
 
     @EnvProvider1Provided
     public EnvProvider1ProvidedBoundaryInterface service;
@@ -92,7 +96,7 @@ public interface Fixtures {
     }
   }
 
-  abstract class AbstractTestEnvProvider extends AbstractEnvProvider {
+  public static abstract class AbstractTestEnvProvider extends AbstractEnvProvider {
 
     @Override
     public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
@@ -117,7 +121,7 @@ public interface Fixtures {
     }
   }
 
-  class EnvProvider1 extends AbstractTestEnvProvider {
+  public static class EnvProvider1 extends AbstractTestEnvProvider {
 
     @Override
     public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
@@ -133,7 +137,7 @@ public interface Fixtures {
     }
   }
 
-  class EnvProvider2 extends AbstractTestEnvProvider {
+  public static class EnvProvider2 extends AbstractTestEnvProvider {
 
     @Override
     public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {
@@ -149,27 +153,27 @@ public interface Fixtures {
     }
   }
 
-  class EnvProvider3 extends AbstractTestEnvProvider {
+  public static class EnvProvider3 extends AbstractTestEnvProvider {
 
   }
 
-  class EnvProvider4 extends AbstractTestEnvProvider {
+  public static class EnvProvider4 extends AbstractTestEnvProvider {
 
   }
 
-  class EnvProvider5 extends AbstractTestEnvProvider {
+  public static class EnvProvider5 extends AbstractTestEnvProvider {
 
   }
 
   @Environment(EnvProvider3.class)
-  class FirstTestCase extends AbstractTestCaseBase implements EnvProvidingInterface {
+  public static class FirstTestCase extends AbstractTestCaseBase implements EnvProvidingInterface {
 
   }
 
   @Environment(EnvProvider2.class)
   @Environment(EnvProvider4.class)
   @Environment(EnvProvider5.class)
-  class SecondTestCase extends AbstractTestCaseBase implements AnotherEnvProvidingInterface {
+  public static class SecondTestCase extends AbstractTestCaseBase implements AnotherEnvProvidingInterface {
 
     @EnvProvider2Provided
     public EnvProvider2ProvidedBoundaryInterface service2;
@@ -205,21 +209,21 @@ public interface Fixtures {
     }
   }
 
-  class ThirdTestCase {
+  public static class ThirdTestCase {
 
   }
 
   @Environment(AbstractTestEnvProvider.class)
-  class FourthTestCase {
+  public static class FourthTestCase {
 
   }
 
   @Environment(EnvProvider.class)
-  class FifthTestCase {
+  public static class FifthTestCase {
 
   }
 
-  class SimpleEnvProvider extends AbstractEnvProvider {
+  public static class SimpleEnvProvider extends AbstractEnvProvider {
 
     @Override
     public boolean canProvideInstance(AnnotatedElement annotated, Class<?> classOrInterface) {

@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 
 import java.util.Collections;
 
-public class TestExecutionListenerImplTest {
+public class DefaultTestExecutionListenerTest {
 
   @Test
   public void testPlanExecutionFinishedMustInstructManagerToShutdown() {
@@ -31,7 +31,7 @@ public class TestExecutionListenerImplTest {
     EnvProviderManager mockManager = Mockito.mock(EnvProviderManager.class);
     EnvProviderManager.INSTANCE.set(mockManager);
     TestPlan testPlan = TestPlan.from(Collections.emptyList());
-    new TestExecutionListenerImpl().testPlanExecutionFinished(testPlan);
+    new DefaultTestExecutionListener().testPlanExecutionFinished(testPlan);
     Mockito.verify(mockManager).shutdown();
     Assertions.assertNull(EnvProviderManager.INSTANCE.get());
   }
@@ -41,6 +41,6 @@ public class TestExecutionListenerImplTest {
 
     TestPlan testPlan = TestPlan.from(Collections.emptyList());
     EnvProviderManager.destroyInstance();
-    new TestExecutionListenerImpl().testPlanExecutionFinished(testPlan);
+    new DefaultTestExecutionListener().testPlanExecutionFinished(testPlan);
   }
 }

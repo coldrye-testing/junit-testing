@@ -21,16 +21,16 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestPlan;
 
 /**
- * The final class TestExecutionListenerImpl provides a means to be able to shut down
+ * The final class DefaultTestExecutionListener provides a means to be able to shut down
  * existing environments after that all tests have been run.
  * <p>
  * It gets registered via {@code META-INF/services/org.junit.platform.launcher.TestExecutionListener}.
  * <p>
- * This class is internal and must not be used directly.
+ * NOTE: This class is internal and must not be used directly.
  *
  * @since 1.0.0
  */
-public final class TestExecutionListenerImpl implements TestExecutionListener {
+public final class DefaultTestExecutionListener implements TestExecutionListener {
 
   @Override
   public void testPlanExecutionFinished(TestPlan testPlan) {

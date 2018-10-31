@@ -26,13 +26,13 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 
 /**
- * The final class ParameterResolverImpl models a resolver for parameters.
+ * The final class DefaultParameterResolver models a resolver for parameters.
  * <p>
  * It does so by querying available {@link EnvProvider}S.
  *
  * @since 1.0.0
  */
-class ParameterResolverImpl {
+class DefaultParameterResolver {
 
   /**
    * @param parameterContext

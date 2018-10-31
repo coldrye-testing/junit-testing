@@ -40,7 +40,7 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
 
   private final FieldInjector fieldInjector;
 
-  private final ParameterResolverImpl parameterResolver;
+  private final DefaultParameterResolver parameterResolver;
 
   /**
    * Default constructor
@@ -48,7 +48,7 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
   //NOSONAR
   public EnvExtension() {
 
-    this(EnvProviderManager.getInstance(), new FieldInjector(), new ParameterResolverImpl());
+    this(EnvProviderManager.getInstance(), new FieldInjector(), new DefaultParameterResolver());
   }
 
   /**
@@ -58,7 +58,7 @@ public final class EnvExtension implements TestInstancePostProcessor, ParameterR
    */
   // For testing only
   EnvExtension(EnvProviderManager providerManager, FieldInjector fieldInjector,
-               ParameterResolverImpl parameterResolver) {
+               DefaultParameterResolver parameterResolver) {
 
     Preconditions.notNull(providerManager, "providerManager must not be null");
     Preconditions.notNull(fieldInjector, "fieldInjector must not be null");

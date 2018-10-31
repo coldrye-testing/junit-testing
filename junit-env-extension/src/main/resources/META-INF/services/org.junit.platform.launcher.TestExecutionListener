@@ -1,1 +1,1 @@
-eu.coldrye.junit.env.TestExecutionListenerImpl
+eu.coldrye.junit.env.DefaultTestExecutionListener
