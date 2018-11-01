@@ -104,6 +104,30 @@ public class ReflectionUtilsTest {
     Assertions.assertEquals("setCustom", ReflectionUtils.setterName(field));
   }
 
+  @Test
+  public void makeAccessible() {
+
+    Assertions.fail("not implemented yet");
+  }
+
+  @Test
+  public void getFormalParameterType() {
+
+    Assertions.fail("not implemented yet");
+  }
+
+  @Test
+  public void formalAndRequiredParameterTypesMatch() {
+
+    Assertions.fail("not implemented yet");
+  }
+
+  @Test
+  public void resolveConstructor() {
+
+    Assertions.fail("not implemented yet");
+  }
+
 //  @Test
 //  public void resolveMethodMustResolveExpectedMethod() {
 //
