@@ -33,16 +33,16 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParameterResolverImplTest {
+public class DefaultParameterResolverTest {
 
-  private ParameterResolverImpl sut;
+  private DefaultParameterResolver sut;
 
   private List<EnvProvider> providers;
 
   @BeforeEach
   public void setUp() {
 
-    sut = new ParameterResolverImpl();
+    sut = new DefaultParameterResolver();
     providers = Arrays.asList(new EnvProvider[]{
       new EnvProvider1(), new EnvProvider2()
     });

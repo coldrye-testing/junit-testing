@@ -37,7 +37,7 @@ public class EnvExtensionTest {
 
   protected FieldInjector mockInjector;
 
-  protected ParameterResolverImpl mockResolver;
+  protected DefaultParameterResolver mockResolver;
 
   protected ExtensionContext mockContext;
 
@@ -46,7 +46,7 @@ public class EnvExtensionTest {
   @BeforeEach
   public void setUp() {
 
-    mockResolver = Mockito.mock(ParameterResolverImpl.class);
+    mockResolver = Mockito.mock(DefaultParameterResolver.class);
     mockInjector = Mockito.mock(FieldInjector.class);
     mockManager = Mockito.mock(EnvProviderManager.class);
     mockContext = JunitExtensionTestUtils.createExtensionContextMock(FirstTestCase.class, Mockito.mock(Store.class));

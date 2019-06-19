@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit.env.integration;
+package eu.coldrye.junit.bases.fixtures;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+public class FullFeaturedThrowable extends Throwable {
 
-public class Fixtures {
+  public FullFeaturedThrowable() {
 
-  private Fixtures() {
-
+    super();
   }
 
-  @Configuration
-  @ComponentScan("eu.coldrye.junit.env")
-  public static class TestConfig {
+  public FullFeaturedThrowable(String message) {
 
+    super(message);
   }
 
-  @Component
-  public static class SimpleComponent {
+  public FullFeaturedThrowable(MessageOnlyCustomThrowable cause) {
 
+    super(cause);
+  }
+
+  public FullFeaturedThrowable(String message, MessageOnlyCustomThrowable cause) {
+
+    super(message, cause);
   }
 }

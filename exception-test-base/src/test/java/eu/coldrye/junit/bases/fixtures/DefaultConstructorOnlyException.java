@@ -14,26 +14,8 @@
  * limitations under the License.
  */
 
-package eu.coldrye.junit.env.integration;
+package eu.coldrye.junit.bases.fixtures;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+public class DefaultConstructorOnlyException extends Exception {
 
-public class Fixtures {
-
-  private Fixtures() {
-
-  }
-
-  @Configuration
-  @ComponentScan("eu.coldrye.junit.env")
-  public static class TestConfig {
-
-  }
-
-  @Component
-  public static class SimpleComponent {
-
-  }
 }

@@ -22,12 +22,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-public interface Fixtures {
+public class Fixtures {
+
+  private Fixtures() {
+
+  }
 
   @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER})
   @Retention(RetentionPolicy.RUNTIME)
   @Documented
-  @interface Provided {
+  public @interface Provided {
 
   }
 
@@ -35,7 +39,7 @@ public interface Fixtures {
   @Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER})
   @Retention(RetentionPolicy.RUNTIME)
   @Documented
-  @interface CustomProvided {
+  public @interface CustomProvided {
 
   }
 
@@ -43,28 +47,28 @@ public interface Fixtures {
   @Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER})
   @Retention(RetentionPolicy.RUNTIME)
   @Documented
-  @interface CustomProvided2 {
-
-  }
-
-  class Custom1 {
-
-  }
-
-  class Custom2 {
+  public @interface CustomProvided2 {
 
   }
 
   @CustomProvided
-  interface Iface1 {
+  public interface Iface1 {
 
   }
 
-  interface DerivedIface extends Iface1 {
+  public interface DerivedIface extends Iface1 {
 
   }
 
-  abstract class TestCaseBase {
+  public static class Custom1 {
+
+  }
+
+  public static class Custom2 {
+
+  }
+
+  public static abstract class TestCaseBase {
 
     @CustomProvided
     Custom1 custom1;
@@ -78,12 +82,12 @@ public interface Fixtures {
   }
 
   @Provided
-  class FirstTestCase implements DerivedIface {
+  public static class FirstTestCase implements DerivedIface {
 
   }
 
   @CustomProvided
-  class SecondTestCase extends TestCaseBase {
+  public static class SecondTestCase extends TestCaseBase {
 
     @Provided
     Custom1 custom;
@@ -94,8 +98,7 @@ public interface Fixtures {
     }
   }
 
-  class ThirdTestCase {
+  public static class ThirdTestCase {
 
   }
-
 }
